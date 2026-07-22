@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+// @ts-ignore
 import confetti from 'canvas-confetti';
 import { 
   Play, Pause, Heart, Sparkles, Car, ShoppingBag, 
@@ -10,7 +11,7 @@ import {
   Lock, Unlock, Terminal, Clock, RefreshCw, Key, RotateCw, HelpCircle, CheckCircle, Award
 } from 'lucide-react';
 
-const randomAnimations = [
+const randomAnimations: any[] = [
   {
     initial: { x: '100%', opacity: 0, scale: 0.9 },
     animate: { x: 0, opacity: 1, scale: 1, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } },
@@ -423,7 +424,7 @@ export default function BubuWebsite() {
       <AnimatePresence mode="wait">
         <motion.div
           key={activeSection}
-          variants={randomAnimations[currentAnimIndex]}
+          variants={randomAnimations[currentAnimIndex] as any}
           initial="initial"
           animate="animate"
           exit="exit"
