@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import confetti from 'canvas-confetti';
+// @ts-ignore import confetti from 'canvas-confetti';
 import { 
   Play, Pause, Heart, Sparkles, Car, ShoppingBag, 
   Home as HomeIcon, Gem, Crown, Shield, Camera, Zap, Radio,
