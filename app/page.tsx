@@ -80,6 +80,17 @@ const galleryFilters = [
   { label: "👑 Queen", index: 4 }
 ];
 
+// Helper to safely trigger device haptic vibration
+const triggerVibration = (pattern: number | number[]) => {
+  if (typeof window !== 'undefined' && 'vibrate' in navigator) {
+    try {
+      navigator.vibrate(pattern);
+    } catch (e) {
+      // Ignore if browser restricts vibration
+    }
+  }
+};
+
 function ParticleTrail() {
   const [particles, setParticles] = useState<{ id: number; x: number; y: number; symbol: string }[]>([]);
 
@@ -302,6 +313,7 @@ export default function BubuWebsite() {
 
   const handleSelectMomentNode = (idx: number) => {
     setSelectedMoment(idx);
+    triggerVibration(40);
     confetti({
       particleCount: 50,
       spread: 60,
@@ -311,6 +323,7 @@ export default function BubuWebsite() {
 
   const handleBabyTap = () => {
     setShowBabyPop(true);
+    triggerVibration([50, 30, 50]);
     confetti({ particleCount: 35, spread: 50, origin: { y: 0.4 }, colors: ['#fbcfe8', '#f43f5e', '#fef08a'] });
     setTimeout(() => setShowBabyPop(false), 2500);
   };
@@ -368,6 +381,7 @@ export default function BubuWebsite() {
     const y = e.clientY - rect.top;
     const newHeart = { id: Date.now(), x, y };
     setHeroHearts((prev) => [...prev, newHeart]);
+    triggerVibration(30);
     confetti({ particleCount: 25, spread: 40, origin: { x: e.clientX / window.innerWidth, y: e.clientY / window.innerHeight } });
 
     setTimeout(() => {
@@ -377,6 +391,7 @@ export default function BubuWebsite() {
 
   const handleSealOath = () => {
     setIsOathSealed(true);
+    triggerVibration([200, 100, 300]); // Deep, satisfying promise seal pulse
     confetti({
       particleCount: 160,
       spread: 100,
@@ -389,6 +404,9 @@ export default function BubuWebsite() {
     if (isExtractingLetter) return;
     setIsExtractingLetter(true);
     
+    // Heartbeat Vibration Pulse on Jar Pull
+    triggerVibration([100, 50, 150]);
+
     // Golden Dust Confetti Burst
     confetti({ 
       particleCount: 60, 
@@ -406,6 +424,7 @@ export default function BubuWebsite() {
   };
 
   const handleSendVirtualHug = () => {
+    triggerVibration([100, 50, 100, 50, 150]); // Hug Transmission Vibration
     confetti({ particleCount: 120, spread: 90, origin: { y: 0.6 } });
 
     const symbols = ['💋', '🫂', '💖', '💋', '🥰', '✨'];
@@ -428,15 +447,18 @@ export default function BubuWebsite() {
 
   const handlePinClick = (digit: string) => {
     if (pin.length < 4) {
+      triggerVibration(25); // Subtle key tap vibration
       const newPin = pin + digit;
       setPin(newPin);
       if (newPin.length === 4) {
         if (newPin === '0327') {
           setIsVaultUnlocked(true);
           setPinError(false);
+          triggerVibration([150, 80, 150, 80, 250]); // Triumphant Vault Unlock Vibration!
           confetti({ particleCount: 150, spread: 100 });
         } else {
           setPinError(true);
+          triggerVibration([50, 50, 50, 50, 100]); // Error double-buzz
           setTimeout(() => {
             setPin('');
             setPinError(false);
@@ -486,6 +508,7 @@ export default function BubuWebsite() {
   };
 
   const toggleMusic = () => {
+    triggerVibration(30);
     if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.pause();
@@ -609,7 +632,10 @@ export default function BubuWebsite() {
         {sectionLabels.map((label, idx) => (
           <button
             key={idx}
-            onClick={() => changeSection(idx)}
+            onClick={() => {
+              triggerVibration(20);
+              changeSection(idx);
+            }}
             className="group flex items-center gap-3 cursor-pointer"
           >
             <span className={`text-[10px] font-mono tracking-widest transition-all duration-300 ${
@@ -636,7 +662,10 @@ export default function BubuWebsite() {
       {/* Scroll Arrow Bottom Indicator */}
       {activeSection < totalSections - 1 && (
         <button 
-          onClick={() => changeSection(activeSection + 1)}
+          onClick={() => {
+            triggerVibration(20);
+            changeSection(activeSection + 1);
+          }}
           className="fixed bottom-3 left-1/2 -translate-x-1/2 z-40 flex flex-col items-center text-purple-300/60 hover:text-pink-300 transition-colors animate-bounce cursor-pointer"
         >
           <span className="text-[8px] font-mono tracking-widest mb-0.5">SWIPE UP OR TAP</span>
@@ -811,7 +840,10 @@ export default function BubuWebsite() {
                       return (
                         <button
                           key={filter.index}
-                          onClick={() => setCurrentSlide(filter.index)}
+                          onClick={() => {
+                            triggerVibration(25);
+                            setCurrentSlide(filter.index);
+                          }}
                           className={`px-2.5 py-1 rounded-full text-[9px] sm:text-[10px] font-mono transition-all cursor-pointer ${
                             isActive 
                               ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold shadow-[0_0_12px_rgba(236,72,153,0.6)] border border-pink-300/50 scale-105' 
@@ -827,14 +859,20 @@ export default function BubuWebsite() {
 
                 <div className="relative max-w-md mx-auto w-full flex items-center justify-center">
                   <button 
-                    onClick={() => setCurrentSlide((prev) => (prev - 1 + moodGallery.length) % moodGallery.length)}
+                    onClick={() => {
+                      triggerVibration(20);
+                      setCurrentSlide((prev) => (prev - 1 + moodGallery.length) % moodGallery.length);
+                    }}
                     className="absolute -left-3 sm:-left-10 z-30 p-2 sm:p-2.5 rounded-full bg-[#0d0714]/90 border border-pink-500/40 text-white hover:border-pink-300 transition-all backdrop-blur-xl shadow-lg"
                   >
                     <ChevronLeft size={18} />
                   </button>
 
                   <button 
-                    onClick={() => setCurrentSlide((prev) => (prev + 1) % moodGallery.length)}
+                    onClick={() => {
+                      triggerVibration(20);
+                      setCurrentSlide((prev) => (prev + 1) % moodGallery.length);
+                    }}
                     className="absolute -right-3 sm:-right-10 z-30 p-2 sm:p-2.5 rounded-full bg-[#0d0714]/90 border border-pink-500/40 text-white hover:border-pink-300 transition-all backdrop-blur-xl shadow-lg"
                   >
                     <ChevronRight size={18} />
@@ -868,7 +906,10 @@ export default function BubuWebsite() {
                   {moodGallery.map((_, idx) => (
                     <button
                       key={idx}
-                      onClick={() => setCurrentSlide(idx)}
+                      onClick={() => {
+                        triggerVibration(20);
+                        setCurrentSlide(idx);
+                      }}
                       className={`h-2 rounded-full transition-all duration-300 ${
                         idx === currentSlide ? 'w-6 bg-gradient-to-r from-pink-500 to-cyan-400 shadow-[0_0_8px_rgba(236,72,153,0.8)]' : 'w-2 bg-white/20'
                       }`}
@@ -1152,7 +1193,10 @@ export default function BubuWebsite() {
                       {openWhenLetters.map((env, idx) => (
                         <button
                           key={idx}
-                          onClick={() => setSelectedOpenWhen(env)}
+                          onClick={() => {
+                            triggerVibration([80, 40, 80]);
+                            setSelectedOpenWhen(env);
+                          }}
                           className="p-2.5 sm:p-3 rounded-2xl bg-white/5 border border-pink-500/30 hover:border-pink-400 hover:bg-pink-500/10 transition-all text-left flex flex-col justify-between h-16 sm:h-20 group cursor-pointer"
                         >
                           <span className="text-[8px] sm:text-[9px] font-mono text-pink-300/80">0{idx + 1}</span>
@@ -1223,7 +1267,10 @@ export default function BubuWebsite() {
                         </button>
                       ))}
                       <button 
-                        onClick={() => setPin('')}
+                        onClick={() => {
+                          triggerVibration(20);
+                          setPin('');
+                        }}
                         className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-white/5 border border-white/10 text-rose-400 font-mono text-[9px] hover:bg-rose-500/20 transition-all active:scale-90 cursor-pointer mx-auto flex items-center justify-center"
                       >
                         CLR
@@ -1276,7 +1323,10 @@ export default function BubuWebsite() {
                           BUBU&apos;S EYES ✨
                         </span>
                         <button
-                          onClick={() => setEyesRotation((prev) => (prev + 90) % 360)}
+                          onClick={() => {
+                            triggerVibration(25);
+                            setEyesRotation((prev) => (prev + 90) % 360);
+                          }}
                           className="absolute top-2 right-2.5 bg-pink-500/30 hover:bg-pink-500/60 border border-pink-400 text-white text-[9px] font-mono px-2 py-0.5 rounded-full flex items-center gap-1 transition-all cursor-pointer backdrop-blur-md shadow-md z-10"
                         >
                           <RotateCw size={10} /> ROTATE
@@ -1381,7 +1431,10 @@ export default function BubuWebsite() {
               className="relative w-full max-w-lg max-h-[85dvh] overflow-y-auto bg-[#faf4e8] text-[#3d2314] rounded-3xl p-5 sm:p-8 shadow-[0_0_60px_rgba(251,191,36,0.35)] border-4 border-[#e6d2b5] text-left font-serif"
             >
               <button 
-                onClick={() => setOpenedLetter(null)}
+                onClick={() => {
+                  triggerVibration(20);
+                  setOpenedLetter(null);
+                }}
                 className="absolute top-3 right-3 p-1.5 rounded-full bg-amber-900/10 hover:bg-amber-900/20 text-amber-900 transition-all cursor-pointer"
               >
                 <X size={16} />
@@ -1414,7 +1467,10 @@ export default function BubuWebsite() {
                   Pull Another Letter 💌
                 </button>
                 <button 
-                  onClick={() => setOpenedLetter(null)}
+                  onClick={() => {
+                    triggerVibration(20);
+                    setOpenedLetter(null);
+                  }}
                   className="bg-amber-900/10 hover:bg-amber-900/20 text-amber-900 font-serif italic text-xs px-4 py-2.5 rounded-full transition-all cursor-pointer"
                 >
                   Put Back 🏺
@@ -1437,7 +1493,10 @@ export default function BubuWebsite() {
               className="relative w-full max-w-lg max-h-[85dvh] overflow-y-auto bg-[#faf4e8] text-[#3d2314] rounded-3xl p-5 sm:p-8 shadow-[0_0_60px_rgba(236,72,153,0.35)] border-4 border-[#e6d2b5] text-left font-serif"
             >
               <button 
-                onClick={() => setSelectedOpenWhen(null)}
+                onClick={() => {
+                  triggerVibration(20);
+                  setSelectedOpenWhen(null);
+                }}
                 className="absolute top-3 right-3 p-1.5 rounded-full bg-amber-900/10 hover:bg-amber-900/20 text-amber-900 transition-all cursor-pointer"
               >
                 <X size={16} />
@@ -1463,7 +1522,10 @@ export default function BubuWebsite() {
               </div>
 
               <button 
-                onClick={() => setSelectedOpenWhen(null)}
+                onClick={() => {
+                  triggerVibration(20);
+                  setSelectedOpenWhen(null);
+                }}
                 className="w-full mt-4 bg-gradient-to-r from-rose-700 via-pink-700 to-purple-800 text-white font-serif italic text-xs py-2.5 rounded-full shadow-md transition-all cursor-pointer text-center"
               >
                 Close Envelope 💌
