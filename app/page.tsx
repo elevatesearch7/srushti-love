@@ -162,26 +162,26 @@ function LiveCounter() {
   }, []);
 
   return (
-    <div className="bg-[#0f081d]/90 border border-pink-500/30 rounded-2xl p-3 sm:p-4 backdrop-blur-md shadow-[0_0_20px_rgba(236,72,153,0.2)] max-w-xs sm:max-w-sm mx-auto my-2 sm:my-4">
-      <div className="flex items-center justify-center gap-1.5 text-pink-300 font-mono text-[9px] sm:text-[10px] mb-2">
+    <div className="bg-[#0f081d]/90 border border-pink-500/30 rounded-2xl p-2.5 sm:p-4 backdrop-blur-md shadow-[0_0_20px_rgba(236,72,153,0.2)] max-w-xs sm:max-w-sm mx-auto my-1 sm:my-3">
+      <div className="flex items-center justify-center gap-1.5 text-pink-300 font-mono text-[8px] sm:text-[10px] mb-1.5">
         <Clock size={11} className="animate-spin text-pink-400" />
         <span className="uppercase tracking-widest">CONNECTED SINCE OCT 23, 2025</span>
       </div>
-      <div className="grid grid-cols-4 gap-2 text-center font-mono">
-        <div className="bg-white/5 rounded-lg p-1.5 sm:p-2 border border-white/10">
-          <span className="text-base sm:text-xl font-bold text-amber-300">{timeElapsed.days}</span>
+      <div className="grid grid-cols-4 gap-1.5 sm:gap-2 text-center font-mono">
+        <div className="bg-white/5 rounded-lg p-1 sm:p-2 border border-white/10">
+          <span className="text-sm sm:text-xl font-bold text-amber-300">{timeElapsed.days}</span>
           <p className="text-[7px] sm:text-[8px] text-purple-200/60 uppercase">Days</p>
         </div>
-        <div className="bg-white/5 rounded-lg p-1.5 sm:p-2 border border-white/10">
-          <span className="text-base sm:text-xl font-bold text-pink-300">{timeElapsed.hours}</span>
+        <div className="bg-white/5 rounded-lg p-1 sm:p-2 border border-white/10">
+          <span className="text-sm sm:text-xl font-bold text-pink-300">{timeElapsed.hours}</span>
           <p className="text-[7px] sm:text-[8px] text-purple-200/60 uppercase">Hours</p>
         </div>
-        <div className="bg-white/5 rounded-lg p-1.5 sm:p-2 border border-white/10">
-          <span className="text-base sm:text-xl font-bold text-cyan-300">{timeElapsed.minutes}</span>
+        <div className="bg-white/5 rounded-lg p-1 sm:p-2 border border-white/10">
+          <span className="text-sm sm:text-xl font-bold text-cyan-300">{timeElapsed.minutes}</span>
           <p className="text-[7px] sm:text-[8px] text-purple-200/60 uppercase">Mins</p>
         </div>
-        <div className="bg-white/5 rounded-lg p-1.5 sm:p-2 border border-white/10">
-          <span className="text-base sm:text-xl font-bold text-rose-400">{timeElapsed.seconds}</span>
+        <div className="bg-white/5 rounded-lg p-1 sm:p-2 border border-white/10">
+          <span className="text-sm sm:text-xl font-bold text-rose-400">{timeElapsed.seconds}</span>
           <p className="text-[7px] sm:text-[8px] text-purple-200/60 uppercase">Secs</p>
         </div>
       </div>
@@ -483,7 +483,7 @@ export default function BubuWebsite() {
     return () => window.removeEventListener('wheel', handleWheel);
   }, [changeSection, openedLetter, selectedOpenWhen]);
 
-  // Non-passive Touch Listener to bypass Mobile Chrome Refresh
+  // Non-passive Touch Listener to prevent Mobile Chrome Refresh
   useEffect(() => {
     let touchStartY = 0;
 
@@ -492,6 +492,8 @@ export default function BubuWebsite() {
     };
 
     const handleTouchMove = (e: TouchEvent) => {
+      // Don't override touch behavior when a modal letter is open
+      if (openedLetter || selectedOpenWhen) return;
       if (e.cancelable) {
         e.preventDefault();
       }
@@ -698,18 +700,21 @@ export default function BubuWebsite() {
             
             {/* SECTION 0: HERO WITH TAP HEART EXPLOSION */}
             {activeSection === 0 && (
-              <div className="flex flex-col items-center text-center h-full justify-evenly py-2">
-                <div className="inline-flex items-center gap-2 bg-[#0d0714]/90 border border-emerald-500/40 px-3.5 py-1 rounded-full shadow-[0_0_15px_rgba(16,185,129,0.2)] font-mono text-[9px] sm:text-[10px] text-emerald-300">
-                  <BatteryCharging size={13} className="text-emerald-400 animate-pulse" />
+              <div className="flex flex-col items-center text-center h-full justify-center gap-2 sm:gap-3 py-4 px-2 overflow-hidden my-auto">
+                
+                {/* Battery Status Pill */}
+                <div className="shrink-0 inline-flex items-center gap-1.5 bg-[#0d0714]/90 border border-emerald-500/40 px-3 py-1 rounded-full shadow-[0_0_15px_rgba(16,185,129,0.2)] font-mono text-[9px] sm:text-[10px] text-emerald-300">
+                  <BatteryCharging size={12} className="text-emerald-400 animate-pulse" />
                   <span>BATTERY: 100% 🔋 | STATUS: Loving Babu Non-Stop</span>
                 </div>
 
+                {/* Hero Photo Circle */}
                 <div 
                   onClick={handleHeroTap}
-                  className="relative my-1 cursor-pointer group select-none"
+                  className="shrink-0 relative my-1 cursor-pointer group select-none"
                 >
-                  <div className="absolute -inset-4 rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-400 opacity-50 blur-lg animate-tilt" />
-                  <div className="relative w-36 h-36 sm:w-52 sm:h-52 rounded-full p-1 bg-gradient-to-tr from-pink-500 via-purple-500 to-cyan-400 shadow-[0_0_50px_rgba(236,72,153,0.4)] transition-transform duration-300 group-hover:scale-105">
+                  <div className="absolute -inset-3 rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-400 opacity-50 blur-md animate-tilt" />
+                  <div className="relative w-32 h-32 sm:w-44 sm:h-44 rounded-full p-1 bg-gradient-to-tr from-pink-500 via-purple-500 to-cyan-400 shadow-[0_0_30px_rgba(236,72,153,0.4)] transition-transform duration-300 group-hover:scale-105">
                     <img 
                       src="/elegent.jpeg" 
                       alt="Srushti" 
@@ -718,9 +723,9 @@ export default function BubuWebsite() {
                     />
                   </div>
 
-                  <div className="absolute -bottom-2.5 left-1/2 -translate-x-1/2 bg-[#0d0714]/90 backdrop-blur-md border border-pink-500/50 px-3 py-0.5 rounded-full shadow-[0_0_15px_rgba(236,72,153,0.3)] flex items-center gap-1.5 whitespace-nowrap">
-                    <span className="w-2 h-2 rounded-full bg-pink-400 animate-ping" />
-                    <span className="text-[9px] sm:text-[10px] font-mono tracking-widest text-pink-200">TAP PICTURE FOR LOVE ❤️</span>
+                  <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-[#0d0714]/90 backdrop-blur-md border border-pink-500/50 px-2.5 py-0.5 rounded-full shadow-[0_0_15px_rgba(236,72,153,0.3)] flex items-center gap-1 whitespace-nowrap">
+                    <span className="w-1.5 h-1.5 rounded-full bg-pink-400 animate-ping" />
+                    <span className="text-[8px] sm:text-[9px] font-mono tracking-widest text-pink-200">TAP PICTURE FOR LOVE ❤️</span>
                   </div>
 
                   <AnimatePresence>
@@ -739,22 +744,26 @@ export default function BubuWebsite() {
                   </AnimatePresence>
                 </div>
 
-                <div className="flex flex-col items-center gap-1.5">
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-purple-500/30 bg-purple-950/30 backdrop-blur-md">
-                    <Zap size={12} className="text-amber-300" />
-                    <span className="text-[10px] sm:text-[11px] font-mono tracking-wider text-purple-200">GIRLFRIEND DAY EDITION</span>
+                {/* Main Heading & Subtitle */}
+                <div className="shrink-0 flex flex-col items-center gap-1 my-0.5">
+                  <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full border border-purple-500/30 bg-purple-950/30 backdrop-blur-md">
+                    <Zap size={11} className="text-amber-300" />
+                    <span className="text-[9px] sm:text-[10px] font-mono tracking-wider text-purple-200">GIRLFRIEND DAY EDITION</span>
                   </div>
 
-                  <h1 className="text-2xl sm:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-pink-200 to-cyan-200">
+                  <h1 className="text-xl sm:text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-pink-200 to-cyan-200">
                     Happy Girlfriend Day, Bubu
                   </h1>
 
-                  <p className="text-xs sm:text-xl font-serif text-pink-300 italic">
+                  <p className="text-xs sm:text-base font-serif text-pink-300 italic">
                     To my one & only love — my first and my last.
                   </p>
                 </div>
 
-                <LiveCounter />
+                {/* Live Counter Widget */}
+                <div className="shrink-0 w-full">
+                  <LiveCounter />
+                </div>
               </div>
             )}
 

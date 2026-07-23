@@ -2,12 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Disables mobile Chrome/Safari pull-to-refresh and page bounce */
+/* Disable pull-to-refresh and body bouncing on mobile Chrome/Safari */
 html,
 body {
-  overscroll-behavior-y: none;
-  overscroll-behavior-x: none;
-  overflow: hidden;
+  overscroll-behavior-y: none !important;
+  overscroll-behavior-x: none !important;
+  overflow: hidden !important;
   height: 100dvh;
   width: 100vw;
   touch-action: none;
