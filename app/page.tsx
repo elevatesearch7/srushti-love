@@ -452,17 +452,17 @@ export default function BubuWebsite() {
         >
           <div className="max-w-4xl w-full my-auto">
             
-            {/* SECTION 0: HERO (SWAPPED TO bache.jpeg) */}
+            {/* SECTION 0: HERO (RESTORED TO elegent.jpeg) */}
             {activeSection === 0 && (
               <div className="flex flex-col items-center text-center">
                 <div className="relative mb-4 sm:mb-6">
                   <div className="absolute -inset-4 rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-400 opacity-50 blur-lg animate-tilt" />
                   <div className="relative w-40 h-40 sm:w-48 sm:h-48 rounded-full p-1 bg-gradient-to-tr from-pink-500 via-purple-500 to-cyan-400 shadow-[0_0_60px_rgba(236,72,153,0.4)]">
                     <img 
-                      src="/bache.jpeg" 
-                      alt="Srushti Childhood" 
+                      src="/elegent.jpeg" 
+                      alt="Srushti" 
                       className="w-full h-full object-cover rounded-full border-2 border-white/20"
-                      onError={(e) => { (e.currentTarget as HTMLImageElement).src = fallbacks[0]; }}
+                      onError={(e) => { (e.currentTarget as HTMLImageElement).src = fallbacks[2]; }}
                     />
                   </div>
                   <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-[#0d0714]/90 backdrop-blur-md border border-pink-500/50 px-4 py-1 rounded-full shadow-[0_0_15px_rgba(236,72,153,0.3)] flex items-center gap-1.5 whitespace-nowrap">
@@ -517,7 +517,7 @@ export default function BubuWebsite() {
 
                   {/* Right Side: Infinite Auto-Scrolling 100 Words */}
                   <div className="relative h-64 sm:h-80 rounded-2xl overflow-hidden border border-pink-500/30 bg-[#090412]/90 p-4 flex flex-col justify-center">
-                    {/* Top & Bottom Mask Fades for slick marquee look */}
+                    {/* Top & Bottom Mask Fades for marquee look */}
                     <div className="pointer-events-none absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-[#090412] to-transparent z-10" />
                     <div className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-[#090412] to-transparent z-10" />
 
@@ -539,7 +539,7 @@ export default function BubuWebsite() {
               </div>
             )}
 
-            {/* SECTION 2: PHOTO GALLERY */}
+            {/* SECTION 2: PHOTO GALLERY (USING bache.jpeg FOR MY LITTLE KID 👶) */}
             {activeSection === 2 && (
               <div className="w-full">
                 <div className="text-center mb-6">
