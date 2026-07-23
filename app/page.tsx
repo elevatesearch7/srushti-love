@@ -9,7 +9,7 @@ import {
   Home as HomeIcon, Gem, Crown, Shield, Camera, Zap, Radio,
   ChevronLeft, ChevronRight, X, Coffee, Moon, Flame, ChevronDown,
   Lock, Unlock, Clock, RefreshCw, Key, RotateCw, Cpu, RadioTower,
-  Feather, MessageCircleHeart, Send, Mail, HeartPulse, Compass, PhoneCall, Video, Ticket
+  Feather, MessageCircleHeart, Send, Mail, HeartPulse, Compass, PhoneCall, Video, Ticket, BatteryCharging, Gauge
 } from 'lucide-react';
 
 const randomAnimations: any[] = [
@@ -132,7 +132,7 @@ function LiveCounter() {
   }, []);
 
   return (
-    <div className="bg-[#0f081d]/90 border border-pink-500/30 rounded-2xl p-3.5 sm:p-4 backdrop-blur-md shadow-[0_0_20px_rgba(236,72,153,0.2)] max-w-xs sm:max-w-sm mx-auto my-3 sm:my-5">
+    <div className="bg-[#0f081d]/90 border border-pink-500/30 rounded-2xl p-3 sm:p-4 backdrop-blur-md shadow-[0_0_20px_rgba(236,72,153,0.2)] max-w-xs sm:max-w-sm mx-auto my-2 sm:my-4">
       <div className="flex items-center justify-center gap-1.5 text-pink-300 font-mono text-[9px] sm:text-[10px] mb-2">
         <Clock size={11} className="animate-spin text-pink-400" />
         <span className="uppercase tracking-widest">CONNECTED SINCE OCT 23, 2025</span>
@@ -535,12 +535,19 @@ export default function BubuWebsite() {
         >
           <div className="max-w-xl sm:max-w-3xl w-full my-auto flex flex-col items-center justify-center h-full max-h-[90dvh]">
             
-            {/* SECTION 0: HERO (elegent.jpeg) */}
+            {/* SECTION 0: HERO (elegent.jpeg) WITH BATTERY CHARGING WIDGET */}
             {activeSection === 0 && (
-              <div className="flex flex-col items-center text-center h-full justify-evenly py-4">
-                <div className="relative">
+              <div className="flex flex-col items-center text-center h-full justify-evenly py-2">
+                
+                {/* WIDGET 1: Bubu's Heart Charging Bar */}
+                <div className="inline-flex items-center gap-2 bg-[#0d0714]/90 border border-emerald-500/40 px-3.5 py-1 rounded-full shadow-[0_0_15px_rgba(16,185,129,0.2)] font-mono text-[9px] sm:text-[10px] text-emerald-300">
+                  <BatteryCharging size={13} className="text-emerald-400 animate-pulse" />
+                  <span>BATTERY: 100% 🔋 | STATUS: Loving Babu Non-Stop</span>
+                </div>
+
+                <div className="relative my-1">
                   <div className="absolute -inset-4 rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-400 opacity-50 blur-lg animate-tilt" />
-                  <div className="relative w-40 h-40 sm:w-52 sm:h-52 rounded-full p-1 bg-gradient-to-tr from-pink-500 via-purple-500 to-cyan-400 shadow-[0_0_50px_rgba(236,72,153,0.4)]">
+                  <div className="relative w-36 h-36 sm:w-52 sm:h-52 rounded-full p-1 bg-gradient-to-tr from-pink-500 via-purple-500 to-cyan-400 shadow-[0_0_50px_rgba(236,72,153,0.4)]">
                     <img 
                       src="/elegent.jpeg" 
                       alt="Srushti" 
@@ -548,23 +555,23 @@ export default function BubuWebsite() {
                       onError={(e) => { (e.currentTarget as HTMLImageElement).src = fallbacks[2]; }}
                     />
                   </div>
-                  <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-[#0d0714]/90 backdrop-blur-md border border-pink-500/50 px-3.5 py-1 rounded-full shadow-[0_0_15px_rgba(236,72,153,0.3)] flex items-center gap-1.5 whitespace-nowrap">
+                  <div className="absolute -bottom-2.5 left-1/2 -translate-x-1/2 bg-[#0d0714]/90 backdrop-blur-md border border-pink-500/50 px-3 py-0.5 rounded-full shadow-[0_0_15px_rgba(236,72,153,0.3)] flex items-center gap-1.5 whitespace-nowrap">
                     <span className="w-2 h-2 rounded-full bg-pink-400 animate-ping" />
                     <span className="text-[9px] sm:text-[10px] font-mono tracking-widest text-pink-200">MY WHOLE UNIVERSE</span>
                   </div>
                 </div>
 
-                <div className="flex flex-col items-center gap-2">
+                <div className="flex flex-col items-center gap-1.5">
                   <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-purple-500/30 bg-purple-950/30 backdrop-blur-md">
                     <Zap size={12} className="text-amber-300" />
                     <span className="text-[10px] sm:text-[11px] font-mono tracking-wider text-purple-200">GIRLFRIEND DAY EDITION</span>
                   </div>
 
-                  <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-pink-200 to-cyan-200">
+                  <h1 className="text-2xl sm:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-pink-200 to-cyan-200">
                     Happy Girlfriend Day, Bubu
                   </h1>
 
-                  <p className="text-sm sm:text-xl font-serif text-pink-300 italic">
+                  <p className="text-xs sm:text-xl font-serif text-pink-300 italic">
                     To my one & only love — my first and my last.
                   </p>
                 </div>
@@ -573,21 +580,27 @@ export default function BubuWebsite() {
               </div>
             )}
 
-            {/* SECTION 1: LITTLE BUBU (bachi.jpeg) */}
+            {/* SECTION 1: LITTLE BUBU (bachi.jpeg) WITH CUTENESS METER */}
             {activeSection === 1 && (
-              <div className="w-full space-y-3 sm:space-y-6 h-full flex flex-col justify-evenly py-2">
-                <div className="text-center shrink-0">
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-pink-500/30 bg-pink-950/30 backdrop-blur-md mb-1.5">
-                    <Heart size={12} className="text-pink-400 fill-pink-400" />
+              <div className="w-full space-y-2 sm:space-y-4 h-full flex flex-col justify-evenly py-2">
+                <div className="text-center shrink-0 space-y-1">
+                  <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full border border-pink-500/30 bg-pink-950/30 backdrop-blur-md">
+                    <Heart size={11} className="text-pink-400 fill-pink-400" />
                     <span className="text-[9px] font-mono text-pink-300 tracking-widest uppercase">LITTLE BUBU // 100 NAMES</span>
                   </div>
                   <h2 className="text-2xl sm:text-4xl font-bold text-white tracking-wide">
                     Forever My Cute Little Kid 👶
                   </h2>
+
+                  {/* WIDGET 2: Cuteness Meter Gauge */}
+                  <div className="inline-flex items-center gap-1.5 bg-[#0d0714]/90 border border-pink-400/40 px-3 py-0.5 rounded-full text-[9px] sm:text-[10px] font-mono text-amber-200 shadow-[0_0_15px_rgba(251,191,36,0.2)]">
+                    <Gauge size={12} className="text-amber-300 animate-spin" />
+                    <span>CUTENESS LEVEL: ♾️ / 100% (OVERFLOW ERROR 🥰)</span>
+                  </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 items-center max-w-3xl mx-auto w-full bg-[#0f081d]/90 border border-pink-500/40 rounded-3xl p-4 sm:p-6 backdrop-blur-2xl shadow-[0_0_40px_rgba(236,72,153,0.3)]">
-                  <div className="relative w-full h-48 sm:h-80 rounded-2xl overflow-hidden border border-pink-500/30 shadow-[0_0_15px_rgba(236,72,153,0.2)] bg-black/80 flex items-center justify-center p-2">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-6 items-center max-w-3xl mx-auto w-full bg-[#0f081d]/90 border border-pink-500/40 rounded-3xl p-3.5 sm:p-6 backdrop-blur-2xl shadow-[0_0_40px_rgba(236,72,153,0.3)]">
+                  <div className="relative w-full h-44 sm:h-80 rounded-2xl overflow-hidden border border-pink-500/30 shadow-[0_0_15px_rgba(236,72,153,0.2)] bg-black/80 flex items-center justify-center p-2">
                     <img 
                       src="/bachi.jpeg" 
                       alt="Little Srushti" 
@@ -599,7 +612,7 @@ export default function BubuWebsite() {
                     </span>
                   </div>
 
-                  <div className="relative h-48 sm:h-80 rounded-2xl overflow-hidden border border-pink-500/30 bg-[#090412]/90 p-3 sm:p-4 flex flex-col justify-center">
+                  <div className="relative h-44 sm:h-80 rounded-2xl overflow-hidden border border-pink-500/30 bg-[#090412]/90 p-3 sm:p-4 flex flex-col justify-center">
                     <div className="pointer-events-none absolute inset-x-0 top-0 h-10 bg-gradient-to-b from-[#090412] to-transparent z-10" />
                     <div className="pointer-events-none absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-[#090412] to-transparent z-10" />
 
@@ -779,9 +792,9 @@ export default function BubuWebsite() {
               </div>
             )}
 
-            {/* SECTION 4: COZY & FANCY ENLARGED LOVE JAR 🏺 */}
+            {/* SECTION 4: COZY LOVE JAR WITH DAILY AFFIRMATION WIDGET 🏺 */}
             {activeSection === 4 && (
-              <div className="w-full text-center max-w-xl mx-auto space-y-3 sm:space-y-5 h-full flex flex-col justify-evenly py-2">
+              <div className="w-full text-center max-w-xl mx-auto space-y-2 sm:space-y-4 h-full flex flex-col justify-evenly py-2">
                 <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full border border-amber-400/40 bg-amber-950/30 backdrop-blur-md shadow-[0_0_15px_rgba(251,191,36,0.25)] shrink-0 self-center">
                   <Sparkles size={12} className="text-amber-300 animate-spin" />
                   <span className="text-[10px] sm:text-[11px] font-serif tracking-widest text-amber-200 uppercase">Cozy Memory Keepsake</span>
@@ -791,12 +804,18 @@ export default function BubuWebsite() {
                   Why Bubu Is My World 🌹
                 </h2>
 
-                <div className="bg-gradient-to-b from-[#1d0b2e]/90 via-[#130622]/95 to-[#090212]/98 border border-amber-400/30 rounded-3xl p-5 sm:p-8 backdrop-blur-2xl shadow-[0_0_50px_rgba(251,191,36,0.15)] relative flex flex-col items-center justify-between overflow-hidden gap-3">
+                {/* WIDGET 3: Daily Affirmation Pill Banner */}
+                <div className="bg-gradient-to-r from-pink-950/60 via-amber-950/60 to-purple-950/60 border border-amber-400/40 px-3.5 py-1.5 rounded-full text-[10px] sm:text-xs font-serif italic text-amber-200 shadow-[0_0_15px_rgba(251,191,36,0.25)] mx-auto max-w-md flex items-center justify-center gap-1.5 shrink-0">
+                  <Heart size={12} className="text-pink-400 fill-pink-400 animate-pulse" />
+                  <span>TODAY&apos;S REMINDER: Srushti is the prettiest girl in the universe ✨</span>
+                </div>
+
+                <div className="bg-gradient-to-b from-[#1d0b2e]/90 via-[#130622]/95 to-[#090212]/98 border border-amber-400/30 rounded-3xl p-4 sm:p-6 backdrop-blur-2xl shadow-[0_0_50px_rgba(251,191,36,0.15)] relative flex flex-col items-center justify-between overflow-hidden gap-2 sm:gap-3">
                   
                   <motion.div 
                     animate={{ y: [0, -6, 0] }}
                     transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
-                    className="bg-gradient-to-r from-amber-500 via-rose-500 to-pink-600 text-white text-xs sm:text-sm font-serif italic px-5 py-2 rounded-full shadow-[0_0_20px_rgba(251,191,36,0.4)] border border-amber-200 flex items-center gap-2 cursor-pointer z-20"
+                    className="bg-gradient-to-r from-amber-500 via-rose-500 to-pink-600 text-white text-xs sm:text-sm font-serif italic px-5 py-1.5 sm:py-2 rounded-full shadow-[0_0_20px_rgba(251,191,36,0.4)] border border-amber-200 flex items-center gap-2 cursor-pointer z-20"
                     onClick={handlePullLetterFromJar}
                   >
                     <Feather size={14} className="text-amber-200" />
@@ -805,7 +824,7 @@ export default function BubuWebsite() {
 
                   <div 
                     onClick={handlePullLetterFromJar}
-                    className="relative w-52 h-56 sm:w-64 sm:h-72 my-1 cursor-pointer group flex items-center justify-center transition-transform duration-300 hover:scale-105"
+                    className="relative w-48 h-52 sm:w-64 sm:h-72 my-0.5 cursor-pointer group flex items-center justify-center transition-transform duration-300 hover:scale-105"
                   >
                     <svg viewBox="0 0 120 150" className="w-full h-full drop-shadow-[0_0_30px_rgba(251,191,36,0.3)]">
                       <defs>
@@ -864,12 +883,12 @@ export default function BubuWebsite() {
                   <button 
                     onClick={handlePullLetterFromJar}
                     disabled={isExtractingLetter}
-                    className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-500 via-rose-500 to-pink-600 text-white font-serif italic text-xs sm:text-sm px-7 py-3 rounded-full shadow-[0_0_25px_rgba(251,191,36,0.4)] hover:scale-105 active:scale-95 transition-all cursor-pointer border border-amber-200/50"
+                    className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-500 via-rose-500 to-pink-600 text-white font-serif italic text-xs sm:text-sm px-6 py-2.5 rounded-full shadow-[0_0_25px_rgba(251,191,36,0.4)] hover:scale-105 active:scale-95 transition-all cursor-pointer border border-amber-200/50"
                   >
-                    <Feather size={15} /> {isExtractingLetter ? 'Unsealing...' : 'Unseal A Romantic Letter 💌'}
+                    <Feather size={14} /> {isExtractingLetter ? 'Unsealing...' : 'Unseal A Romantic Letter 💌'}
                   </button>
 
-                  <div className="w-full flex items-center justify-center pt-2.5 border-t border-white/10 text-[10px] sm:text-[11px] font-serif italic text-amber-200/70">
+                  <div className="w-full flex items-center justify-center pt-2 border-t border-white/10 text-[10px] font-serif italic text-amber-200/70">
                     ✨ Crafted with endless devotion for my adorable Bubu ✨
                   </div>
 
@@ -877,7 +896,7 @@ export default function BubuWebsite() {
               </div>
             )}
 
-            {/* SECTION 5: LONG DISTANCE DEVOTION & COMFORT HUB (OPTION 3 DISTANCE METRIC WIDGET) 🫂 */}
+            {/* SECTION 5: LONG DISTANCE DEVOTION & COMFORT HUB 🫂 */}
             {activeSection === 5 && (
               <div className="w-full text-center max-w-xl mx-auto space-y-3 sm:space-y-4 h-full flex flex-col justify-evenly py-2">
                 <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full border border-pink-400/40 bg-pink-950/30 backdrop-blur-md shadow-[0_0_15px_rgba(236,72,153,0.25)] shrink-0 self-center">
@@ -891,7 +910,7 @@ export default function BubuWebsite() {
 
                 <div className="bg-gradient-to-b from-[#180826]/90 via-[#0e0419]/95 to-[#06020c]/98 border border-pink-500/40 rounded-3xl p-4 sm:p-6 backdrop-blur-2xl shadow-[0_0_50px_rgba(236,72,153,0.2)] relative flex flex-col justify-between items-center gap-3.5">
                   
-                  {/* OPTION 3: Compact LDR Distance Metric Widget */}
+                  {/* LDR Distance Metric Widget */}
                   <div className="w-full bg-white/5 border border-pink-500/30 rounded-2xl p-3 sm:p-4 flex items-center justify-between font-mono text-xs sm:text-sm shadow-inner">
                     <div className="flex items-center gap-1.5 text-pink-300 font-bold">
                       <span>📍</span>
@@ -964,7 +983,7 @@ export default function BubuWebsite() {
               </div>
             )}
 
-            {/* SECTION 6: SECRET SECURITY VAULT (WITH OPTION 2: UNLOCKED PERKS & PASSES) */}
+            {/* SECTION 6: SECRET SECURITY VAULT */}
             {activeSection === 6 && (
               <div className="w-full space-y-3 sm:space-y-6 h-full flex flex-col justify-evenly py-2">
                 <div className="text-center shrink-0">
@@ -1074,7 +1093,7 @@ export default function BubuWebsite() {
                       </p>
                     </div>
 
-                    {/* OPTION 2: Unlocked Special Passes inside the Vault */}
+                    {/* Unlocked Special Passes inside the Vault */}
                     <div className="mt-4 pt-3 border-t border-pink-500/30 shrink-0">
                       <h4 className="text-[10px] font-mono text-pink-300 uppercase tracking-widest mb-2 flex items-center gap-1.5">
                         <Ticket size={13} className="text-amber-300" /> Unlocked Bubu VIP Passes:
