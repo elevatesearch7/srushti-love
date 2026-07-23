@@ -9,7 +9,7 @@ import {
   Home as HomeIcon, Gem, Crown, Shield, Camera, Zap, Radio,
   ChevronLeft, ChevronRight, X, Coffee, Moon, Flame, ChevronDown,
   Lock, Unlock, Clock, RefreshCw, Key, RotateCw, Cpu, RadioTower,
-  Feather, MessageCircleHeart, Send, Mail, HeartPulse, Compass, PhoneCall, Video
+  Feather, MessageCircleHeart, Send, Mail, HeartPulse, Compass, PhoneCall, Video, Ticket
 } from 'lucide-react';
 
 const randomAnimations: any[] = [
@@ -201,9 +201,10 @@ export default function BubuWebsite() {
   const [isExtractingLetter, setIsExtractingLetter] = useState(false);
   const [openedLetter, setOpenedLetter] = useState<{ title: string; body: string; psu: string } | null>(null);
 
-  // Section 5 Long Distance Care Protocol State
+  // Section 5 Long Distance Care Protocol State & Flying Kiss Particles
   const [selectedOpenWhen, setSelectedOpenWhen] = useState<{ title: string; trigger: string; text: string } | null>(null);
   const [showHugToast, setShowHugToast] = useState(false);
+  const [flyingKisses, setFlyingKisses] = useState<{ id: number; x: number; y: number; symbol: string }[]>([]);
 
   const [pin, setPin] = useState('');
   const [isVaultUnlocked, setIsVaultUnlocked] = useState(false);
@@ -309,9 +310,24 @@ export default function BubuWebsite() {
   };
 
   const handleSendVirtualHug = () => {
-    confetti({ particleCount: 140, spread: 100, origin: { y: 0.6 } });
+    confetti({ particleCount: 120, spread: 90, origin: { y: 0.6 } });
+
+    const symbols = ['💋', '🫂', '💖', '💋', '🥰', '✨'];
+    const newParticles = Array.from({ length: 16 }).map((_, i) => ({
+      id: Date.now() + i,
+      x: Math.random() * 80 + 10,
+      y: Math.random() * 30 + 50,
+      symbol: symbols[Math.floor(Math.random() * symbols.length)],
+    }));
+
+    setFlyingKisses((prev) => [...prev, ...newParticles]);
     setShowHugToast(true);
-    setTimeout(() => setShowHugToast(false), 3000);
+
+    setTimeout(() => setShowHugToast(false), 3500);
+
+    setTimeout(() => {
+      setFlyingKisses((prev) => prev.filter(p => !newParticles.find(np => np.id === p.id)));
+    }, 2200);
   };
 
   const handlePinClick = (digit: string) => {
@@ -418,6 +434,27 @@ export default function BubuWebsite() {
       className="h-[100dvh] w-screen bg-[#05020a] text-[#f3e9f8] relative overflow-hidden font-sans selection:bg-pink-500 selection:text-white flex flex-col justify-between"
     >
       <ParticleTrail />
+
+      {/* FLYING KISSES & HUGS ANIMATION PARTICLES */}
+      <AnimatePresence>
+        {flyingKisses.map((p) => (
+          <motion.div
+            key={p.id}
+            initial={{ opacity: 0, scale: 0.3, left: `${p.x}%`, top: `${p.y}%` }}
+            animate={{ 
+              opacity: [0, 1, 1, 0], 
+              scale: [0.5, 1.8, 2.2, 1], 
+              y: -220, 
+              x: (Math.random() - 0.5) * 100 
+            }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 2.1, ease: "easeOut" }}
+            className="pointer-events-none fixed z-50 text-3xl sm:text-5xl select-none drop-shadow-[0_0_20px_rgba(236,72,153,0.9)]"
+          >
+            {p.symbol}
+          </motion.div>
+        ))}
+      </AnimatePresence>
 
       <div className="fixed inset-0 bg-[linear-gradient(to_right,#1f152e15_1px,transparent_1px),linear-gradient(to_bottom,#1f152e15_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none" />
       <div className="fixed top-[-15%] left-[-10%] w-[500px] h-[500px] bg-pink-600/20 rounded-full blur-[160px] pointer-events-none animate-pulse" />
@@ -840,76 +877,75 @@ export default function BubuWebsite() {
               </div>
             )}
 
-            {/* SECTION 5: LONG DISTANCE DEVOTION & COMFORT HUB (Micro-Compact Mobile Optimized) 🫂 */}
+            {/* SECTION 5: LONG DISTANCE DEVOTION & COMFORT HUB (OPTION 3 DISTANCE METRIC WIDGET) 🫂 */}
             {activeSection === 5 && (
-              <div className="w-full text-center max-w-xl mx-auto space-y-2 sm:space-y-4 h-full flex flex-col justify-evenly py-1.5">
-                <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full border border-pink-400/40 bg-pink-950/30 backdrop-blur-md shadow-[0_0_15px_rgba(236,72,153,0.25)] shrink-0 self-center">
-                  <Compass size={11} className="text-pink-300 animate-spin" />
-                  <span className="text-[9px] sm:text-[11px] font-serif tracking-widest text-pink-200 uppercase">LDR Comfort Hub</span>
+              <div className="w-full text-center max-w-xl mx-auto space-y-3 sm:space-y-4 h-full flex flex-col justify-evenly py-2">
+                <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full border border-pink-400/40 bg-pink-950/30 backdrop-blur-md shadow-[0_0_15px_rgba(236,72,153,0.25)] shrink-0 self-center">
+                  <Compass size={12} className="text-pink-300 animate-spin" />
+                  <span className="text-[10px] sm:text-[11px] font-serif tracking-widest text-pink-200 uppercase">LDR Comfort Hub</span>
                 </div>
 
-                <h2 className="text-xl sm:text-3xl font-serif italic text-white tracking-wide shrink-0">
+                <h2 className="text-2xl sm:text-3xl font-serif italic text-white tracking-wide shrink-0">
                   Across The Miles, Always Yours 🌐
                 </h2>
 
-                <div className="bg-gradient-to-b from-[#180826]/90 via-[#0e0419]/95 to-[#06020c]/98 border border-pink-500/40 rounded-3xl p-3 sm:p-5 backdrop-blur-2xl shadow-[0_0_50px_rgba(236,72,153,0.2)] relative flex flex-col justify-between items-center gap-2.5 sm:gap-4">
+                <div className="bg-gradient-to-b from-[#180826]/90 via-[#0e0419]/95 to-[#06020c]/98 border border-pink-500/40 rounded-3xl p-4 sm:p-6 backdrop-blur-2xl shadow-[0_0_50px_rgba(236,72,153,0.2)] relative flex flex-col justify-between items-center gap-3.5">
                   
-                  {/* Hug Transmitter */}
-                  <div className="w-full bg-gradient-to-r from-pink-950/40 via-purple-950/40 to-rose-950/40 border border-pink-500/30 rounded-2xl p-2.5 sm:p-4 text-center flex flex-col items-center">
-                    <div className="w-8 h-8 sm:w-11 sm:h-11 rounded-full bg-pink-500/20 border border-pink-400/50 flex items-center justify-center mb-1 text-pink-300 shadow-[0_0_15px_rgba(236,72,153,0.4)]">
-                      <HeartPulse size={16} className="animate-pulse text-pink-400" />
+                  {/* OPTION 3: Compact LDR Distance Metric Widget */}
+                  <div className="w-full bg-white/5 border border-pink-500/30 rounded-2xl p-3 sm:p-4 flex items-center justify-between font-mono text-xs sm:text-sm shadow-inner">
+                    <div className="flex items-center gap-1.5 text-pink-300 font-bold">
+                      <span>📍</span>
+                      <span>MUMBAI</span>
+                    </div>
+                    <div className="flex items-center gap-1 text-[10px] sm:text-xs">
+                      <span className="text-pink-400 font-bold animate-pulse">── 💖 0 km in our hearts ──</span>
+                    </div>
+                    <div className="flex items-center gap-1.5 text-cyan-300 font-bold">
+                      <span>SRUSHTI</span>
+                      <span>📍</span>
+                    </div>
+                  </div>
+
+                  {/* Hug & Kisses Transmitter Button */}
+                  <div className="w-full bg-gradient-to-r from-pink-950/40 via-purple-950/40 to-rose-950/40 border border-pink-500/30 rounded-2xl p-3 sm:p-4 text-center flex flex-col items-center">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-pink-500/20 border border-pink-400/50 flex items-center justify-center mb-1 text-pink-300 shadow-[0_0_15px_rgba(236,72,153,0.4)]">
+                      <HeartPulse size={18} className="animate-pulse text-pink-400" />
                     </div>
                     <h3 className="text-xs sm:text-base font-serif italic font-bold text-white mb-0.5">
-                      Virtual Hug Transmitted 🫂
+                      Virtual Warmth Transmitted 🫂💋
                     </h3>
-                    <p className="text-[10px] sm:text-xs text-purple-200/80 max-w-md mx-auto mb-2 leading-tight">
-                      Whenever the distance feels hard, tap below to receive Babu's warm hug straight in your heart.
+                    <p className="text-[10px] sm:text-xs text-purple-200/80 max-w-md mx-auto mb-2.5 leading-tight">
+                      Whenever you miss me or feel tired, tap below to receive Babu's sweet kisses & cozy hugs!
                     </p>
                     <button 
                       onClick={handleSendVirtualHug}
-                      className="bg-gradient-to-r from-rose-500 via-pink-500 to-purple-600 text-white font-serif italic text-[10px] sm:text-xs px-5 py-1.5 sm:py-2.5 rounded-full shadow-[0_0_20px_rgba(236,72,153,0.5)] hover:scale-105 active:scale-95 transition-all cursor-pointer border border-pink-300/40 flex items-center gap-1.5"
+                      className="bg-gradient-to-r from-rose-500 via-pink-500 to-purple-600 text-white font-serif italic text-xs sm:text-sm px-6 py-2.5 rounded-full shadow-[0_0_25px_rgba(236,72,153,0.6)] hover:scale-105 active:scale-95 transition-all cursor-pointer border border-pink-300/40 flex items-center gap-1.5"
                     >
-                      <Sparkles size={11} className="text-amber-300" /> Receive Babu&apos;s Hug Right Now ❤️
+                      <Sparkles size={13} className="text-amber-300" /> Get Babu&apos;s cozy hug and kisses 💋
                     </button>
                   </div>
 
                   {/* "Open When..." Envelopes Grid */}
                   <div className="w-full">
-                    <h4 className="text-[9px] sm:text-[10px] font-mono text-pink-300 uppercase tracking-widest mb-1 text-left flex items-center gap-1">
-                      <Mail size={11} /> Open When Envelopes:
+                    <h4 className="text-[10px] sm:text-[11px] font-mono text-pink-300 uppercase tracking-widest mb-1.5 text-left flex items-center gap-1">
+                      <Mail size={12} /> Open When Envelopes:
                     </h4>
 
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 sm:gap-2">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                       {openWhenLetters.map((env, idx) => (
                         <button
                           key={idx}
                           onClick={() => setSelectedOpenWhen(env)}
-                          className="p-2 sm:p-2.5 rounded-2xl bg-white/5 border border-pink-500/30 hover:border-pink-400 hover:bg-pink-500/10 transition-all text-left flex flex-col justify-between h-14 sm:h-20 group cursor-pointer"
+                          className="p-2.5 sm:p-3 rounded-2xl bg-white/5 border border-pink-500/30 hover:border-pink-400 hover:bg-pink-500/10 transition-all text-left flex flex-col justify-between h-16 sm:h-20 group cursor-pointer"
                         >
                           <span className="text-[8px] sm:text-[9px] font-mono text-pink-300/80">0{idx + 1}</span>
-                          <span className="text-[10px] sm:text-xs font-serif italic font-bold text-amber-200 group-hover:text-white leading-tight truncate">{env.trigger}</span>
+                          <span className="text-[11px] sm:text-xs font-serif italic font-bold text-amber-200 group-hover:text-white leading-tight truncate">{env.trigger}</span>
                         </button>
                       ))}
                     </div>
                   </div>
 
-                  {/* LDR Passes Grid */}
-                  <div className="w-full grid grid-cols-2 sm:grid-cols-4 gap-1.5 sm:gap-2 pt-0.5">
-                    {[
-                      { title: "Sleepy Video Call", desc: "Face-to-face calls till sleep", icon: <Video size={13} className="text-pink-400" /> },
-                      { title: "Midnight Dessert", desc: "Treats to your doorstep", icon: <ShoppingBag size={13} className="text-amber-300" /> },
-                      { title: "Unlimited VC Kisses 💋", desc: "Screen hugs & kisses on demand", icon: <Heart size={13} className="text-cyan-300 fill-cyan-300" /> },
-                      { title: "Next Meetup ✈️", desc: "Locked date when schedules align", icon: <Compass size={13} className="text-rose-400" /> },
-                    ].map((item, idx) => (
-                      <div key={idx} className="bg-white/5 border border-white/10 rounded-xl p-1.5 sm:p-2 text-center flex flex-col items-center justify-center">
-                        <div className="mb-0.5 p-1 bg-white/5 rounded-full">{item.icon}</div>
-                        <h5 className="text-[10px] font-bold text-white mb-0.5 truncate w-full">{item.title}</h5>
-                        <p className="text-[8px] text-purple-200/60 leading-tight line-clamp-1">{item.desc}</p>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Hug Toast Notification */}
+                  {/* Toast Notification */}
                   <AnimatePresence>
                     {showHugToast && (
                       <motion.div
@@ -919,7 +955,7 @@ export default function BubuWebsite() {
                         className="bg-gradient-to-r from-pink-500 via-rose-500 to-purple-600 text-white px-4 py-1.5 rounded-full font-serif italic text-[10px] sm:text-xs shadow-[0_0_20px_rgba(236,72,153,0.8)] border border-pink-300 flex items-center justify-center gap-1.5 mx-auto"
                       >
                         <Sparkles size={11} className="text-amber-300 animate-spin" />
-                        <span>Hug Transmitted from Narayan! You are held close in spirit ❤️</span>
+                        <span>Babu's cozy hugs & endless kisses transmitted! ❤️💋</span>
                       </motion.div>
                     )}
                   </AnimatePresence>
@@ -928,7 +964,7 @@ export default function BubuWebsite() {
               </div>
             )}
 
-            {/* SECTION 6: SECRET SECURITY VAULT */}
+            {/* SECTION 6: SECRET SECURITY VAULT (WITH OPTION 2: UNLOCKED PERKS & PASSES) */}
             {activeSection === 6 && (
               <div className="w-full space-y-3 sm:space-y-6 h-full flex flex-col justify-evenly py-2">
                 <div className="text-center shrink-0">
@@ -984,7 +1020,7 @@ export default function BubuWebsite() {
                     </div>
                   </div>
                 ) : (
-                  /* UNLOCKED VAULT CARD */
+                  /* UNLOCKED VAULT CARD WITH LOVING LETTER + 4 PASSES */
                   <motion.div 
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
@@ -1036,6 +1072,28 @@ export default function BubuWebsite() {
                       <p>
                         You are my first, my last, and my forever. Happy Girlfriend Day, my adorable Bubu!
                       </p>
+                    </div>
+
+                    {/* OPTION 2: Unlocked Special Passes inside the Vault */}
+                    <div className="mt-4 pt-3 border-t border-pink-500/30 shrink-0">
+                      <h4 className="text-[10px] font-mono text-pink-300 uppercase tracking-widest mb-2 flex items-center gap-1.5">
+                        <Ticket size={13} className="text-amber-300" /> Unlocked Bubu VIP Passes:
+                      </h4>
+
+                      <div className="grid grid-cols-2 gap-2">
+                        {[
+                          { title: "Sleepy Video Call 📞", desc: "Face-to-face calls till sleep", icon: <Video size={13} className="text-pink-400" /> },
+                          { title: "Midnight Dessert 🍰", desc: "Treats to your doorstep", icon: <ShoppingBag size={13} className="text-amber-300" /> },
+                          { title: "Unlimited VC Kisses 💋", desc: "Screen hugs & kisses on demand", icon: <Heart size={13} className="text-cyan-300 fill-cyan-300" /> },
+                          { title: "Next Meetup Date ✈️", desc: "Locked date when schedules align", icon: <Compass size={13} className="text-rose-400" /> },
+                        ].map((pass, idx) => (
+                          <div key={idx} className="bg-white/5 border border-pink-500/20 rounded-xl p-2 text-center flex flex-col items-center">
+                            <div className="mb-0.5 p-1 bg-white/5 rounded-full">{pass.icon}</div>
+                            <h5 className="text-[10px] font-bold text-amber-200 mb-0.5 truncate w-full">{pass.title}</h5>
+                            <p className="text-[8px] text-purple-200/70 leading-tight">{pass.desc}</p>
+                          </div>
+                        ))}
+                      </div>
                     </div>
 
                     <div className="mt-3.5 pt-2 border-t border-white/10 shrink-0">
