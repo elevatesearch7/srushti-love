@@ -8,7 +8,7 @@ import {
   Play, Pause, Heart, Sparkles, Car, ShoppingBag, 
   Home as HomeIcon, Gem, Crown, Shield, Camera, Zap, Radio,
   ChevronLeft, ChevronRight, X, Coffee, Moon, Flame, ChevronDown,
-  Lock, Unlock, Terminal, Clock, RefreshCw, Key, RotateCw, HelpCircle, CheckCircle, Award
+  Lock, Unlock, Terminal, Clock, RefreshCw, Key, RotateCw, HelpCircle, CheckCircle, Award, Cpu, RadioTower
 } from 'lucide-react';
 
 const randomAnimations: any[] = [
@@ -158,45 +158,6 @@ function LiveCounter() {
   );
 }
 
-function TypingLog({ logs }: { logs: { text: string; color: string }[] }) {
-  const [visibleLogs, setVisibleLogs] = useState<number[]>([]);
-
-  useEffect(() => {
-    setVisibleLogs([]);
-    const timer = setInterval(() => {
-      setVisibleLogs((prev) => {
-        if (prev.length < logs.length) {
-          return [...prev, prev.length];
-        } else {
-          clearInterval(timer);
-          return prev;
-        }
-      });
-    }, 900);
-
-    return () => clearInterval(timer);
-  }, [logs]);
-
-  return (
-    <>
-      {visibleLogs.map((index) => (
-        <motion.p
-          key={index}
-          initial={{ opacity: 0, x: -10 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.3 }}
-          className={logs[index].color}
-        >
-          &gt; {logs[index].text}
-        </motion.p>
-      ))}
-      {visibleLogs.length < logs.length && (
-        <p className="text-purple-200/50 animate-pulse">&gt; _</p>
-      )}
-    </>
-  );
-}
-
 function BirthdayCountdown() {
   const [timeLeft, setTimeLeft] = useState('');
 
@@ -223,7 +184,7 @@ function BirthdayCountdown() {
     return () => clearInterval(timer);
   }, []);
 
-  return <span className="text-amber-200 text-[11px] animate-pulse font-bold tracking-wider">{timeLeft}</span>;
+  return <span className="text-amber-200 text-[10px] sm:text-[11px] animate-pulse font-bold tracking-wider">{timeLeft}</span>;
 }
 
 export default function BubuWebsite() {
@@ -233,6 +194,9 @@ export default function BubuWebsite() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [showPamperModal, setShowPamperModal] = useState(false);
   
+  // Interactive HUD Moment Node Selector State for Section 3
+  const [selectedMoment, setSelectedMoment] = useState(0);
+
   // Quiz State
   const [showQuizModal, setShowQuizModal] = useState(false);
   const [quizStep, setQuizStep] = useState(0);
@@ -248,13 +212,42 @@ export default function BubuWebsite() {
 
   // Live Image Rotation State for eyes.jpeg
   const [eyesRotation, setEyesRotation] = useState(0);
-  const [vaultUnlockedTime] = useState(() => new Date().toLocaleTimeString());
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const isScrollLocked = useRef(false);
   const touchStartY = useRef(0);
 
   const totalSections = 7;
+
+  const sacredMoments = [
+    {
+      id: "NODE_01",
+      date: "March 27",
+      title: "Bubu's Birthday 🎂",
+      tag: "ORIGIN NODE",
+      accent: "from-amber-500/20 to-amber-950/40 border-amber-500/50 text-amber-300",
+      pill: "bg-amber-500/20 text-amber-300 border-amber-500/30",
+      desc: "The most sacred day in existence—the moment my entire world was given its favorite human."
+    },
+    {
+      id: "NODE_02",
+      date: "October 23, 2025",
+      title: "Our First Kiss 💋",
+      tag: "SPARK MATRIX",
+      accent: "from-pink-500/20 to-pink-950/40 border-pink-500/50 text-pink-300",
+      pill: "bg-pink-500/20 text-pink-300 border-pink-500/30",
+      desc: "The electric second where time completely stood still, and everything else in the universe faded away."
+    },
+    {
+      id: "NODE_03",
+      date: "January 24, 2026",
+      title: "\"Pyaar Kartii Hoon\" ❤️",
+      tag: "SACRED CONFESSION",
+      accent: "from-cyan-500/20 to-cyan-950/40 border-cyan-400/50 text-cyan-300",
+      pill: "bg-cyan-500/20 text-cyan-300 border-cyan-500/30",
+      desc: "The unforgettable day you confessed your pure love and sealed my heart's complete devotion forever."
+    }
+  ];
 
   const quizQuestions = [
     {
@@ -437,16 +430,7 @@ export default function BubuWebsite() {
     { src: '/saree.jpeg', fallback: fallbacks[4], tag: 'MODE // PERFECTION', title: 'Unmatched Beauty 💋', desc: 'Absolute perfection in every single way imaginable.' },
   ];
 
-  const sectionLabels = ["HERO", "LITTLE BUBU", "GALLERY", "CLI & TIMELINE", "LOVE MATRIX", "CARE PROTOCOL", "SECRET VAULT"];
-
-  const cliLogs = [
-    { text: "INITIALIZING ENCRYPTION LAYER...", color: "text-cyan-400" },
-    { text: `ACCESS GRANTED // SESSION: ${vaultUnlockedTime}`, color: "text-emerald-400" },
-    { text: "CONNECTED TARGET: [SRUSHTI_BUBU]", color: "text-pink-300" },
-    { text: "HEARTBEAT MONITOR: 100% DEVOTED_TO_BUBU", color: "text-amber-300" },
-    { text: "CORE MEMORY ACCESS: ACTIVE", color: "text-white" },
-    { text: "LOADING SACRED TIMELINE MATRIX...", color: "text-purple-300 animate-pulse" }
-  ];
+  const sectionLabels = ["HERO", "LITTLE BUBU", "GALLERY", "SACRED HUD", "LOVE MATRIX", "CARE PROTOCOL", "SECRET VAULT"];
 
   return (
     <main 
@@ -682,72 +666,100 @@ export default function BubuWebsite() {
               </div>
             )}
 
-            {/* SECTION 3: DYNAMIC CLI & SACRED MOMENTS TIMELINE */}
+            {/* SECTION 3: FIXED SINGLE-SCREEN FUTURISTIC QUANTUM HUD COMMAND CENTER */}
             {activeSection === 3 && (
-              <div className="w-full space-y-6">
-                <div className="text-center mb-1">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-pink-500/30 bg-pink-950/30 backdrop-blur-md mb-2">
-                    <Clock size={13} className="text-pink-400" />
-                    <span className="text-[10px] font-mono text-pink-300 tracking-widest uppercase">OUR SACRED NETWORK LOG</span>
+              <div className="w-full max-w-xl mx-auto space-y-4">
+                {/* HUD Header */}
+                <div className="text-center">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-cyan-500/40 bg-cyan-950/40 backdrop-blur-md mb-1.5 shadow-[0_0_15px_rgba(6,182,212,0.2)]">
+                    <RadioTower size={12} className="text-cyan-400 animate-pulse" />
+                    <span className="text-[10px] font-mono text-cyan-300 tracking-widest uppercase">OUR SACRED NETWORK // QUANTUM HUD</span>
                   </div>
+                  <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-wide">
+                    Our Sacred Moments ✨
+                  </h2>
                 </div>
 
-                {/* Animated CLI Terminal */}
-                <div className="bg-[#090412] border border-cyan-500/40 rounded-2xl overflow-hidden shadow-[0_0_30px_rgba(6,182,212,0.15)] font-mono text-xs max-w-lg mx-auto">
-                  <div className="bg-[#120824] px-4 py-2 border-b border-cyan-500/30 flex items-center justify-between">
-                    <div className="flex items-center gap-2 text-cyan-300">
-                      <Terminal size={14} />
-                      <span className="text-[11px]">bubu_network_access.log</span>
-                    </div>
-                    <div className="flex gap-1.5">
-                      <span className="w-2.5 h-2.5 rounded-full bg-red-500/80 inline-block" />
-                      <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/80 inline-block" />
-                      <span className="w-2.5 h-2.5 rounded-full bg-green-500/80 inline-block" />
-                    </div>
-                  </div>
-                  <div className="p-5 space-y-2 text-purple-200/80 min-h-[160px]">
-                    <TypingLog logs={cliLogs} />
-                  </div>
-                </div>
-
-                {/* Graphical Timeline with Live Countdown */}
-                <div className="bg-[#0f081d]/80 backdrop-blur-xl border border-pink-500/20 rounded-3xl p-6 sm:p-8 space-y-6 shadow-[0_0_50px_rgba(0,0,0,0.6)] max-w-lg mx-auto relative overflow-hidden">
-                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-400 opacity-60" />
+                {/* Cyberpunk Main HUD Frame */}
+                <div className="bg-[#0b0517]/95 border border-cyan-500/40 rounded-3xl p-5 backdrop-blur-2xl shadow-[0_0_50px_rgba(6,182,212,0.25)] relative overflow-hidden flex flex-col gap-4">
                   
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-4">
-                    <h3 className="text-xl font-bold text-white flex items-center gap-2.5">
-                      <Heart size={20} className="text-pink-400 shrink-0 fill-pink-500/40" /> Our Sacred Moments ✨
-                    </h3>
-                    <div className="bg-amber-950/40 px-3.5 py-1.5 rounded-full border border-amber-500/30 flex items-center gap-1.5 self-start sm:self-auto">
-                      <Sparkles size={12} className="text-amber-400" />
+                  {/* Top Bar Terminal Stream & Countdown */}
+                  <div className="flex items-center justify-between border-b border-white/10 pb-3 gap-2">
+                    <div className="flex items-center gap-2 font-mono text-[10px] text-emerald-400">
+                      <Cpu size={14} className="animate-spin text-emerald-400" />
+                      <span>SYS_STATUS: ACTIVE</span>
+                    </div>
+                    <div className="bg-amber-950/50 px-3 py-1 rounded-full border border-amber-500/40 flex items-center gap-1.5">
+                      <Sparkles size={11} className="text-amber-400" />
                       <BirthdayCountdown />
                     </div>
                   </div>
-                  
-                  {/* Vertical Illuminated Timeline */}
-                  <div className="relative pl-6 space-y-6">
-                    <div className="absolute left-[9px] top-2 bottom-2 w-0.5 bg-gradient-to-b from-amber-400 via-pink-400 to-cyan-400 rounded-full opacity-70" />
-                    
-                    {[
-                      { icon: <Award size={12} />, date: 'March 27', title: 'Bubu\'s Birthday 🎂', desc: 'The most sacred day—the birth of my whole heart.', color: 'border-amber-400 text-amber-200 bg-amber-500/30 shadow-[0_0_15px_rgba(251,191,36,0.5)]' },
-                      { icon: <CheckCircle size={12} />, date: 'October 23, 2025', title: 'Our First Kiss 💋', desc: 'The magical second everything else ceased to exist.', color: 'border-pink-400 text-pink-300 bg-pink-500/30 shadow-[0_0_15px_rgba(236,72,153,0.5)]' },
-                      { icon: <Lock size={12} />, date: 'January 24, 2026', title: 'The Sacred Confession ❤️', desc: 'When you confessed your love and sealed my devotion forever.', color: 'border-cyan-400 text-cyan-300 bg-cyan-500/30 shadow-[0_0_15px_rgba(6,182,212,0.5)]' },
-                    ].map((event, idx) => (
-                      <div key={idx} className="relative flex items-center gap-4">
-                        <div className={`absolute -left-[27px] w-6 h-6 rounded-full border p-1 z-10 flex items-center justify-center ${event.color}`}>
-                          {event.icon}
-                        </div>
-                        
-                        <div className="flex-1 bg-white/5 p-4 rounded-xl border border-white/10 hover:border-white/20 transition-all">
-                          <span className="block text-pink-400 font-mono text-[11px] uppercase tracking-widest mb-1">
-                            {event.date}
-                          </span>
-                          <h4 className="font-bold text-white text-sm sm:text-base mb-0.5">{event.title}</h4>
-                          <p className="text-purple-100/70 text-xs leading-relaxed">{event.desc}</p>
-                        </div>
-                      </div>
-                    ))}
+
+                  {/* Interactive Node Selector Matrix */}
+                  <div className="grid grid-cols-3 gap-2">
+                    {sacredMoments.map((moment, idx) => {
+                      const isSelected = selectedMoment === idx;
+                      return (
+                        <button
+                          key={moment.id}
+                          onClick={() => setSelectedMoment(idx)}
+                          className={`p-2.5 rounded-2xl border text-left transition-all duration-300 cursor-pointer flex flex-col justify-between relative overflow-hidden ${
+                            isSelected 
+                              ? 'bg-gradient-to-b from-cyan-500/20 via-purple-500/20 to-pink-500/20 border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.4)] scale-[1.02]' 
+                              : 'bg-white/5 border-white/10 hover:border-white/30 opacity-70 hover:opacity-100'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between w-full mb-1">
+                            <span className="text-[8px] font-mono text-cyan-300/80">{moment.id}</span>
+                            {isSelected && <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping" />}
+                          </div>
+                          <span className="font-mono text-[10px] font-bold text-white block truncate">{moment.date}</span>
+                        </button>
+                      );
+                    })}
                   </div>
+
+                  {/* Dynamic Quantum Projection View Screen */}
+                  <div className="relative bg-[#05020c] border border-white/15 rounded-2xl p-5 min-h-[160px] flex flex-col justify-between overflow-hidden shadow-inner">
+                    <div className="absolute top-2 right-3 text-[8px] font-mono text-purple-300/40 tracking-widest uppercase">
+                      HOLOGRAPHIC PROJECTION // 0{selectedMoment + 1}
+                    </div>
+
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={selectedMoment}
+                        initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 1.05, y: -10 }}
+                        transition={{ duration: 0.3 }}
+                        className="space-y-2.5"
+                      >
+                        <div className="flex items-center gap-2">
+                          <span className={`text-[9px] font-mono px-2.5 py-0.5 rounded-full border ${sacredMoments[selectedMoment].pill}`}>
+                            {sacredMoments[selectedMoment].tag}
+                          </span>
+                          <span className="text-pink-400 font-mono text-xs font-bold">
+                            {sacredMoments[selectedMoment].date}
+                          </span>
+                        </div>
+
+                        <h3 className="text-xl sm:text-2xl font-bold text-white tracking-wide">
+                          {sacredMoments[selectedMoment].title}
+                        </h3>
+
+                        <p className="text-purple-100/80 text-xs sm:text-sm leading-relaxed">
+                          {sacredMoments[selectedMoment].desc}
+                        </p>
+                      </motion.div>
+                    </AnimatePresence>
+
+                    {/* Bottom Status Bar */}
+                    <div className="mt-3 pt-2 border-t border-white/10 flex items-center justify-between text-[9px] font-mono text-purple-300/50">
+                      <span>DEVOTION_LEVEL: 100% UNCONDITIONAL</span>
+                      <span className="text-cyan-400">TOUCH NODE TO SWITCH</span>
+                    </div>
+                  </div>
+
                 </div>
               </div>
             )}
