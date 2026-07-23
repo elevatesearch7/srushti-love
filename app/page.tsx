@@ -8,7 +8,7 @@ import {
   Play, Pause, Heart, Sparkles, Car, ShoppingBag, 
   Home as HomeIcon, Gem, Crown, Shield, Camera, Zap, Radio,
   ChevronLeft, ChevronRight, X, Coffee, Moon, Flame, ChevronDown,
-  Lock, Unlock, Terminal, Clock, RefreshCw, Key, RotateCw, HelpCircle, CheckCircle, Award, Cpu, RadioTower
+  Lock, Unlock, Terminal, Clock, RefreshCw, Key, RotateCw, HelpCircle, CheckCircle, Award, Cpu, RadioTower, Bookmark, Send
 } from 'lucide-react';
 
 const randomAnimations: any[] = [
@@ -197,14 +197,18 @@ export default function BubuWebsite() {
   // Interactive HUD Moment Node Selector State for Section 3
   const [selectedMoment, setSelectedMoment] = useState(0);
 
+  // Section 4 Reasons Hub State
+  const [activeCategory, setActiveCategory] = useState<'ALL' | 'CUTENESS' | 'SOULMATE' | 'TANTRUMS' | 'SMILE'>('ALL');
+  const [reasonIndex, setReasonIndex] = useState(0);
+  const [savedFavorites, setSavedFavorites] = useState<number[]>([]);
+  const [showKissToast, setShowKissToast] = useState(false);
+
   // Quiz State
   const [showQuizModal, setShowQuizModal] = useState(false);
   const [quizStep, setQuizStep] = useState(0);
   const [quizScore, setQuizScore] = useState(0);
   const [quizCompleted, setQuizCompleted] = useState(false);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
-
-  const [reasonIndex, setReasonIndex] = useState(0);
 
   const [pin, setPin] = useState('');
   const [isVaultUnlocked, setIsVaultUnlocked] = useState(false);
@@ -248,6 +252,54 @@ export default function BubuWebsite() {
       desc: "The unforgettable day you confessed your pure love and sealed my heart's complete devotion forever."
     }
   ];
+
+  const categorizedReasons = [
+    { text: "You understand me even more than I understand myself.", category: "SOULMATE" },
+    { text: "Your childish giggle instantly melts all my stress away.", category: "CUTENESS" },
+    { text: "The way your eyes light up whenever you are happy.", category: "SMILE" },
+    { text: "You are my safe space and my home in human form.", category: "SOULMATE" },
+    { text: "You love me with zero conditions and absolute pure heart.", category: "SOULMATE" },
+    { text: "Your adorable tantrums that I secretly love so much.", category: "TANTRUMS" },
+    { text: "How effortlessly you make every regular day feel special.", category: "CUTENESS" },
+    { text: "The way you hold my hand like you never want to let go.", category: "SOULMATE" },
+    { text: "Your warmth, kindness, and incredible soul.", category: "SOULMATE" },
+    { text: "You read my thoughts even before I express them in words.", category: "SOULMATE" },
+    { text: "You make me want to be the absolute best version of myself.", category: "SOULMATE" },
+    { text: "Your beautiful smile is my favorite view in the universe.", category: "SMILE" },
+    { text: "How cute you look when you get mad at me over small things.", category: "TANTRUMS" },
+    { text: "Because you are my first, my last, and my forever love.", category: "SOULMATE" },
+    { text: "Simply because you are Bubu... and no one else could ever compare!", category: "CUTENESS" }
+  ];
+
+  const filteredReasons = activeCategory === 'ALL' 
+    ? categorizedReasons 
+    : categorizedReasons.filter(r => r.category === activeCategory);
+
+  const handleNextReason = () => {
+    let nextIdx = Math.floor(Math.random() * filteredReasons.length);
+    if (nextIdx === reasonIndex && filteredReasons.length > 1) {
+      nextIdx = (nextIdx + 1) % filteredReasons.length;
+    }
+    setReasonIndex(nextIdx);
+  };
+
+  const handleToggleFavorite = () => {
+    const currentText = filteredReasons[reasonIndex]?.text;
+    const globalIdx = categorizedReasons.findIndex(r => r.text === currentText);
+    
+    if (savedFavorites.includes(globalIdx)) {
+      setSavedFavorites(prev => prev.filter(id => id !== globalIdx));
+    } else {
+      setSavedFavorites(prev => [...prev, globalIdx]);
+      confetti({ particleCount: 70, spread: 60, origin: { y: 0.6 } });
+    }
+  };
+
+  const handleSendKiss = () => {
+    confetti({ particleCount: 120, spread: 90, origin: { y: 0.7 } });
+    setShowKissToast(true);
+    setTimeout(() => setShowKissToast(false), 2500);
+  };
 
   const quizQuestions = [
     {
@@ -304,30 +356,6 @@ export default function BubuWebsite() {
     setQuizScore(0);
     setQuizCompleted(false);
     setSelectedOption(null);
-  };
-
-  const reasonsList = [
-    "You understand me even more than I understand myself.",
-    "Your childish giggle instantly melts all my stress away.",
-    "The way your eyes light up whenever you are happy.",
-    "You are my safe space and my home in human form.",
-    "You love me with zero conditions and absolute pure heart.",
-    "Your adorable tantrums that I secretly love so much.",
-    "How effortlessly you make every regular day feel special.",
-    "The way you hold my hand like you never want to let go.",
-    "Your warmth, kindness, and incredible soul.",
-    "You read my thoughts even before I express them in words.",
-    "You make me want to be the absolute best version of myself.",
-    "Your beautiful smile is my favorite view in the universe.",
-    "How cute you look when you get mad at me over small things.",
-    "Because you are my first, my last, and my forever love.",
-    "Simply because you are Bubu... and no one else could ever compare!"
-  ];
-
-  const handleNextReason = () => {
-    let nextIdx = Math.floor(Math.random() * reasonsList.length);
-    if (nextIdx === reasonIndex) nextIdx = (nextIdx + 1) % reasonsList.length;
-    setReasonIndex(nextIdx);
   };
 
   const handlePinClick = (digit: string) => {
@@ -764,50 +792,119 @@ export default function BubuWebsite() {
               </div>
             )}
 
-            {/* SECTION 4: REASONS GENERATOR & QUIZ LAUNCHER */}
+            {/* SECTION 4: WHY BUBU IS MY WORLD // INTERACTIVE DEVOTION HUB */}
             {activeSection === 4 && (
-              <div className="w-full text-center">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-pink-500/30 bg-pink-950/30 backdrop-blur-md mb-3">
+              <div className="w-full text-center max-w-xl mx-auto space-y-3">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-pink-500/30 bg-pink-950/30 backdrop-blur-md mb-1">
                   <Sparkles size={13} className="text-pink-400" />
-                  <span className="text-[10px] font-mono text-pink-300 tracking-widest uppercase">LOVE PROTOCOL MATRIX</span>
+                  <span className="text-[10px] font-mono text-pink-300 tracking-widest uppercase">INFINITE DEVOTION MATRIX</span>
                 </div>
-                <h2 className="text-2xl sm:text-4xl font-bold text-white tracking-wide mb-4">
+                
+                <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-wide">
                   Why Bubu Is My World 💖
                 </h2>
 
-                <div className="max-w-md mx-auto bg-[#0f081d]/90 border border-pink-500/40 rounded-3xl p-6 sm:p-8 backdrop-blur-2xl shadow-[0_0_50px_rgba(236,72,153,0.25)] relative min-h-[220px] flex flex-col justify-between items-center mb-4">
-                  <div className="text-xs font-mono text-pink-400 tracking-widest uppercase mb-2">
-                    REASON #{reasonIndex + 1} OF INFINITY
+                {/* Cyberpunk Mood Filter Pills */}
+                <div className="flex items-center justify-center gap-1.5 flex-wrap py-1">
+                  {[
+                    { id: 'ALL', label: 'ALL 💖' },
+                    { id: 'CUTENESS', label: 'CUTENESS 🌸' },
+                    { id: 'SOULMATE', label: 'SOULMATE ✨' },
+                    { id: 'TANTRUMS', label: 'TANTRUMS 👑' },
+                    { id: 'SMILE', label: 'SMILE 😊' },
+                  ].map((cat) => (
+                    <button
+                      key={cat.id}
+                      onClick={() => {
+                        setActiveCategory(cat.id as any);
+                        setReasonIndex(0);
+                      }}
+                      className={`text-[9px] font-mono px-3 py-1 rounded-full border transition-all cursor-pointer ${
+                        activeCategory === cat.id
+                          ? 'bg-pink-500 text-white border-pink-400 shadow-[0_0_12px_rgba(236,72,153,0.6)] font-bold scale-105'
+                          : 'bg-white/5 border-white/15 text-purple-200/70 hover:bg-white/10 hover:text-white'
+                      }`}
+                    >
+                      {cat.label}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Reason Display Card */}
+                <div className="bg-[#0f081d]/90 border border-pink-500/40 rounded-3xl p-6 sm:p-7 backdrop-blur-2xl shadow-[0_0_50px_rgba(236,72,153,0.25)] relative min-h-[200px] flex flex-col justify-between items-center">
+                  
+                  {/* Top Bar inside Card */}
+                  <div className="w-full flex items-center justify-between text-[10px] font-mono text-pink-400/80 mb-2">
+                    <span className="uppercase tracking-widest bg-pink-950/50 px-2.5 py-0.5 rounded-full border border-pink-500/30">
+                      {filteredReasons[reasonIndex]?.category || 'LOVE'} // #{reasonIndex + 1}
+                    </span>
+
+                    {/* Bookmark Heart Button */}
+                    <button 
+                      onClick={handleToggleFavorite}
+                      className="flex items-center gap-1 bg-white/5 hover:bg-pink-500/20 px-2.5 py-1 rounded-full border border-white/10 hover:border-pink-400 transition-all cursor-pointer text-pink-300"
+                    >
+                      <Heart 
+                        size={13} 
+                        className={savedFavorites.includes(categorizedReasons.findIndex(r => r.text === filteredReasons[reasonIndex]?.text)) ? 'fill-pink-500 text-pink-500' : ''} 
+                      />
+                      <span className="text-[9px]">{savedFavorites.length} Saved</span>
+                    </button>
                   </div>
                   
+                  {/* Dynamic Reason Text */}
                   <AnimatePresence mode="wait">
                     <motion.p 
-                      key={reasonIndex}
+                      key={reasonIndex + activeCategory}
                       initial={{ opacity: 0, rotateY: 90, scale: 0.9 }}
                       animate={{ opacity: 1, rotateY: 0, scale: 1 }}
                       exit={{ opacity: 0, rotateY: -90, scale: 0.9 }}
-                      transition={{ duration: 0.4 }}
-                      className="text-base sm:text-lg font-bold text-amber-200 my-auto leading-relaxed"
+                      transition={{ duration: 0.35 }}
+                      className="text-base sm:text-lg font-bold text-amber-200 my-auto leading-relaxed text-center px-2"
                     >
-                      "{reasonsList[reasonIndex]}"
+                      "{filteredReasons[reasonIndex]?.text}"
                     </motion.p>
                   </AnimatePresence>
 
-                  <div className="flex flex-col sm:flex-row items-center gap-3 mt-6 w-full justify-center">
+                  {/* Card Controls */}
+                  <div className="flex flex-col sm:flex-row items-center gap-2.5 mt-5 w-full justify-center">
                     <button 
                       onClick={handleNextReason}
-                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-400 text-white font-bold text-xs px-5 py-3 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all cursor-pointer uppercase tracking-wider"
+                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-400 text-white font-bold text-xs px-4 py-2.5 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all cursor-pointer uppercase tracking-wider"
                     >
-                      <RefreshCw size={14} /> New Reason
+                      <RefreshCw size={13} /> Next Reason
                     </button>
+
+                    <button 
+                      onClick={handleSendKiss}
+                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-rose-500 to-pink-600 text-white font-bold text-xs px-4 py-2.5 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all cursor-pointer uppercase tracking-wider border border-pink-400/40"
+                    >
+                      <Send size={13} /> Send Kiss Back 💋
+                    </button>
+
                     <button 
                       onClick={() => setShowQuizModal(true)}
-                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 to-cyan-500 text-white font-bold text-xs px-5 py-3 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all cursor-pointer uppercase tracking-wider border border-cyan-400/30"
+                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 to-cyan-500 text-white font-bold text-xs px-4 py-2.5 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all cursor-pointer uppercase tracking-wider border border-cyan-400/30"
                     >
-                      <HelpCircle size={14} /> Take Bubu Quiz 🧩
+                      <HelpCircle size={13} /> Bubu Quiz 🧩
                     </button>
                   </div>
                 </div>
+
+                {/* Kiss Notification Toast */}
+                <AnimatePresence>
+                  {showKissToast && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 15, scale: 0.9 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: -10, scale: 0.9 }}
+                      className="bg-gradient-to-r from-pink-500 via-rose-500 to-purple-600 text-white px-4 py-2 rounded-full font-mono text-xs shadow-[0_0_25px_rgba(236,72,153,0.8)] border border-pink-300 flex items-center justify-center gap-2 mx-auto max-w-xs"
+                    >
+                      <Sparkles size={14} className="text-amber-300 animate-spin" />
+                      <span>Kiss Received by Babu! ❤️💋</span>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             )}
 
