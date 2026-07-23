@@ -132,27 +132,27 @@ function LiveCounter() {
   }, []);
 
   return (
-    <div className="bg-[#0f081d]/90 border border-pink-500/30 rounded-2xl p-3.5 backdrop-blur-md shadow-[0_0_20px_rgba(236,72,153,0.2)] max-w-sm mx-auto my-4">
-      <div className="flex items-center justify-center gap-1.5 text-pink-300 font-mono text-[10px] mb-2">
-        <Clock size={12} className="animate-spin text-pink-400" />
+    <div className="bg-[#0f081d]/90 border border-pink-500/30 rounded-2xl p-2.5 sm:p-3.5 backdrop-blur-md shadow-[0_0_20px_rgba(236,72,153,0.2)] max-w-xs sm:max-w-sm mx-auto my-2 sm:my-4">
+      <div className="flex items-center justify-center gap-1.5 text-pink-300 font-mono text-[9px] sm:text-[10px] mb-1.5 sm:mb-2">
+        <Clock size={11} className="animate-spin text-pink-400" />
         <span className="uppercase tracking-widest">CONNECTED SINCE OCT 23, 2025</span>
       </div>
-      <div className="grid grid-cols-4 gap-2 text-center font-mono">
-        <div className="bg-white/5 rounded-lg p-1.5 border border-white/10">
-          <span className="text-base sm:text-lg font-bold text-amber-300">{timeElapsed.days}</span>
-          <p className="text-[8px] text-purple-200/60 uppercase">Days</p>
+      <div className="grid grid-cols-4 gap-1.5 sm:gap-2 text-center font-mono">
+        <div className="bg-white/5 rounded-lg p-1 sm:p-1.5 border border-white/10">
+          <span className="text-sm sm:text-lg font-bold text-amber-300">{timeElapsed.days}</span>
+          <p className="text-[7px] sm:text-[8px] text-purple-200/60 uppercase">Days</p>
         </div>
-        <div className="bg-white/5 rounded-lg p-1.5 border border-white/10">
-          <span className="text-base sm:text-lg font-bold text-pink-300">{timeElapsed.hours}</span>
-          <p className="text-[8px] text-purple-200/60 uppercase">Hours</p>
+        <div className="bg-white/5 rounded-lg p-1 sm:p-1.5 border border-white/10">
+          <span className="text-sm sm:text-lg font-bold text-pink-300">{timeElapsed.hours}</span>
+          <p className="text-[7px] sm:text-[8px] text-purple-200/60 uppercase">Hours</p>
         </div>
-        <div className="bg-white/5 rounded-lg p-1.5 border border-white/10">
-          <span className="text-base sm:text-lg font-bold text-cyan-300">{timeElapsed.minutes}</span>
-          <p className="text-[8px] text-purple-200/60 uppercase">Mins</p>
+        <div className="bg-white/5 rounded-lg p-1 sm:p-1.5 border border-white/10">
+          <span className="text-sm sm:text-lg font-bold text-cyan-300">{timeElapsed.minutes}</span>
+          <p className="text-[7px] sm:text-[8px] text-purple-200/60 uppercase">Mins</p>
         </div>
-        <div className="bg-white/5 rounded-lg p-1.5 border border-white/10">
-          <span className="text-base sm:text-lg font-bold text-rose-400">{timeElapsed.seconds}</span>
-          <p className="text-[8px] text-purple-200/60 uppercase">Secs</p>
+        <div className="bg-white/5 rounded-lg p-1 sm:p-1.5 border border-white/10">
+          <span className="text-sm sm:text-lg font-bold text-rose-400">{timeElapsed.seconds}</span>
+          <p className="text-[7px] sm:text-[8px] text-purple-200/60 uppercase">Secs</p>
         </div>
       </div>
     </div>
@@ -185,7 +185,7 @@ function BirthdayCountdown() {
     return () => clearInterval(timer);
   }, []);
 
-  return <span className="text-amber-200 text-[10px] sm:text-[11px] animate-pulse font-bold tracking-wider">{timeLeft}</span>;
+  return <span className="text-amber-200 text-[9px] sm:text-[11px] animate-pulse font-bold tracking-wider">{timeLeft}</span>;
 }
 
 export default function BubuWebsite() {
@@ -415,7 +415,7 @@ export default function BubuWebsite() {
     <main 
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
-      className="h-screen w-screen bg-[#05020a] text-[#f3e9f8] relative overflow-hidden font-sans selection:bg-pink-500 selection:text-white"
+      className="h-[100dvh] w-screen bg-[#05020a] text-[#f3e9f8] relative overflow-hidden font-sans selection:bg-pink-500 selection:text-white flex flex-col justify-between"
     >
       <ParticleTrail />
 
@@ -425,14 +425,15 @@ export default function BubuWebsite() {
 
       <audio ref={audioRef} loop src="/music.mp3" preload="auto" />
 
+      {/* Music Floating Button */}
       <motion.div 
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={toggleMusic}
-        className="fixed bottom-6 right-6 z-40 bg-[#0d0714]/80 backdrop-blur-2xl border border-pink-500/30 shadow-[0_0_25px_rgba(236,72,153,0.25)] px-4 py-2.5 sm:px-5 sm:py-3 rounded-2xl flex items-center gap-3.5 cursor-pointer group hover:border-pink-400"
+        className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 bg-[#0d0714]/90 backdrop-blur-2xl border border-pink-500/30 shadow-[0_0_20px_rgba(236,72,153,0.3)] px-3 py-2 sm:px-5 sm:py-3 rounded-2xl flex items-center gap-2.5 sm:gap-3.5 cursor-pointer group hover:border-pink-400"
       >
-        <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-pink-500 via-purple-500 to-cyan-400 flex items-center justify-center text-white shadow-[0_0_15px_rgba(236,72,153,0.5)]">
-          {isPlaying ? <Pause size={16} /> : <Play size={16} className="ml-0.5" />}
+        <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-tr from-pink-500 via-purple-500 to-cyan-400 flex items-center justify-center text-white shadow-[0_0_15px_rgba(236,72,153,0.5)] shrink-0">
+          {isPlaying ? <Pause size={15} /> : <Play size={15} className="ml-0.5" />}
         </div>
         <div className="hidden sm:block">
           <div className="flex items-center gap-1.5 mb-0.5">
@@ -445,6 +446,7 @@ export default function BubuWebsite() {
         </div>
       </motion.div>
 
+      {/* Desktop Navigation Dots */}
       <div className="fixed right-6 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col items-end gap-3">
         {sectionLabels.map((label, idx) => (
           <button
@@ -466,22 +468,25 @@ export default function BubuWebsite() {
         ))}
       </div>
 
-      <div className="fixed top-4 left-1/2 -translate-x-1/2 z-40 md:hidden flex items-center gap-2 bg-[#0d0714]/80 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-pink-500/30">
-        <span className="text-[10px] font-mono text-pink-300 font-bold">
+      {/* Mobile Top Pill Indicator */}
+      <div className="fixed top-3 left-1/2 -translate-x-1/2 z-40 md:hidden flex items-center gap-1.5 bg-[#0d0714]/90 backdrop-blur-md px-3 py-1 rounded-full border border-pink-500/30 shadow-md">
+        <span className="text-[9px] font-mono text-pink-300 font-bold tracking-wider">
           0{activeSection + 1} / 0{totalSections} — {sectionLabels[activeSection]}
         </span>
       </div>
 
+      {/* Scroll Arrow Bottom Indicator */}
       {activeSection < totalSections - 1 && (
         <button 
           onClick={() => changeSection(activeSection + 1)}
-          className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 flex flex-col items-center text-purple-300/60 hover:text-pink-300 transition-colors animate-bounce cursor-pointer"
+          className="fixed bottom-3 left-1/2 -translate-x-1/2 z-40 flex flex-col items-center text-purple-300/60 hover:text-pink-300 transition-colors animate-bounce cursor-pointer"
         >
-          <span className="text-[9px] font-mono tracking-widest mb-1">SCROLL OR CLICK</span>
-          <ChevronDown size={18} />
+          <span className="text-[8px] font-mono tracking-widest mb-0.5">SWIPE UP OR TAP</span>
+          <ChevronDown size={16} />
         </button>
       )}
 
+      {/* Main Single-Screen Dynamic Container */}
       <AnimatePresence mode="wait">
         <motion.div
           key={activeSection}
@@ -489,16 +494,16 @@ export default function BubuWebsite() {
           initial="initial"
           animate="animate"
           exit="exit"
-          className="w-full h-full flex items-center justify-center px-4 sm:px-8 py-12 overflow-y-auto"
+          className="w-full h-full max-h-[100dvh] flex items-center justify-center px-3 sm:px-8 py-8 sm:py-12 overflow-hidden"
         >
-          <div className="max-w-4xl w-full my-auto">
+          <div className="max-w-3xl w-full my-auto flex flex-col items-center justify-center max-h-full">
             
             {/* SECTION 0: HERO (elegent.jpeg) */}
             {activeSection === 0 && (
-              <div className="flex flex-col items-center text-center">
-                <div className="relative mb-4 sm:mb-6">
-                  <div className="absolute -inset-4 rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-400 opacity-50 blur-lg animate-tilt" />
-                  <div className="relative w-40 h-40 sm:w-48 sm:h-48 rounded-full p-1 bg-gradient-to-tr from-pink-500 via-purple-500 to-cyan-400 shadow-[0_0_60px_rgba(236,72,153,0.4)]">
+              <div className="flex flex-col items-center text-center max-h-full justify-center">
+                <div className="relative mb-3 sm:mb-6">
+                  <div className="absolute -inset-3 rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-400 opacity-50 blur-md animate-tilt" />
+                  <div className="relative w-32 h-32 sm:w-48 sm:h-48 rounded-full p-1 bg-gradient-to-tr from-pink-500 via-purple-500 to-cyan-400 shadow-[0_0_40px_rgba(236,72,153,0.4)]">
                     <img 
                       src="/elegent.jpeg" 
                       alt="Srushti" 
@@ -506,22 +511,22 @@ export default function BubuWebsite() {
                       onError={(e) => { (e.currentTarget as HTMLImageElement).src = fallbacks[2]; }}
                     />
                   </div>
-                  <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-[#0d0714]/90 backdrop-blur-md border border-pink-500/50 px-4 py-1 rounded-full shadow-[0_0_15px_rgba(236,72,153,0.3)] flex items-center gap-1.5 whitespace-nowrap">
-                    <span className="w-2 h-2 rounded-full bg-pink-400 animate-ping" />
-                    <span className="text-[10px] font-mono tracking-widest text-pink-200">STATUS: MY WHOLE UNIVERSE</span>
+                  <div className="absolute -bottom-2.5 left-1/2 -translate-x-1/2 bg-[#0d0714]/90 backdrop-blur-md border border-pink-500/50 px-3 py-0.5 rounded-full shadow-[0_0_12px_rgba(236,72,153,0.3)] flex items-center gap-1 whitespace-nowrap">
+                    <span className="w-1.5 h-1.5 rounded-full bg-pink-400 animate-ping" />
+                    <span className="text-[8px] sm:text-[10px] font-mono tracking-widest text-pink-200">MY WHOLE UNIVERSE</span>
                   </div>
                 </div>
 
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-purple-500/30 bg-purple-950/30 backdrop-blur-md mb-2">
-                  <Zap size={13} className="text-amber-300" />
-                  <span className="text-[11px] font-mono tracking-wider text-purple-200">GIRLFRIEND DAY EDITION // 2026</span>
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border border-purple-500/30 bg-purple-950/30 backdrop-blur-md mb-1.5">
+                  <Zap size={11} className="text-amber-300" />
+                  <span className="text-[9px] sm:text-[11px] font-mono tracking-wider text-purple-200">GIRLFRIEND DAY EDITION</span>
                 </div>
 
-                <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-pink-200 to-cyan-200 mb-2">
-                  Happy Girlfriend Day, My Bubu
+                <h1 className="text-2xl sm:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-pink-200 to-cyan-200 mb-1">
+                  Happy Girlfriend Day, Bubu
                 </h1>
 
-                <p className="text-base sm:text-xl font-serif text-pink-300 italic mb-2">
+                <p className="text-xs sm:text-xl font-serif text-pink-300 italic mb-1 sm:mb-2">
                   To my one & only love — my first and my last.
                 </p>
 
@@ -531,46 +536,46 @@ export default function BubuWebsite() {
 
             {/* SECTION 1: LITTLE BUBU (bachi.jpeg) */}
             {activeSection === 1 && (
-              <div className="w-full space-y-6">
-                <div className="text-center">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-pink-500/30 bg-pink-950/30 backdrop-blur-md mb-2">
-                    <Heart size={13} className="text-pink-400 fill-pink-400" />
-                    <span className="text-[10px] font-mono text-pink-300 tracking-widest uppercase">LITTLE BUBU // 100 NAMES OF LOVE</span>
+              <div className="w-full space-y-3 sm:space-y-6 max-h-full flex flex-col justify-center">
+                <div className="text-center shrink-0">
+                  <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border border-pink-500/30 bg-pink-950/30 backdrop-blur-md mb-1">
+                    <Heart size={11} className="text-pink-400 fill-pink-400" />
+                    <span className="text-[9px] font-mono text-pink-300 tracking-widest uppercase">LITTLE BUBU // 100 NAMES</span>
                   </div>
-                  <h2 className="text-2xl sm:text-4xl font-bold text-white tracking-wide">
+                  <h2 className="text-xl sm:text-4xl font-bold text-white tracking-wide">
                     Forever My Cute Little Kid 👶
                   </h2>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center max-w-3xl mx-auto bg-[#0f081d]/90 border border-pink-500/40 rounded-3xl p-6 backdrop-blur-2xl shadow-[0_0_50px_rgba(236,72,153,0.3)]">
-                  {/* Left Side: Photo Frame using bachi.jpeg */}
-                  <div className="relative w-full h-64 sm:h-80 rounded-2xl overflow-hidden border border-pink-500/30 shadow-[0_0_20px_rgba(236,72,153,0.2)] bg-black/80 flex items-center justify-center p-2">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-6 items-center max-w-3xl mx-auto w-full bg-[#0f081d]/90 border border-pink-500/40 rounded-3xl p-3 sm:p-6 backdrop-blur-2xl shadow-[0_0_40px_rgba(236,72,153,0.3)]">
+                  {/* Photo Frame */}
+                  <div className="relative w-full h-36 sm:h-80 rounded-2xl overflow-hidden border border-pink-500/30 shadow-[0_0_15px_rgba(236,72,153,0.2)] bg-black/80 flex items-center justify-center p-1.5">
                     <img 
                       src="/bachi.jpeg" 
                       alt="Little Srushti" 
                       className="max-h-full max-w-full object-contain rounded-xl drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)]"
                       onError={(e) => { (e.currentTarget as HTMLImageElement).src = fallbacks[0]; }}
                     />
-                    <span className="absolute bottom-3 left-3 bg-black/80 backdrop-blur-md border border-pink-500/30 text-[9px] font-mono px-2.5 py-1 rounded-full text-pink-300 tracking-widest uppercase">
+                    <span className="absolute bottom-2 left-2 bg-black/80 backdrop-blur-md border border-pink-500/30 text-[8px] font-mono px-2 py-0.5 rounded-full text-pink-300 tracking-widest uppercase">
                       SRUSHTI // AGE 3 ✨
                     </span>
                   </div>
 
-                  {/* Right Side: Infinite Auto-Scrolling 100 Words */}
-                  <div className="relative h-64 sm:h-80 rounded-2xl overflow-hidden border border-pink-500/30 bg-[#090412]/90 p-4 flex flex-col justify-center">
-                    <div className="pointer-events-none absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-[#090412] to-transparent z-10" />
-                    <div className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-[#090412] to-transparent z-10" />
+                  {/* Infinite Auto-Scrolling Names */}
+                  <div className="relative h-36 sm:h-80 rounded-2xl overflow-hidden border border-pink-500/30 bg-[#090412]/90 p-2 sm:p-4 flex flex-col justify-center">
+                    <div className="pointer-events-none absolute inset-x-0 top-0 h-8 bg-gradient-to-b from-[#090412] to-transparent z-10" />
+                    <div className="pointer-events-none absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-[#090412] to-transparent z-10" />
 
                     <motion.div 
                       animate={{ y: ['0%', '-50%'] }}
                       transition={{ duration: 35, ease: 'linear', repeat: Infinity }}
-                      className="flex flex-col gap-2.5 text-center"
+                      className="flex flex-col gap-1.5 text-center"
                     >
                       {[...hundredLoveWords, ...hundredLoveWords].map((word, idx) => (
-                        <div key={idx} className="flex items-center justify-center gap-2 text-xs sm:text-sm font-mono font-bold text-pink-200 hover:text-amber-300 transition-colors py-1">
-                          <span className="text-pink-500 text-[10px]">💖</span>
+                        <div key={idx} className="flex items-center justify-center gap-1.5 text-xs sm:text-sm font-mono font-bold text-pink-200 hover:text-amber-300 transition-colors py-0.5">
+                          <span className="text-pink-500 text-[9px]">💖</span>
                           <span>{word}</span>
-                          <span className="text-pink-500 text-[10px]">💖</span>
+                          <span className="text-pink-500 text-[9px]">💖</span>
                         </div>
                       ))}
                     </motion.div>
@@ -579,42 +584,42 @@ export default function BubuWebsite() {
               </div>
             )}
 
-            {/* SECTION 2: PHOTO GALLERY (My Little Kid 👶 uses bache.jpeg) */}
+            {/* SECTION 2: PHOTO GALLERY (bache.jpeg etc) */}
             {activeSection === 2 && (
-              <div className="w-full">
-                <div className="text-center mb-6">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-pink-500/30 bg-pink-950/30 backdrop-blur-md mb-2">
-                    <Camera size={13} className="text-pink-400" />
-                    <span className="text-[10px] font-mono text-pink-300 tracking-widest uppercase">SLIDING VISUAL MATRIX</span>
+              <div className="w-full space-y-3 sm:space-y-6 max-h-full flex flex-col justify-center">
+                <div className="text-center shrink-0">
+                  <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border border-pink-500/30 bg-pink-950/30 backdrop-blur-md mb-1">
+                    <Camera size={11} className="text-pink-400" />
+                    <span className="text-[9px] font-mono text-pink-300 tracking-widest uppercase">VISUAL MATRIX</span>
                   </div>
-                  <h2 className="text-2xl sm:text-4xl font-bold text-white tracking-wide">
+                  <h2 className="text-xl sm:text-4xl font-bold text-white tracking-wide">
                     Every Version of You 📸
                   </h2>
                 </div>
 
-                <div className="relative max-w-md mx-auto min-h-[420px] sm:min-h-[460px] flex items-center justify-center">
+                <div className="relative max-w-md mx-auto w-full flex items-center justify-center">
                   <button 
                     onClick={() => setCurrentSlide((prev) => (prev - 1 + moodGallery.length) % moodGallery.length)}
-                    className="absolute -left-3 sm:-left-10 z-30 p-2.5 rounded-full bg-[#0d0714]/90 border border-pink-500/40 text-white hover:border-pink-300 transition-all backdrop-blur-xl shadow-lg"
+                    className="absolute -left-2 sm:-left-10 z-30 p-2 sm:p-2.5 rounded-full bg-[#0d0714]/90 border border-pink-500/40 text-white hover:border-pink-300 transition-all backdrop-blur-xl shadow-lg"
                   >
-                    <ChevronLeft size={20} />
+                    <ChevronLeft size={16} />
                   </button>
 
                   <button 
                     onClick={() => setCurrentSlide((prev) => (prev + 1) % moodGallery.length)}
-                    className="absolute -right-3 sm:-right-10 z-30 p-2.5 rounded-full bg-[#0d0714]/90 border border-pink-500/40 text-white hover:border-pink-300 transition-all backdrop-blur-xl shadow-lg"
+                    className="absolute -right-2 sm:-right-10 z-30 p-2 sm:p-2.5 rounded-full bg-[#0d0714]/90 border border-pink-500/40 text-white hover:border-pink-300 transition-all backdrop-blur-xl shadow-lg"
                   >
-                    <ChevronRight size={20} />
+                    <ChevronRight size={16} />
                   </button>
 
-                  <div className="w-full bg-[#0f081d]/90 backdrop-blur-2xl border border-pink-500/40 rounded-3xl overflow-hidden shadow-[0_10px_40px_rgba(236,72,153,0.3)] flex flex-col">
-                    <div className="h-[270px] sm:h-[300px] w-full overflow-hidden relative bg-[#090412] flex items-center justify-center p-2">
+                  <div className="w-full bg-[#0f081d]/90 backdrop-blur-2xl border border-pink-500/40 rounded-3xl overflow-hidden shadow-[0_10px_30px_rgba(236,72,153,0.3)] flex flex-col">
+                    <div className="h-[190px] sm:h-[300px] w-full overflow-hidden relative bg-[#090412] flex items-center justify-center p-2">
                       <img 
                         src={moodGallery[currentSlide].src} 
                         alt="" 
                         className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-40 scale-125 pointer-events-none"
                       />
-                      <span className="absolute top-3 left-3 z-20 bg-[#05020a]/85 backdrop-blur-md border border-white/20 text-[9px] font-mono px-2.5 py-1 rounded-full text-pink-300 tracking-widest">
+                      <span className="absolute top-2.5 left-2.5 z-20 bg-[#05020a]/85 backdrop-blur-md border border-white/20 text-[8px] sm:text-[9px] font-mono px-2 py-0.5 rounded-full text-pink-300 tracking-widest">
                         {moodGallery[currentSlide].tag}
                       </span>
                       <img 
@@ -624,20 +629,20 @@ export default function BubuWebsite() {
                         onError={(e) => { (e.currentTarget as HTMLImageElement).src = moodGallery[currentSlide].fallback; }}
                       />
                     </div>
-                    <div className="p-5 flex-1 bg-[#0d061a]">
-                      <h3 className="text-lg font-bold text-amber-200 mb-1">{moodGallery[currentSlide].title}</h3>
-                      <p className="text-purple-200/80 text-xs sm:text-sm leading-relaxed">{moodGallery[currentSlide].desc}</p>
+                    <div className="p-3.5 sm:p-5 flex-1 bg-[#0d061a]">
+                      <h3 className="text-sm sm:text-lg font-bold text-amber-200 mb-0.5">{moodGallery[currentSlide].title}</h3>
+                      <p className="text-purple-200/80 text-[11px] sm:text-sm leading-snug">{moodGallery[currentSlide].desc}</p>
                     </div>
                   </div>
                 </div>
 
-                <div className="flex items-center justify-center gap-2 mt-5">
+                <div className="flex items-center justify-center gap-1.5">
                   {moodGallery.map((_, idx) => (
                     <button
                       key={idx}
                       onClick={() => setCurrentSlide(idx)}
-                      className={`h-2 rounded-full transition-all duration-300 ${
-                        idx === currentSlide ? 'w-6 bg-gradient-to-r from-pink-500 to-cyan-400 shadow-[0_0_10px_rgba(236,72,153,0.8)]' : 'w-2 bg-white/20'
+                      className={`h-1.5 rounded-full transition-all duration-300 ${
+                        idx === currentSlide ? 'w-5 bg-gradient-to-r from-pink-500 to-cyan-400 shadow-[0_0_8px_rgba(236,72,153,0.8)]' : 'w-1.5 bg-white/20'
                       }`}
                     />
                   ))}
@@ -647,61 +652,56 @@ export default function BubuWebsite() {
 
             {/* SECTION 3: FIXED SINGLE-SCREEN FUTURISTIC QUANTUM HUD COMMAND CENTER */}
             {activeSection === 3 && (
-              <div className="w-full max-w-xl mx-auto space-y-4">
-                {/* HUD Header */}
-                <div className="text-center">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-cyan-500/40 bg-cyan-950/40 backdrop-blur-md mb-1.5 shadow-[0_0_15px_rgba(6,182,212,0.2)]">
-                    <RadioTower size={12} className="text-cyan-400 animate-pulse" />
-                    <span className="text-[10px] font-mono text-cyan-300 tracking-widest uppercase">OUR SACRED NETWORK // QUANTUM HUD</span>
+              <div className="w-full max-w-lg mx-auto space-y-3 sm:space-y-4 max-h-full flex flex-col justify-center">
+                <div className="text-center shrink-0">
+                  <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border border-cyan-500/40 bg-cyan-950/40 backdrop-blur-md mb-1 shadow-[0_0_15px_rgba(6,182,212,0.2)]">
+                    <RadioTower size={11} className="text-cyan-400 animate-pulse" />
+                    <span className="text-[9px] font-mono text-cyan-300 tracking-widest uppercase">QUANTUM HUD</span>
                   </div>
-                  <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-wide">
+                  <h2 className="text-xl sm:text-3xl font-extrabold text-white tracking-wide">
                     Our Sacred Moments ✨
                   </h2>
                 </div>
 
-                {/* Cyberpunk Main HUD Frame */}
-                <div className="bg-[#0b0517]/95 border border-cyan-500/40 rounded-3xl p-5 backdrop-blur-2xl shadow-[0_0_50px_rgba(6,182,212,0.25)] relative overflow-hidden flex flex-col gap-4">
+                <div className="bg-[#0b0517]/95 border border-cyan-500/40 rounded-3xl p-3.5 sm:p-5 backdrop-blur-2xl shadow-[0_0_40px_rgba(6,182,212,0.25)] relative overflow-hidden flex flex-col gap-3">
                   
-                  {/* Top Bar Terminal Stream & Countdown */}
-                  <div className="flex items-center justify-between border-b border-white/10 pb-3 gap-2">
-                    <div className="flex items-center gap-2 font-mono text-[10px] text-emerald-400">
-                      <Cpu size={14} className="animate-spin text-emerald-400" />
+                  <div className="flex items-center justify-between border-b border-white/10 pb-2 gap-2">
+                    <div className="flex items-center gap-1.5 font-mono text-[9px] text-emerald-400">
+                      <Cpu size={12} className="animate-spin text-emerald-400" />
                       <span>SYS_STATUS: ACTIVE</span>
                     </div>
-                    <div className="bg-amber-950/50 px-3 py-1 rounded-full border border-amber-500/40 flex items-center gap-1.5">
-                      <Sparkles size={11} className="text-amber-400" />
+                    <div className="bg-amber-950/50 px-2.5 py-0.5 rounded-full border border-amber-500/40 flex items-center gap-1">
+                      <Sparkles size={10} className="text-amber-400" />
                       <BirthdayCountdown />
                     </div>
                   </div>
 
-                  {/* Interactive Node Selector Matrix */}
-                  <div className="grid grid-cols-3 gap-2">
+                  <div className="grid grid-cols-3 gap-1.5 sm:gap-2">
                     {sacredMoments.map((moment, idx) => {
                       const isSelected = selectedMoment === idx;
                       return (
                         <button
                           key={moment.id}
                           onClick={() => setSelectedMoment(idx)}
-                          className={`p-2.5 rounded-2xl border text-left transition-all duration-300 cursor-pointer flex flex-col justify-between relative overflow-hidden ${
+                          className={`p-2 rounded-xl border text-left transition-all duration-300 cursor-pointer flex flex-col justify-between relative overflow-hidden ${
                             isSelected 
-                              ? 'bg-gradient-to-b from-cyan-500/20 via-purple-500/20 to-pink-500/20 border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.4)] scale-[1.02]' 
+                              ? 'bg-gradient-to-b from-cyan-500/20 via-purple-500/20 to-pink-500/20 border-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.4)] scale-[1.02]' 
                               : 'bg-white/5 border-white/10 hover:border-white/30 opacity-70 hover:opacity-100'
                           }`}
                         >
-                          <div className="flex items-center justify-between w-full mb-1">
-                            <span className="text-[8px] font-mono text-cyan-300/80">{moment.id}</span>
+                          <div className="flex items-center justify-between w-full mb-0.5">
+                            <span className="text-[7px] sm:text-[8px] font-mono text-cyan-300/80">{moment.id}</span>
                             {isSelected && <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping" />}
                           </div>
-                          <span className="font-mono text-[10px] font-bold text-white block truncate">{moment.date}</span>
+                          <span className="font-mono text-[9px] sm:text-[10px] font-bold text-white block truncate">{moment.date}</span>
                         </button>
                       );
                     })}
                   </div>
 
-                  {/* Dynamic Quantum Projection View Screen */}
-                  <div className="relative bg-[#05020c] border border-white/15 rounded-2xl p-5 min-h-[160px] flex flex-col justify-between overflow-hidden shadow-inner">
-                    <div className="absolute top-2 right-3 text-[8px] font-mono text-purple-300/40 tracking-widest uppercase">
-                      HOLOGRAPHIC PROJECTION // 0{selectedMoment + 1}
+                  <div className="relative bg-[#05020c] border border-white/15 rounded-2xl p-3.5 sm:p-5 min-h-[120px] sm:min-h-[160px] flex flex-col justify-between overflow-hidden shadow-inner">
+                    <div className="absolute top-2 right-2.5 text-[7px] sm:text-[8px] font-mono text-purple-300/40 tracking-widest uppercase">
+                      HOLOGRAPHIC // 0{selectedMoment + 1}
                     </div>
 
                     <AnimatePresence mode="wait">
@@ -711,31 +711,30 @@ export default function BubuWebsite() {
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 1.05, y: -10 }}
                         transition={{ duration: 0.3 }}
-                        className="space-y-2.5"
+                        className="space-y-1.5 sm:space-y-2.5"
                       >
-                        <div className="flex items-center gap-2">
-                          <span className={`text-[9px] font-mono px-2.5 py-0.5 rounded-full border ${sacredMoments[selectedMoment].pill}`}>
+                        <div className="flex items-center gap-1.5">
+                          <span className={`text-[8px] font-mono px-2 py-0.5 rounded-full border ${sacredMoments[selectedMoment].pill}`}>
                             {sacredMoments[selectedMoment].tag}
                           </span>
-                          <span className="text-pink-400 font-mono text-xs font-bold">
+                          <span className="text-pink-400 font-mono text-[10px] sm:text-xs font-bold">
                             {sacredMoments[selectedMoment].date}
                           </span>
                         </div>
 
-                        <h3 className="text-xl sm:text-2xl font-bold text-white tracking-wide">
+                        <h3 className="text-base sm:text-2xl font-bold text-white tracking-wide">
                           {sacredMoments[selectedMoment].title}
                         </h3>
 
-                        <p className="text-purple-100/80 text-xs sm:text-sm leading-relaxed">
+                        <p className="text-purple-100/80 text-[11px] sm:text-sm leading-snug">
                           {sacredMoments[selectedMoment].desc}
                         </p>
                       </motion.div>
                     </AnimatePresence>
 
-                    {/* Bottom Status Bar */}
-                    <div className="mt-3 pt-2 border-t border-white/10 flex items-center justify-between text-[9px] font-mono text-purple-300/50">
-                      <span>DEVOTION_LEVEL: 100% UNCONDITIONAL</span>
-                      <span className="text-cyan-400">TOUCH NODE TO SWITCH</span>
+                    <div className="mt-2 pt-1.5 border-t border-white/10 flex items-center justify-between text-[8px] sm:text-[9px] font-mono text-purple-300/50">
+                      <span>DEVOTION_LEVEL: 100%</span>
+                      <span className="text-cyan-400">TOUCH NODE</span>
                     </div>
                   </div>
 
@@ -745,40 +744,33 @@ export default function BubuWebsite() {
 
             {/* SECTION 4: COZY & FANCY ENLARGED LOVE JAR 🏺 */}
             {activeSection === 4 && (
-              <div className="w-full text-center max-w-2xl mx-auto space-y-4">
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-amber-400/40 bg-amber-950/30 backdrop-blur-md mb-0.5 shadow-[0_0_20px_rgba(251,191,36,0.25)]">
-                  <Sparkles size={13} className="text-amber-300 animate-spin" />
-                  <span className="text-[11px] font-serif tracking-widest text-amber-200 uppercase">Cozy Memory Keepsake</span>
+              <div className="w-full text-center max-w-xl mx-auto space-y-2.5 sm:space-y-4 max-h-full flex flex-col justify-center">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-amber-400/40 bg-amber-950/30 backdrop-blur-md mb-0.5 shadow-[0_0_15px_rgba(251,191,36,0.25)] shrink-0">
+                  <Sparkles size={11} className="text-amber-300 animate-spin" />
+                  <span className="text-[10px] sm:text-[11px] font-serif tracking-widest text-amber-200 uppercase">Cozy Keepsake</span>
                 </div>
 
-                <h2 className="text-3xl sm:text-4xl font-serif italic text-white tracking-wide drop-shadow-[0_2px_10px_rgba(236,72,153,0.3)]">
+                <h2 className="text-2xl sm:text-4xl font-serif italic text-white tracking-wide shrink-0">
                   Why Bubu Is My World 🌹
                 </h2>
 
-                <div className="bg-gradient-to-b from-[#1d0b2e]/90 via-[#130622]/95 to-[#090212]/98 border border-amber-400/30 rounded-3xl p-6 sm:p-8 backdrop-blur-2xl shadow-[0_0_60px_rgba(251,191,36,0.15)] relative min-h-[360px] sm:min-h-[400px] flex flex-col items-center justify-between overflow-hidden">
+                <div className="bg-gradient-to-b from-[#1d0b2e]/90 via-[#130622]/95 to-[#090212]/98 border border-amber-400/30 rounded-3xl p-4 sm:p-7 backdrop-blur-2xl shadow-[0_0_50px_rgba(251,191,36,0.15)] relative flex flex-col items-center justify-between overflow-hidden">
                   
-                  {/* Ambient Candlelight Warmth Glows */}
-                  <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-72 h-72 bg-amber-500/15 rounded-full blur-[90px] pointer-events-none" />
-                  <div className="absolute -bottom-10 right-10 w-60 h-60 bg-pink-500/15 rounded-full blur-[80px] pointer-events-none" />
-
-                  {/* Floating Instruction Tooltip */}
                   <motion.div 
-                    animate={{ y: [0, -8, 0] }}
+                    animate={{ y: [0, -6, 0] }}
                     transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
-                    className="bg-gradient-to-r from-amber-500 via-rose-500 to-pink-600 text-white text-xs sm:text-sm font-serif italic px-5 py-2 rounded-full shadow-[0_0_25px_rgba(251,191,36,0.4)] border border-amber-200 flex items-center gap-2 cursor-pointer z-20"
+                    className="bg-gradient-to-r from-amber-500 via-rose-500 to-pink-600 text-white text-[11px] sm:text-sm font-serif italic px-4 py-1 sm:py-2 rounded-full shadow-[0_0_20px_rgba(251,191,36,0.4)] border border-amber-200 flex items-center gap-1.5 cursor-pointer z-20"
                     onClick={handlePullLetterFromJar}
                   >
-                    <Feather size={15} className="text-amber-200" />
-                    <span>Tap the Glass Jar to Pull a Letter 💌</span>
+                    <Feather size={13} className="text-amber-200" />
+                    <span>Tap Glass Jar to Pull Letter 💌</span>
                   </motion.div>
 
-                  {/* Enlarged Interactive Visual Glass Jar Container */}
                   <div 
                     onClick={handlePullLetterFromJar}
-                    className="relative w-56 h-64 sm:w-64 sm:h-72 my-2 cursor-pointer group flex items-center justify-center transition-transform duration-300 hover:scale-105"
+                    className="relative w-40 h-44 sm:w-64 sm:h-72 my-1 cursor-pointer group flex items-center justify-center transition-transform duration-300 hover:scale-105"
                   >
-                    {/* SVG Grand Glass Jar Visual */}
-                    <svg viewBox="0 0 120 150" className="w-full h-full drop-shadow-[0_0_35px_rgba(251,191,36,0.3)]">
+                    <svg viewBox="0 0 120 150" className="w-full h-full drop-shadow-[0_0_25px_rgba(251,191,36,0.3)]">
                       <defs>
                         <linearGradient id="fancyJarGlass" x1="0" y1="0" x2="1" y2="1">
                           <stop offset="0%" stopColor="#ffffff" stopOpacity="0.3" />
@@ -793,15 +785,11 @@ export default function BubuWebsite() {
                         </linearGradient>
                       </defs>
 
-                      {/* Glass Jar Body */}
                       <path d="M 30 30 L 90 30 Q 102 30 102 42 L 102 128 Q 102 145 82 145 L 38 145 Q 18 145 18 128 L 18 42 Q 18 30 30 30 Z" fill="url(#fancyJarGlass)" stroke="rgba(251,191,36,0.6)" strokeWidth="2.5" />
-                      {/* Glass Rim Top */}
                       <rect x="25" y="24" width="70" height="8" rx="3" fill="rgba(255,255,255,0.25)" stroke="rgba(251,191,36,0.5)" strokeWidth="1.5" />
-                      {/* Glass Highlights */}
                       <path d="M 26 42 L 26 128" stroke="rgba(255,255,255,0.5)" strokeWidth="3" strokeLinecap="round" />
                       <path d="M 94 48 L 94 118" stroke="rgba(255,255,255,0.25)" strokeWidth="2" strokeLinecap="round" />
 
-                      {/* Inside Floating Envelopes/Letters */}
                       <g className="transition-transform duration-500 group-hover:scale-110 transform-origin-center">
                         <rect x="30" y="105" width="28" height="18" rx="3" fill="#fef08a" transform="rotate(-15 44 114)" opacity="0.95" />
                         <rect x="62" y="102" width="30" height="20" rx="3" fill="#fbcfe8" transform="rotate(18 77 112)" opacity="0.95" />
@@ -810,7 +798,6 @@ export default function BubuWebsite() {
                         <rect x="58" y="120" width="28" height="16" rx="3" fill="#e9d5ff" transform="rotate(-20 72 128)" opacity="0.9" />
                       </g>
 
-                      {/* Animated Cork Stopper Top Lid */}
                       <motion.path 
                         d="M 32 24 L 88 24 L 84 8 L 36 8 Z" 
                         fill="url(#corkLidFancy)" 
@@ -821,33 +808,31 @@ export default function BubuWebsite() {
                       />
                     </svg>
 
-                    {/* Animated Letter Flying Out of Jar during Pull */}
                     <AnimatePresence>
                       {isExtractingLetter && (
                         <motion.div 
                           initial={{ y: 30, scale: 0.3, opacity: 0 }}
-                          animate={{ y: -130, scale: 1.25, opacity: 1, rotate: [0, -12, 12, 0] }}
+                          animate={{ y: -110, scale: 1.1, opacity: 1, rotate: [0, -12, 12, 0] }}
                           exit={{ opacity: 0 }}
                           transition={{ duration: 0.85, ease: "easeOut" }}
-                          className="absolute z-30 bg-[#fef3c7] border-2 border-amber-400 px-4 py-2 rounded-2xl shadow-[0_0_35px_rgba(251,191,36,0.9)] text-amber-950 flex items-center justify-center gap-2 whitespace-nowrap"
+                          className="absolute z-30 bg-[#fef3c7] border-2 border-amber-400 px-3 py-1.5 rounded-xl shadow-[0_0_30px_rgba(251,191,36,0.9)] text-amber-950 flex items-center justify-center gap-1.5 whitespace-nowrap"
                         >
-                          <Feather size={18} className="text-rose-600 animate-bounce" />
-                          <span className="font-serif italic text-xs font-bold">Unfolding Your Romantic Letter...</span>
+                          <Feather size={14} className="text-rose-600 animate-bounce" />
+                          <span className="font-serif italic text-[11px] font-bold">Unfolding Letter...</span>
                         </motion.div>
                       )}
                     </AnimatePresence>
                   </div>
 
-                  {/* Grand Fancy Button */}
                   <button 
                     onClick={handlePullLetterFromJar}
                     disabled={isExtractingLetter}
-                    className="inline-flex items-center justify-center gap-2.5 bg-gradient-to-r from-amber-500 via-rose-500 to-pink-600 text-white font-serif italic text-sm px-8 py-3.5 rounded-full shadow-[0_0_30px_rgba(251,191,36,0.4)] hover:scale-105 active:scale-95 transition-all cursor-pointer border border-amber-200/50"
+                    className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-500 via-rose-500 to-pink-600 text-white font-serif italic text-xs sm:text-sm px-6 py-2.5 sm:py-3.5 rounded-full shadow-[0_0_25px_rgba(251,191,36,0.4)] hover:scale-105 active:scale-95 transition-all cursor-pointer border border-amber-200/50"
                   >
-                    <Feather size={16} /> {isExtractingLetter ? 'Unsealing...' : 'Unseal A Romantic Letter 💌'}
+                    <Feather size={14} /> {isExtractingLetter ? 'Unsealing...' : 'Unseal A Romantic Letter 💌'}
                   </button>
 
-                  <div className="w-full flex items-center justify-center pt-3 border-t border-white/10 text-[11px] font-serif italic text-amber-200/70 mt-2">
+                  <div className="w-full flex items-center justify-center pt-2 border-t border-white/10 text-[9px] sm:text-[11px] font-serif italic text-amber-200/70 mt-1.5">
                     ✨ Crafted with endless devotion for my adorable Bubu ✨
                   </div>
 
@@ -857,70 +842,70 @@ export default function BubuWebsite() {
 
             {/* SECTION 5: LONG DISTANCE DEVOTION & COMFORT HUB 🫂 */}
             {activeSection === 5 && (
-              <div className="w-full text-center max-w-2xl mx-auto space-y-4">
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-pink-400/40 bg-pink-950/30 backdrop-blur-md mb-0.5 shadow-[0_0_20px_rgba(236,72,153,0.25)]">
-                  <Compass size={13} className="text-pink-300 animate-spin" />
-                  <span className="text-[11px] font-serif tracking-widest text-pink-200 uppercase">Long Distance Comfort Hub</span>
+              <div className="w-full text-center max-w-xl mx-auto space-y-2.5 sm:space-y-4 max-h-full flex flex-col justify-center">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-pink-400/40 bg-pink-950/30 backdrop-blur-md mb-0.5 shadow-[0_0_15px_rgba(236,72,153,0.25)] shrink-0">
+                  <Compass size={11} className="text-pink-300 animate-spin" />
+                  <span className="text-[10px] sm:text-[11px] font-serif tracking-widest text-pink-200 uppercase">LDR Comfort Hub</span>
                 </div>
 
-                <h2 className="text-3xl sm:text-4xl font-serif italic text-white tracking-wide">
+                <h2 className="text-2xl sm:text-4xl font-serif italic text-white tracking-wide shrink-0">
                   Across The Miles, Always Yours 🌐
                 </h2>
 
-                <div className="bg-gradient-to-b from-[#180826]/90 via-[#0e0419]/95 to-[#06020c]/98 border border-pink-500/40 rounded-3xl p-6 sm:p-8 backdrop-blur-2xl shadow-[0_0_60px_rgba(236,72,153,0.2)] relative flex flex-col justify-between items-center gap-5">
+                <div className="bg-gradient-to-b from-[#180826]/90 via-[#0e0419]/95 to-[#06020c]/98 border border-pink-500/40 rounded-3xl p-3.5 sm:p-6 backdrop-blur-2xl shadow-[0_0_50px_rgba(236,72,153,0.2)] relative flex flex-col justify-between items-center gap-3">
                   
                   {/* Long Distance Hug Transmitter */}
-                  <div className="w-full bg-gradient-to-r from-pink-950/40 via-purple-950/40 to-rose-950/40 border border-pink-500/30 rounded-2xl p-5 text-center flex flex-col items-center">
-                    <div className="w-12 h-12 rounded-full bg-pink-500/20 border border-pink-400/50 flex items-center justify-center mb-2 text-pink-300 shadow-[0_0_20px_rgba(236,72,153,0.4)]">
-                      <HeartPulse size={24} className="animate-pulse text-pink-400" />
+                  <div className="w-full bg-gradient-to-r from-pink-950/40 via-purple-950/40 to-rose-950/40 border border-pink-500/30 rounded-2xl p-3 sm:p-4 text-center flex flex-col items-center">
+                    <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-full bg-pink-500/20 border border-pink-400/50 flex items-center justify-center mb-1 text-pink-300 shadow-[0_0_15px_rgba(236,72,153,0.4)]">
+                      <HeartPulse size={18} className="animate-pulse text-pink-400" />
                     </div>
-                    <h3 className="text-lg font-serif italic font-bold text-white mb-1">
-                      Virtual Hug & Warmth Transmitted 🫂
+                    <h3 className="text-sm sm:text-lg font-serif italic font-bold text-white mb-0.5">
+                      Virtual Hug Transmitted 🫂
                     </h3>
-                    <p className="text-xs text-purple-200/80 max-w-md mx-auto mb-4 leading-relaxed">
-                      Whenever the distance feels hard, tap below to transmit a warm hug and love straight from Babu's heart.
+                    <p className="text-[10px] sm:text-xs text-purple-200/80 max-w-md mx-auto mb-2.5 leading-tight">
+                      Whenever the distance feels hard, tap below to receive Babu's warm hug straight in your heart.
                     </p>
                     <button 
                       onClick={handleSendVirtualHug}
-                      className="bg-gradient-to-r from-rose-500 via-pink-500 to-purple-600 text-white font-serif italic text-xs sm:text-sm px-8 py-3 rounded-full shadow-[0_0_25px_rgba(236,72,153,0.5)] hover:scale-105 active:scale-95 transition-all cursor-pointer border border-pink-300/40 flex items-center gap-2"
+                      className="bg-gradient-to-r from-rose-500 via-pink-500 to-purple-600 text-white font-serif italic text-[11px] sm:text-sm px-6 py-2 sm:py-2.5 rounded-full shadow-[0_0_20px_rgba(236,72,153,0.5)] hover:scale-105 active:scale-95 transition-all cursor-pointer border border-pink-300/40 flex items-center gap-1.5"
                     >
-                      <Sparkles size={14} className="text-amber-300" /> Receive Babu&apos;s Hug Right Now ❤️
+                      <Sparkles size={12} className="text-amber-300" /> Receive Babu&apos;s Hug Right Now ❤️
                     </button>
                   </div>
 
-                  {/* Interactive "Open When..." Envelope Rack */}
+                  {/* Interactive "Open When..." Envelopes */}
                   <div className="w-full">
-                    <h4 className="text-xs font-mono text-pink-300 uppercase tracking-widest mb-3 text-left flex items-center gap-2">
-                      <Mail size={13} /> Open When Envelopes (Tap To Read):
+                    <h4 className="text-[10px] font-mono text-pink-300 uppercase tracking-widest mb-1.5 text-left flex items-center gap-1.5">
+                      <Mail size={11} /> Open When Envelopes:
                     </h4>
 
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 sm:gap-2.5">
                       {openWhenLetters.map((env, idx) => (
                         <button
                           key={idx}
                           onClick={() => setSelectedOpenWhen(env)}
-                          className="p-3 rounded-2xl bg-white/5 border border-pink-500/30 hover:border-pink-400 hover:bg-pink-500/10 transition-all text-left flex flex-col justify-between h-24 group cursor-pointer"
+                          className="p-2 sm:p-3 rounded-2xl bg-white/5 border border-pink-500/30 hover:border-pink-400 hover:bg-pink-500/10 transition-all text-left flex flex-col justify-between h-16 sm:h-24 group cursor-pointer"
                         >
-                          <span className="text-[10px] font-mono text-pink-300/80 group-hover:text-pink-200">LETTER 0{idx + 1}</span>
-                          <span className="text-xs font-serif italic font-bold text-amber-200 group-hover:text-white leading-tight">{env.trigger}</span>
-                          <span className="text-[9px] font-mono text-purple-300/60 flex items-center gap-1">Tap envelope <Feather size={9} /></span>
+                          <span className="text-[8px] sm:text-[10px] font-mono text-pink-300/80">0{idx + 1}</span>
+                          <span className="text-[10px] sm:text-xs font-serif italic font-bold text-amber-200 group-hover:text-white leading-tight truncate">{env.trigger}</span>
+                          <span className="text-[8px] font-mono text-purple-300/60 hidden sm:flex items-center gap-1">Tap envelope <Feather size={8} /></span>
                         </button>
                       ))}
                     </div>
                   </div>
 
-                  {/* Long Distance Redeemable Passes Grid (Updated for LDR reality) */}
-                  <div className="w-full grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2">
+                  {/* LDR Passes Grid */}
+                  <div className="w-full grid grid-cols-2 sm:grid-cols-4 gap-1.5 sm:gap-2.5 pt-1">
                     {[
-                      { title: "Sleepy Video Call Pass", desc: "Face-to-face video calls till you fall asleep", icon: <Video size={16} className="text-pink-400" /> },
-                      { title: "Midnight Dessert Pass", desc: "Babu orders treats straight to your doorstep", icon: <ShoppingBag size={16} className="text-amber-300" /> },
-                      { title: "Voice Notes & Music", desc: "Custom audio notes & playlists for your mood", icon: <MessageCircleHeart size={16} className="text-cyan-300" /> },
-                      { title: "Next Meetup Guarantee ✈️", desc: "A locked date the moment our schedules align", icon: <Compass size={16} className="text-rose-400" /> },
+                      { title: "Sleepy Video Call", desc: "Face-to-face calls till sleep", icon: <Video size={14} className="text-pink-400" /> },
+                      { title: "Midnight Dessert", desc: "Treats to your doorstep", icon: <ShoppingBag size={14} className="text-amber-300" /> },
+                      { title: "Unlimited VC Kisses 💋", desc: "Screen hugs & kisses on demand", icon: <Heart size={14} className="text-cyan-300 fill-cyan-300" /> },
+                      { title: "Next Meetup ✈️", desc: "Locked date when schedules align", icon: <Compass size={14} className="text-rose-400" /> },
                     ].map((item, idx) => (
-                      <div key={idx} className="bg-white/5 border border-white/10 rounded-2xl p-3 text-center flex flex-col items-center justify-center">
-                        <div className="mb-1 p-1.5 bg-white/5 rounded-full">{item.icon}</div>
-                        <h5 className="text-xs font-bold text-white mb-0.5">{item.title}</h5>
-                        <p className="text-[9px] text-purple-200/60 leading-tight">{item.desc}</p>
+                      <div key={idx} className="bg-white/5 border border-white/10 rounded-xl p-2 text-center flex flex-col items-center justify-center">
+                        <div className="mb-0.5 p-1 bg-white/5 rounded-full">{item.icon}</div>
+                        <h5 className="text-[10px] font-bold text-white mb-0.5 truncate w-full">{item.title}</h5>
+                        <p className="text-[8px] text-purple-200/60 leading-tight line-clamp-1">{item.desc}</p>
                       </div>
                     ))}
                   </div>
@@ -932,10 +917,10 @@ export default function BubuWebsite() {
                         initial={{ opacity: 0, y: 15, scale: 0.9 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: -10, scale: 0.9 }}
-                        className="bg-gradient-to-r from-pink-500 via-rose-500 to-purple-600 text-white px-5 py-2.5 rounded-full font-serif italic text-xs shadow-[0_0_30px_rgba(236,72,153,0.8)] border border-pink-300 flex items-center justify-center gap-2 mx-auto"
+                        className="bg-gradient-to-r from-pink-500 via-rose-500 to-purple-600 text-white px-4 py-1.5 rounded-full font-serif italic text-[11px] shadow-[0_0_20px_rgba(236,72,153,0.8)] border border-pink-300 flex items-center justify-center gap-1.5 mx-auto"
                       >
-                        <Sparkles size={14} className="text-amber-300 animate-spin" />
-                        <span>Hug Transmitted from Narayan! You are held so close in spirit ❤️</span>
+                        <Sparkles size={12} className="text-amber-300 animate-spin" />
+                        <span>Hug Transmitted from Narayan! You are held close in spirit ❤️</span>
                       </motion.div>
                     )}
                   </AnimatePresence>
@@ -946,54 +931,54 @@ export default function BubuWebsite() {
 
             {/* SECTION 6: SECRET SECURITY VAULT */}
             {activeSection === 6 && (
-              <div className="w-full space-y-6">
-                <div className="text-center">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-pink-500/30 bg-pink-950/30 backdrop-blur-md mb-2">
-                    <Key size={13} className="text-pink-400" />
-                    <span className="text-[10px] font-mono text-pink-300 tracking-widest uppercase">ENCRYPTED VAULT LOCK</span>
+              <div className="w-full space-y-3 sm:space-y-6 max-h-full flex flex-col justify-center">
+                <div className="text-center shrink-0">
+                  <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border border-pink-500/30 bg-pink-950/30 backdrop-blur-md mb-1">
+                    <Key size={11} className="text-pink-400" />
+                    <span className="text-[9px] font-mono text-pink-300 tracking-widest uppercase">ENCRYPTED VAULT LOCK</span>
                   </div>
-                  <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-wide">
+                  <h2 className="text-xl sm:text-3xl font-bold text-white tracking-wide">
                     Bubu Security Vault 🔐
                   </h2>
                 </div>
 
                 {!isVaultUnlocked ? (
-                  <div className="max-w-xs mx-auto bg-[#0f081d]/90 border border-pink-500/40 rounded-3xl p-6 backdrop-blur-2xl shadow-[0_0_40px_rgba(236,72,153,0.3)] text-center">
-                    <div className="flex justify-center mb-3">
-                      {pinError ? <Lock className="text-rose-500 animate-bounce" size={28} /> : <Lock className="text-pink-400" size={28} />}
+                  <div className="max-w-xs mx-auto bg-[#0f081d]/90 border border-pink-500/40 rounded-3xl p-5 sm:p-6 backdrop-blur-2xl shadow-[0_0_30px_rgba(236,72,153,0.3)] text-center w-full">
+                    <div className="flex justify-center mb-2">
+                      {pinError ? <Lock className="text-rose-500 animate-bounce" size={24} /> : <Lock className="text-pink-400" size={24} />}
                     </div>
-                    <p className="text-xs text-purple-200/80 mb-3">Enter Bubu&apos;s Birthday PIN (MMDD)</p>
+                    <p className="text-[11px] sm:text-xs text-purple-200/80 mb-2">Enter Bubu&apos;s Birthday PIN (MMDD)</p>
                     
-                    <div className="flex justify-center gap-3 mb-5">
+                    <div className="flex justify-center gap-2.5 mb-4">
                       {[0, 1, 2, 3].map((idx) => (
                         <div 
                           key={idx} 
-                          className={`w-3.5 h-3.5 rounded-full border border-pink-400 transition-all ${
+                          className={`w-3 h-3 rounded-full border border-pink-400 transition-all ${
                             pin.length > idx ? 'bg-pink-400 shadow-[0_0_8px_rgba(236,72,153,0.8)]' : 'bg-transparent'
                           }`} 
                         />
                       ))}
                     </div>
 
-                    <div className="grid grid-cols-3 gap-2.5 max-w-[200px] mx-auto">
+                    <div className="grid grid-cols-3 gap-2 max-w-[180px] mx-auto">
                       {['1', '2', '3', '4', '5', '6', '7', '8', '9'].map((digit) => (
                         <button
                           key={digit}
                           onClick={() => handlePinClick(digit)}
-                          className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 text-white font-mono font-bold text-sm hover:bg-pink-500/20 hover:border-pink-400 transition-all active:scale-90 cursor-pointer mx-auto flex items-center justify-center"
+                          className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-white/5 border border-white/10 text-white font-mono font-bold text-xs sm:text-sm hover:bg-pink-500/20 hover:border-pink-400 transition-all active:scale-90 cursor-pointer mx-auto flex items-center justify-center"
                         >
                           {digit}
                         </button>
                       ))}
                       <button 
                         onClick={() => setPin('')}
-                        className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 text-rose-400 font-mono text-[10px] hover:bg-rose-500/20 transition-all active:scale-90 cursor-pointer mx-auto flex items-center justify-center"
+                        className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-white/5 border border-white/10 text-rose-400 font-mono text-[9px] hover:bg-rose-500/20 transition-all active:scale-90 cursor-pointer mx-auto flex items-center justify-center"
                       >
                         CLR
                       </button>
                       <button
                         onClick={() => handlePinClick('0')}
-                        className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 text-white font-mono font-bold text-sm hover:bg-pink-500/20 transition-all active:scale-90 cursor-pointer mx-auto flex items-center justify-center"
+                        className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-white/5 border border-white/10 text-white font-mono font-bold text-xs sm:text-sm hover:bg-pink-500/20 transition-all active:scale-90 cursor-pointer mx-auto flex items-center justify-center"
                       >
                         0
                       </button>
@@ -1004,17 +989,17 @@ export default function BubuWebsite() {
                   <motion.div 
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className="max-w-md mx-auto bg-[#0d061a]/95 border border-pink-400/60 rounded-3xl p-5 sm:p-7 backdrop-blur-2xl shadow-[0_0_60px_rgba(236,72,153,0.4)] text-left flex flex-col"
+                    className="max-w-md mx-auto bg-[#0d061a]/95 border border-pink-400/60 rounded-3xl p-4 sm:p-7 backdrop-blur-2xl shadow-[0_0_50px_rgba(236,72,153,0.4)] text-left flex flex-col max-h-[75dvh] overflow-y-auto"
                   >
-                    <div className="shrink-0 mb-3 flex items-center justify-between">
-                      <div className="inline-flex items-center gap-2 text-emerald-400 text-xs font-mono bg-[#180a2c] py-1.5 px-3 rounded-xl border border-emerald-500/30">
-                        <Unlock size={15} />
-                        <span>VAULT UNLOCKED // SECRET LETTER</span>
+                    <div className="shrink-0 mb-2 flex items-center justify-between">
+                      <div className="inline-flex items-center gap-1.5 text-emerald-400 text-[10px] font-mono bg-[#180a2c] py-1 px-2.5 rounded-xl border border-emerald-500/30">
+                        <Unlock size={13} />
+                        <span>VAULT UNLOCKED</span>
                       </div>
                     </div>
 
                     <div className="shrink-0 relative w-full my-1 flex flex-col items-center">
-                      <div className="relative w-full rounded-2xl overflow-hidden border border-pink-500/40 shadow-[0_0_25px_rgba(236,72,153,0.35)] bg-black/90 p-1 flex items-center justify-center h-44 sm:h-48">
+                      <div className="relative w-full rounded-2xl overflow-hidden border border-pink-500/40 shadow-[0_0_20px_rgba(236,72,153,0.35)] bg-black/90 p-1 flex items-center justify-center h-36 sm:h-48">
                         <img 
                           src="/eyes.jpeg" 
                           alt="Bubu's Eyes" 
@@ -1025,21 +1010,21 @@ export default function BubuWebsite() {
                             if (parent) parent.style.display = 'none';
                           }}
                         />
-                        <span className="absolute bottom-2.5 left-3 text-[9px] font-mono text-pink-300 tracking-widest uppercase bg-black/80 px-2.5 py-1 rounded-full border border-pink-500/30 backdrop-blur-md">
+                        <span className="absolute bottom-2 left-2 text-[8px] font-mono text-pink-300 tracking-widest uppercase bg-black/80 px-2 py-0.5 rounded-full border border-pink-500/30 backdrop-blur-md">
                           BUBU&apos;S EYES ✨
                         </span>
                         <button
                           onClick={() => setEyesRotation((prev) => (prev + 90) % 360)}
-                          className="absolute top-2.5 right-3 bg-pink-500/30 hover:bg-pink-500/60 border border-pink-400 text-white text-[10px] font-mono px-2.5 py-1 rounded-full flex items-center gap-1 transition-all cursor-pointer backdrop-blur-md shadow-md z-10"
+                          className="absolute top-2 right-2 bg-pink-500/30 hover:bg-pink-500/60 border border-pink-400 text-white text-[9px] font-mono px-2 py-0.5 rounded-full flex items-center gap-1 transition-all cursor-pointer backdrop-blur-md shadow-md z-10"
                         >
-                          <RotateCw size={11} /> ROTATE
+                          <RotateCw size={10} /> ROTATE
                         </button>
                       </div>
                     </div>
 
-                    <h3 className="shrink-0 text-xl font-bold text-amber-200 mt-3 mb-2">My Dearest Srushti,</h3>
+                    <h3 className="shrink-0 text-base sm:text-xl font-bold text-amber-200 mt-2 mb-1">My Dearest Srushti,</h3>
 
-                    <div className="space-y-3.5 text-purple-100 text-xs sm:text-sm leading-relaxed font-medium">
+                    <div className="space-y-2.5 text-purple-100 text-[11px] sm:text-sm leading-relaxed font-medium">
                       <p>
                         If you are reading this, it means you cracked the security code and unlocked my secret vault. Every single line of code, animation, glow, and pixel on this entire website was built with my whole heart, exclusively for you.
                       </p>
@@ -1054,17 +1039,17 @@ export default function BubuWebsite() {
                       </p>
                     </div>
 
-                    <div className="mt-4 pt-3 border-t border-white/10 shrink-0">
-                      <p className="text-pink-300 font-serif italic text-sm text-right">
+                    <div className="mt-3 pt-2 border-t border-white/10 shrink-0">
+                      <p className="text-pink-300 font-serif italic text-xs sm:text-sm text-right">
                         — Forever & Always Yours, Narayan (Your Babu) ❤️
                       </p>
                     </div>
                   </motion.div>
                 )}
 
-                <footer className="text-center pt-4 text-[11px] text-purple-200/50">
-                  <p>Crafted with endless love by <span className="text-white font-semibold">Narayan (Your Babu)</span> for <span className="text-pink-300 font-semibold">Srushti (My Bubu)</span></p>
-                  <p className="mt-0.5 font-mono text-[10px] text-pink-400/60">August 1, 2026 — Happy Girlfriend Day ❤️</p>
+                <footer className="text-center pt-2 text-[10px] text-purple-200/50 shrink-0">
+                  <p>Crafted with endless love by <span className="text-white font-semibold">Narayan</span> for <span className="text-pink-300 font-semibold">Srushti</span></p>
+                  <p className="mt-0.5 font-mono text-[9px] text-pink-400/60">August 1, 2026 — Happy Girlfriend Day ❤️</p>
                 </footer>
               </div>
             )}
@@ -1076,54 +1061,52 @@ export default function BubuWebsite() {
       {/* FULL-SCREEN REAL PAPER PARCHMENT LETTER MODAL (Section 4) */}
       <AnimatePresence>
         {openedLetter && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md">
             <motion.div 
               initial={{ opacity: 0, scale: 0.7, y: 50, rotateX: 25 }}
               animate={{ opacity: 1, scale: 1, y: 0, rotateX: 0 }}
               exit={{ opacity: 0, scale: 0.7, y: 50 }}
               transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-              className="relative w-full max-w-lg bg-[#faf4e8] text-[#3d2314] rounded-3xl p-6 sm:p-8 shadow-[0_0_60px_rgba(251,191,36,0.35)] border-4 border-[#e6d2b5] overflow-hidden text-left font-serif"
+              className="relative w-full max-w-lg max-h-[85dvh] overflow-y-auto bg-[#faf4e8] text-[#3d2314] rounded-3xl p-5 sm:p-8 shadow-[0_0_60px_rgba(251,191,36,0.35)] border-4 border-[#e6d2b5] text-left font-serif"
             >
-              <div className="absolute inset-0 bg-[radial-gradient(#d97706_0.5px,transparent_0.5px)] [background-size:12px_12px] opacity-10 pointer-events-none" />
-              
               <button 
                 onClick={() => setOpenedLetter(null)}
-                className="absolute top-4 right-4 p-2 rounded-full bg-amber-900/10 hover:bg-amber-900/20 text-amber-900 transition-all cursor-pointer"
+                className="absolute top-3 right-3 p-1.5 rounded-full bg-amber-900/10 hover:bg-amber-900/20 text-amber-900 transition-all cursor-pointer"
               >
-                <X size={18} />
+                <X size={16} />
               </button>
 
-              <div className="flex items-center gap-2 mb-3 text-rose-700 text-xs font-bold uppercase tracking-widest border-b border-amber-900/15 pb-2">
-                <Feather size={14} />
+              <div className="flex items-center gap-1.5 mb-2 text-rose-700 text-[10px] sm:text-xs font-bold uppercase tracking-widest border-b border-amber-900/15 pb-1.5">
+                <Feather size={13} />
                 <span>{openedLetter.title}</span>
               </div>
 
-              <div className="space-y-3 text-sm sm:text-base leading-relaxed italic text-amber-950 font-medium whitespace-pre-line my-4">
+              <div className="space-y-2.5 text-xs sm:text-base leading-relaxed italic text-amber-950 font-medium whitespace-pre-line my-3">
                 {openedLetter.body}
               </div>
 
-              <div className="pt-3 border-t border-amber-900/15 flex items-center justify-between mt-6">
-                <span className="text-xs font-serif font-bold text-rose-800 italic">
+              <div className="pt-2 border-t border-amber-900/15 flex items-center justify-between mt-4">
+                <span className="text-[11px] sm:text-xs font-serif font-bold text-rose-800 italic">
                   {openedLetter.psu}
                 </span>
 
-                <div className="w-10 h-10 rounded-full bg-rose-700 border-2 border-rose-900 shadow-md flex items-center justify-center text-white text-sm font-bold font-serif select-none">
+                <div className="w-8 h-8 rounded-full bg-rose-700 border-2 border-rose-900 shadow-md flex items-center justify-center text-white text-xs font-bold font-serif select-none">
                   ❤️
                 </div>
               </div>
 
-              <div className="flex gap-2 mt-6 pt-2">
+              <div className="flex gap-2 mt-4 pt-1">
                 <button 
                   onClick={handlePullLetterFromJar}
-                  className="flex-1 bg-gradient-to-r from-rose-700 via-amber-800 to-pink-700 text-white font-serif italic text-xs py-3 rounded-full shadow-md hover:scale-105 active:scale-95 transition-all cursor-pointer text-center"
+                  className="flex-1 bg-gradient-to-r from-rose-700 via-amber-800 to-pink-700 text-white font-serif italic text-xs py-2.5 rounded-full shadow-md transition-all cursor-pointer text-center"
                 >
                   Pull Another Letter 💌
                 </button>
                 <button 
                   onClick={() => setOpenedLetter(null)}
-                  className="bg-amber-900/10 hover:bg-amber-900/20 text-amber-900 font-serif italic text-xs px-5 py-3 rounded-full transition-all cursor-pointer"
+                  className="bg-amber-900/10 hover:bg-amber-900/20 text-amber-900 font-serif italic text-xs px-4 py-2.5 rounded-full transition-all cursor-pointer"
                 >
-                  Put Back In Jar 🏺
+                  Put Back 🏺
                 </button>
               </div>
             </motion.div>
@@ -1134,43 +1117,43 @@ export default function BubuWebsite() {
       {/* OPEN WHEN LETTER MODAL (Section 5) */}
       <AnimatePresence>
         {selectedOpenWhen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md">
             <motion.div 
               initial={{ opacity: 0, scale: 0.7, y: 40 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.7, y: 40 }}
               transition={{ duration: 0.4 }}
-              className="relative w-full max-w-lg bg-[#faf4e8] text-[#3d2314] rounded-3xl p-6 sm:p-8 shadow-[0_0_60px_rgba(236,72,153,0.35)] border-4 border-[#e6d2b5] overflow-hidden text-left font-serif"
+              className="relative w-full max-w-lg max-h-[85dvh] overflow-y-auto bg-[#faf4e8] text-[#3d2314] rounded-3xl p-5 sm:p-8 shadow-[0_0_60px_rgba(236,72,153,0.35)] border-4 border-[#e6d2b5] text-left font-serif"
             >
               <button 
                 onClick={() => setSelectedOpenWhen(null)}
-                className="absolute top-4 right-4 p-2 rounded-full bg-amber-900/10 hover:bg-amber-900/20 text-amber-900 transition-all cursor-pointer"
+                className="absolute top-3 right-3 p-1.5 rounded-full bg-amber-900/10 hover:bg-amber-900/20 text-amber-900 transition-all cursor-pointer"
               >
-                <X size={18} />
+                <X size={16} />
               </button>
 
-              <div className="flex items-center gap-2 mb-3 text-pink-700 text-xs font-bold uppercase tracking-widest border-b border-amber-900/15 pb-2">
-                <Mail size={14} />
+              <div className="flex items-center gap-1.5 mb-2 text-pink-700 text-[10px] sm:text-xs font-bold uppercase tracking-widest border-b border-amber-900/15 pb-1.5">
+                <Mail size={13} />
                 <span>{selectedOpenWhen.title}</span>
               </div>
 
-              <div className="space-y-3 text-sm sm:text-base leading-relaxed italic text-amber-950 font-medium whitespace-pre-line my-4">
+              <div className="space-y-2.5 text-xs sm:text-base leading-relaxed italic text-amber-950 font-medium whitespace-pre-line my-3">
                 {selectedOpenWhen.text}
               </div>
 
-              <div className="pt-3 border-t border-amber-900/15 flex items-center justify-between mt-6">
-                <span className="text-xs font-serif font-bold text-rose-800 italic">
+              <div className="pt-2 border-t border-amber-900/15 flex items-center justify-between mt-4">
+                <span className="text-[11px] sm:text-xs font-serif font-bold text-rose-800 italic">
                   — Always right here with you, Narayan (Your Babu) ❤️
                 </span>
 
-                <div className="w-10 h-10 rounded-full bg-pink-700 border-2 border-pink-900 shadow-md flex items-center justify-center text-white text-sm font-bold font-serif select-none">
+                <div className="w-8 h-8 rounded-full bg-pink-700 border-2 border-pink-900 shadow-md flex items-center justify-center text-white text-xs font-bold font-serif select-none">
                   🫂
                 </div>
               </div>
 
               <button 
                 onClick={() => setSelectedOpenWhen(null)}
-                className="w-full mt-6 bg-gradient-to-r from-rose-700 via-pink-700 to-purple-800 text-white font-serif italic text-xs py-3 rounded-full shadow-md hover:scale-105 transition-all cursor-pointer text-center"
+                className="w-full mt-4 bg-gradient-to-r from-rose-700 via-pink-700 to-purple-800 text-white font-serif italic text-xs py-2.5 rounded-full shadow-md transition-all cursor-pointer text-center"
               >
                 Close Envelope 💌
               </button>
