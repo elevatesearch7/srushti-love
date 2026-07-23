@@ -60,6 +60,18 @@ const hundredLoveWords = [
   "My Pure Joy", "My Favorite Smile", "My Sweet World", "My Forever Home", "My Everything & More"
 ];
 
+const songLyrics = [
+  "I found a love, for me... 🎶",
+  "Darling, just dive right in and follow my lead...",
+  "I found a girl, beautiful and sweet... ✨",
+  "I never knew you were the someone waiting for me... ❤️",
+  "We were just kids when we fell in love... 👶💖",
+  "Baby, I'm dancing in the dark with you between my arms... 💃🕺",
+  "Barefoot on the grass, listening to our favorite song... 🎵",
+  "When you said you looked a mess, I whispered underneath my breath...",
+  "You heard it, darling, you look perfect tonight... 👑🌹"
+];
+
 function ParticleTrail() {
   const [particles, setParticles] = useState<{ id: number; x: number; y: number; symbol: string }[]>([]);
 
@@ -193,6 +205,7 @@ export default function BubuWebsite() {
   const [currentAnimIndex, setCurrentAnimIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [currentLyricIdx, setCurrentLyricIdx] = useState(0);
 
   // Section 3 HUD Moment Node Selector State
   const [selectedMoment, setSelectedMoment] = useState(0);
@@ -218,6 +231,15 @@ export default function BubuWebsite() {
   const touchStartY = useRef(0);
 
   const totalSections = 7;
+
+  // Auto Cycle Lyrics when playing music
+  useEffect(() => {
+    if (!isPlaying) return;
+    const lyricInterval = setInterval(() => {
+      setCurrentLyricIdx((prev) => (prev + 1) % songLyrics.length);
+    }, 5500);
+    return () => clearInterval(lyricInterval);
+  }, [isPlaying]);
 
   const sacredMoments = [
     {
@@ -462,6 +484,31 @@ export default function BubuWebsite() {
 
       <audio ref={audioRef} loop src="/music.mp3" preload="auto" />
 
+      {/* FLOATING LYRIC POPUP WIDGET */}
+      <AnimatePresence>
+        {isPlaying && (
+          <motion.div 
+            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 10 }}
+            className="fixed bottom-16 right-4 sm:bottom-20 sm:right-6 z-40 bg-[#0d0714]/95 border border-pink-500/40 px-3.5 py-1.5 rounded-2xl shadow-[0_0_20px_rgba(236,72,153,0.3)] backdrop-blur-md max-w-[210px] sm:max-w-xs text-center pointer-events-none"
+          >
+            <AnimatePresence mode="wait">
+              <motion.p 
+                key={currentLyricIdx}
+                initial={{ opacity: 0, y: 4 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -4 }}
+                transition={{ duration: 0.4 }}
+                className="text-[9px] sm:text-[10px] font-serif italic text-pink-200 truncate"
+              >
+                {songLyrics[currentLyricIdx]}
+              </motion.p>
+            </AnimatePresence>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Music Floating Button */}
       <motion.div 
         whileHover={{ scale: 1.05 }}
@@ -539,7 +586,7 @@ export default function BubuWebsite() {
             {activeSection === 0 && (
               <div className="flex flex-col items-center text-center h-full justify-evenly py-2">
                 
-                {/* WIDGET 1: Bubu's Heart Charging Bar */}
+                {/* WIDGET: Bubu's Heart Charging Bar */}
                 <div className="inline-flex items-center gap-2 bg-[#0d0714]/90 border border-emerald-500/40 px-3.5 py-1 rounded-full shadow-[0_0_15px_rgba(16,185,129,0.2)] font-mono text-[9px] sm:text-[10px] text-emerald-300">
                   <BatteryCharging size={13} className="text-emerald-400 animate-pulse" />
                   <span>BATTERY: 100% 🔋 | STATUS: Loving Babu Non-Stop</span>
@@ -592,7 +639,7 @@ export default function BubuWebsite() {
                     Forever My Cute Little Kid 👶
                   </h2>
 
-                  {/* WIDGET 2: Cuteness Meter Gauge */}
+                  {/* WIDGET: Cuteness Meter Gauge */}
                   <div className="inline-flex items-center gap-1.5 bg-[#0d0714]/90 border border-pink-400/40 px-3 py-0.5 rounded-full text-[9px] sm:text-[10px] font-mono text-amber-200 shadow-[0_0_15px_rgba(251,191,36,0.2)]">
                     <Gauge size={12} className="text-amber-300 animate-spin" />
                     <span>CUTENESS LEVEL: ♾️ / 100% (OVERFLOW ERROR 🥰)</span>
@@ -700,17 +747,23 @@ export default function BubuWebsite() {
               </div>
             )}
 
-            {/* SECTION 3: FIXED SINGLE-SCREEN FUTURISTIC QUANTUM HUD COMMAND CENTER */}
+            {/* SECTION 3: FIXED SINGLE-SCREEN FUTURISTIC QUANTUM HUD COMMAND CENTER WITH SOUL SYNC BADGE */}
             {activeSection === 3 && (
               <div className="w-full max-w-lg mx-auto space-y-3 sm:space-y-4 h-full flex flex-col justify-evenly py-2">
-                <div className="text-center shrink-0">
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-cyan-500/40 bg-cyan-950/40 backdrop-blur-md mb-1.5 shadow-[0_0_15px_rgba(6,182,212,0.2)]">
+                <div className="text-center shrink-0 space-y-1">
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-cyan-500/40 bg-cyan-950/40 backdrop-blur-md shadow-[0_0_15px_rgba(6,182,212,0.2)]">
                     <RadioTower size={12} className="text-cyan-400 animate-pulse" />
                     <span className="text-[9px] font-mono text-cyan-300 tracking-widest uppercase">QUANTUM HUD</span>
                   </div>
                   <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-wide">
                     Our Sacred Moments ✨
                   </h2>
+
+                  {/* WIDGET: Soul Sync Frequency Badge */}
+                  <div className="inline-flex items-center justify-center gap-1.5 text-[8px] sm:text-[9px] font-mono text-cyan-300/90 bg-cyan-950/40 border border-cyan-500/30 px-3 py-0.5 rounded-full mx-auto shadow-[0_0_10px_rgba(6,182,212,0.2)]">
+                    <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping" />
+                    <span>SOUL SYNC FREQUENCY: 100% IN SYNC // ZERO DISTORTION 📡</span>
+                  </div>
                 </div>
 
                 <div className="bg-[#0b0517]/95 border border-cyan-500/40 rounded-3xl p-4 sm:p-6 backdrop-blur-2xl shadow-[0_0_40px_rgba(6,182,212,0.25)] relative overflow-hidden flex flex-col gap-3.5">
@@ -804,7 +857,7 @@ export default function BubuWebsite() {
                   Why Bubu Is My World 🌹
                 </h2>
 
-                {/* WIDGET 3: Daily Affirmation Pill Banner */}
+                {/* WIDGET: Daily Affirmation Pill Banner */}
                 <div className="bg-gradient-to-r from-pink-950/60 via-amber-950/60 to-purple-950/60 border border-amber-400/40 px-3.5 py-1.5 rounded-full text-[10px] sm:text-xs font-serif italic text-amber-200 shadow-[0_0_15px_rgba(251,191,36,0.25)] mx-auto max-w-md flex items-center justify-center gap-1.5 shrink-0">
                   <Heart size={12} className="text-pink-400 fill-pink-400 animate-pulse" />
                   <span>TODAY&apos;S REMINDER: Srushti is the prettiest girl in the universe ✨</span>
@@ -896,7 +949,7 @@ export default function BubuWebsite() {
               </div>
             )}
 
-            {/* SECTION 5: LONG DISTANCE DEVOTION & COMFORT HUB 🫂 */}
+            {/* SECTION 5: LONG DISTANCE DEVOTION & COMFORT HUB (UPDATED TO BABU'S HEART TO BUBU'S HEART) 🫂 */}
             {activeSection === 5 && (
               <div className="w-full text-center max-w-xl mx-auto space-y-3 sm:space-y-4 h-full flex flex-col justify-evenly py-2">
                 <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full border border-pink-400/40 bg-pink-950/30 backdrop-blur-md shadow-[0_0_15px_rgba(236,72,153,0.25)] shrink-0 self-center">
@@ -910,18 +963,18 @@ export default function BubuWebsite() {
 
                 <div className="bg-gradient-to-b from-[#180826]/90 via-[#0e0419]/95 to-[#06020c]/98 border border-pink-500/40 rounded-3xl p-4 sm:p-6 backdrop-blur-2xl shadow-[0_0_50px_rgba(236,72,153,0.2)] relative flex flex-col justify-between items-center gap-3.5">
                   
-                  {/* LDR Distance Metric Widget */}
-                  <div className="w-full bg-white/5 border border-pink-500/30 rounded-2xl p-3 sm:p-4 flex items-center justify-between font-mono text-xs sm:text-sm shadow-inner">
-                    <div className="flex items-center gap-1.5 text-pink-300 font-bold">
-                      <span>📍</span>
-                      <span>MUMBAI</span>
+                  {/* UPDATED LDR Distance Metric Widget */}
+                  <div className="w-full bg-white/5 border border-pink-500/30 rounded-2xl p-2.5 sm:p-4 flex items-center justify-between font-mono text-[10px] sm:text-xs shadow-inner">
+                    <div className="flex items-center gap-1 text-pink-300 font-bold truncate">
+                      <span>💖</span>
+                      <span>BABU&apos;S HEART</span>
                     </div>
-                    <div className="flex items-center gap-1 text-[10px] sm:text-xs">
-                      <span className="text-pink-400 font-bold animate-pulse">── 💖 0 km in our hearts ──</span>
+                    <div className="flex items-center gap-1 text-[9px] sm:text-[10px]">
+                      <span className="text-pink-400 font-bold animate-pulse">── 0 km ──</span>
                     </div>
-                    <div className="flex items-center gap-1.5 text-cyan-300 font-bold">
-                      <span>SRUSHTI</span>
-                      <span>📍</span>
+                    <div className="flex items-center gap-1 text-cyan-300 font-bold truncate">
+                      <span>BUBU&apos;S HEART</span>
+                      <span>💖</span>
                     </div>
                   </div>
 
