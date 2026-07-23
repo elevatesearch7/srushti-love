@@ -9,7 +9,7 @@ import {
   Home as HomeIcon, Gem, Crown, Shield, Camera, Zap, Radio,
   ChevronLeft, ChevronRight, X, Coffee, Moon, Flame, ChevronDown,
   Lock, Unlock, Clock, RefreshCw, Key, RotateCw, Cpu, RadioTower,
-  Feather, MessageCircleHeart, Send, Mail, HeartPulse, Compass, PhoneCall, Video, Ticket, BatteryCharging, Gauge, Fingerprint
+  Feather, MessageCircleHeart, Send, Mail, HeartPulse, Compass, PhoneCall, Video, Ticket, BatteryCharging, Gauge, Fingerprint, Activity
 } from 'lucide-react';
 
 const randomAnimations: any[] = [
@@ -262,7 +262,8 @@ export default function BubuWebsite() {
       tag: "ORIGIN NODE",
       accent: "from-amber-500/20 to-amber-950/40 border-amber-500/50 text-amber-300",
       pill: "bg-amber-500/20 text-amber-300 border-amber-500/30",
-      desc: "The most sacred day in existence—the moment my entire world was given its favorite human."
+      desc: "The most sacred day in existence—the moment my entire world was given its favorite human.",
+      bpm: "98 BPM 💓 (PURE JOY)"
     },
     {
       id: "NODE_02",
@@ -271,7 +272,8 @@ export default function BubuWebsite() {
       tag: "SPARK MATRIX",
       accent: "from-pink-500/20 to-pink-950/40 border-pink-500/50 text-pink-300",
       pill: "bg-pink-500/20 text-pink-300 border-pink-500/30",
-      desc: "The electric second where time completely stood still, and everything else in the universe faded away."
+      desc: "The electric second where time completely stood still, and everything else in the universe faded away.",
+      bpm: "145 BPM 💓 (ELECTRIC SPARK)"
     },
     {
       id: "NODE_03",
@@ -280,9 +282,29 @@ export default function BubuWebsite() {
       tag: "SACRED CONFESSION",
       accent: "from-cyan-500/20 to-cyan-950/40 border-cyan-400/50 text-cyan-300",
       pill: "bg-cyan-500/20 text-cyan-300 border-cyan-500/30",
-      desc: "The unforgettable day you confessed your pure love and sealed my heart's complete devotion forever."
+      desc: "The unforgettable day you confessed your pure love and sealed my heart's complete devotion forever.",
+      bpm: "120 BPM 💓 (DEEP DEVOTION)"
+    },
+    {
+      id: "NODE_04",
+      date: "Eternity & Beyond",
+      title: "Our Forever Future 🌟",
+      tag: "DESTINY PROTOCOL",
+      accent: "from-purple-500/20 to-purple-950/40 border-purple-400/50 text-purple-300",
+      pill: "bg-purple-500/20 text-purple-300 border-purple-500/30",
+      desc: "Status: Loading... The best chapters of our lives are still being written together every single day ✨",
+      bpm: "135 BPM 💓 (INFINITE PROMISE)"
     }
   ];
+
+  const handleSelectMomentNode = (idx: number) => {
+    setSelectedMoment(idx);
+    confetti({
+      particleCount: 50,
+      spread: 60,
+      origin: { y: 0.65 }
+    });
+  };
 
   const romanticPaperLetters = [
     {
@@ -648,7 +670,6 @@ export default function BubuWebsite() {
                     <span className="text-[9px] sm:text-[10px] font-mono tracking-widest text-pink-200">TAP PICTURE FOR LOVE ❤️</span>
                   </div>
 
-                  {/* Spawn Floating Hearts on Tap */}
                   <AnimatePresence>
                     {heroHearts.map((h) => (
                       <motion.div
@@ -824,9 +845,9 @@ export default function BubuWebsite() {
               </div>
             )}
 
-            {/* SECTION 3: FIXED SINGLE-SCREEN FUTURISTIC QUANTUM HUD COMMAND CENTER */}
+            {/* SECTION 3: FIXED SINGLE-SCREEN FUTURISTIC QUANTUM HUD WITH DYNAMIC BPM & DESTINY LOCK */}
             {activeSection === 3 && (
-              <div className="w-full max-w-lg mx-auto space-y-3 sm:space-y-4 h-full flex flex-col justify-evenly py-2">
+              <div className="w-full max-w-lg mx-auto space-y-2.5 sm:space-y-3.5 h-full flex flex-col justify-evenly py-2">
                 <div className="text-center shrink-0 space-y-1">
                   <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-cyan-500/40 bg-cyan-950/40 backdrop-blur-md shadow-[0_0_15px_rgba(6,182,212,0.2)]">
                     <RadioTower size={12} className="text-cyan-400 animate-pulse" />
@@ -843,58 +864,66 @@ export default function BubuWebsite() {
                   </div>
                 </div>
 
-                <div className="bg-[#0b0517]/95 border border-cyan-500/40 rounded-3xl p-4 sm:p-6 backdrop-blur-2xl shadow-[0_0_40px_rgba(6,182,212,0.25)] relative overflow-hidden flex flex-col gap-3.5">
+                <div className="bg-[#0b0517]/95 border border-cyan-500/40 rounded-3xl p-3.5 sm:p-5 backdrop-blur-2xl shadow-[0_0_40px_rgba(6,182,212,0.25)] relative overflow-hidden flex flex-col gap-3">
                   
-                  <div className="flex items-center justify-between border-b border-white/10 pb-2.5 gap-2">
+                  <div className="flex items-center justify-between border-b border-white/10 pb-2 gap-2">
                     <div className="flex items-center gap-1.5 font-mono text-[9px] text-emerald-400">
                       <Cpu size={13} className="animate-spin text-emerald-400" />
                       <span>SYS_STATUS: ACTIVE</span>
                     </div>
-                    <div className="bg-amber-950/50 px-3 py-1 rounded-full border border-amber-500/40 flex items-center gap-1">
-                      <Sparkles size={11} className="text-amber-400" />
+                    <div className="bg-amber-950/50 px-2.5 py-0.5 rounded-full border border-amber-500/40 flex items-center gap-1">
+                      <Sparkles size={10} className="text-amber-400" />
                       <BirthdayCountdown />
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-3 gap-2">
+                  {/* 4 Sacred Moment Nodes Grid */}
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 sm:gap-2">
                     {sacredMoments.map((moment, idx) => {
                       const isSelected = selectedMoment === idx;
                       return (
                         <button
                           key={moment.id}
-                          onClick={() => setSelectedMoment(idx)}
-                          className={`p-2.5 rounded-xl border text-left transition-all duration-300 cursor-pointer flex flex-col justify-between relative overflow-hidden ${
+                          onClick={() => handleSelectMomentNode(idx)}
+                          className={`p-2 sm:p-2.5 rounded-xl border text-left transition-all duration-300 cursor-pointer flex flex-col justify-between relative overflow-hidden h-14 sm:h-16 ${
                             isSelected 
                               ? 'bg-gradient-to-b from-cyan-500/20 via-purple-500/20 to-pink-500/20 border-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.4)] scale-[1.02]' 
                               : 'bg-white/5 border-white/10 hover:border-white/30 opacity-70 hover:opacity-100'
                           }`}
                         >
-                          <div className="flex items-center justify-between w-full mb-1">
+                          <div className="flex items-center justify-between w-full mb-0.5">
                             <span className="text-[8px] font-mono text-cyan-300/80">{moment.id}</span>
                             {isSelected && <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping" />}
                           </div>
-                          <span className="font-mono text-[10px] font-bold text-white block truncate">{moment.date}</span>
+                          <span className="font-mono text-[9px] sm:text-[10px] font-bold text-white block truncate">{moment.date}</span>
                         </button>
                       );
                     })}
                   </div>
 
-                  <div className="relative bg-[#05020c] border border-white/15 rounded-2xl p-4 sm:p-5 min-h-[170px] sm:min-h-[200px] flex flex-col justify-between overflow-hidden shadow-inner">
-                    <div className="absolute top-2.5 right-3 text-[8px] font-mono text-purple-300/40 tracking-widest uppercase">
-                      HOLOGRAPHIC // 0{selectedMoment + 1}
+                  {/* Holographic Viewer Screen with Live Heartbeat BPM */}
+                  <div className="relative bg-[#05020c] border border-white/15 rounded-2xl p-3.5 sm:p-5 min-h-[160px] sm:min-h-[190px] flex flex-col justify-between overflow-hidden shadow-inner">
+                    <div className="flex items-center justify-between text-[8px] sm:text-[9px] font-mono border-b border-white/10 pb-1.5 mb-1.5">
+                      <div className="flex items-center gap-1 text-rose-400 font-bold">
+                        <Activity size={12} className="animate-pulse text-rose-500" />
+                        <span>{sacredMoments[selectedMoment].bpm}</span>
+                      </div>
+                      <span className="text-purple-300/40 tracking-widest uppercase">
+                        HOLOGRAPHIC // 0{selectedMoment + 1}
+                      </span>
                     </div>
 
                     <AnimatePresence mode="wait">
                       <motion.div
                         key={selectedMoment}
-                        initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                        initial={{ opacity: 0, scale: 0.95, y: 8 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 1.05, y: -10 }}
+                        exit={{ opacity: 0, scale: 1.05, y: -8 }}
                         transition={{ duration: 0.3 }}
-                        className="space-y-2"
+                        className="space-y-1.5"
                       >
                         <div className="flex items-center gap-2">
-                          <span className={`text-[8px] sm:text-[9px] font-mono px-2.5 py-0.5 rounded-full border ${sacredMoments[selectedMoment].pill}`}>
+                          <span className={`text-[8px] sm:text-[9px] font-mono px-2 py-0.5 rounded-full border ${sacredMoments[selectedMoment].pill}`}>
                             {sacredMoments[selectedMoment].tag}
                           </span>
                           <span className="text-pink-400 font-mono text-xs font-bold">
@@ -902,7 +931,7 @@ export default function BubuWebsite() {
                           </span>
                         </div>
 
-                        <h3 className="text-lg sm:text-2xl font-bold text-white tracking-wide">
+                        <h3 className="text-base sm:text-2xl font-bold text-white tracking-wide">
                           {sacredMoments[selectedMoment].title}
                         </h3>
 
@@ -912,9 +941,10 @@ export default function BubuWebsite() {
                       </motion.div>
                     </AnimatePresence>
 
-                    <div className="mt-3 pt-2 border-t border-white/10 flex items-center justify-between text-[9px] font-mono text-purple-300/50">
-                      <span>DEVOTION_LEVEL: 100%</span>
-                      <span className="text-cyan-400">TOUCH NODE TO SWITCH</span>
+                    {/* Destiny Lock Coordinates Footer Tag */}
+                    <div className="mt-2 pt-2 border-t border-white/10 flex items-center justify-between text-[8px] sm:text-[9px] font-mono text-purple-300/60 truncate">
+                      <span className="text-amber-300/90 font-bold truncate">DESTINY_LOCK: PERMANENT 🔒</span>
+                      <span className="text-cyan-400 font-bold truncate">COORD: BUBU & BABU&apos;S UNIVERSE</span>
                     </div>
                   </div>
 
@@ -1040,7 +1070,7 @@ export default function BubuWebsite() {
 
                 <div className="bg-gradient-to-b from-[#180826]/90 via-[#0e0419]/95 to-[#06020c]/98 border border-pink-500/40 rounded-3xl p-4 sm:p-6 backdrop-blur-2xl shadow-[0_0_50px_rgba(236,72,153,0.2)] relative flex flex-col justify-between items-center gap-3.5">
                   
-                  {/* UPDATED LDR Distance Metric Widget */}
+                  {/* LDR Distance Metric Widget */}
                   <div className="w-full bg-white/5 border border-pink-500/30 rounded-2xl p-2.5 sm:p-4 flex items-center justify-between font-mono text-[10px] sm:text-xs shadow-inner">
                     <div className="flex items-center gap-1 text-pink-300 font-bold truncate">
                       <span>💖</span>
