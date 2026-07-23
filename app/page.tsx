@@ -9,7 +9,7 @@ import {
   Home as HomeIcon, Gem, Crown, Shield, Camera, Zap, Radio,
   ChevronLeft, ChevronRight, X, Coffee, Moon, Flame, ChevronDown,
   Lock, Unlock, Clock, RefreshCw, Key, RotateCw, Cpu, RadioTower,
-  Feather, MessageCircleHeart, Send, Mail, HeartPulse, Compass, PhoneCall, Video, Ticket, BatteryCharging, Gauge
+  Feather, MessageCircleHeart, Send, Mail, HeartPulse, Compass, PhoneCall, Video, Ticket, BatteryCharging, Gauge, Fingerprint
 } from 'lucide-react';
 
 const randomAnimations: any[] = [
@@ -70,6 +70,14 @@ const songLyrics = [
   "Barefoot on the grass, listening to our favorite song... 🎵",
   "When you said you looked a mess, I whispered underneath my breath...",
   "You heard it, darling, you look perfect tonight... 👑🌹"
+];
+
+const galleryFilters = [
+  { label: "👶 Childish", index: 0 },
+  { label: "🥰 Cute", index: 1 },
+  { label: "✨ Elegant", index: 2 },
+  { label: "🔥 Spicy", index: 3 },
+  { label: "👑 Queen", index: 4 }
 ];
 
 function ParticleTrail() {
@@ -207,6 +215,9 @@ export default function BubuWebsite() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [currentLyricIdx, setCurrentLyricIdx] = useState(0);
 
+  // Hero Heart Tap Explosion State
+  const [heroHearts, setHeroHearts] = useState<{ id: number; x: number; y: number }[]>([]);
+
   // Section 3 HUD Moment Node Selector State
   const [selectedMoment, setSelectedMoment] = useState(0);
 
@@ -219,9 +230,11 @@ export default function BubuWebsite() {
   const [showHugToast, setShowHugToast] = useState(false);
   const [flyingKisses, setFlyingKisses] = useState<{ id: number; x: number; y: number; symbol: string }[]>([]);
 
+  // Section 6 Vault Lock & Digital Oath Seal State
   const [pin, setPin] = useState('');
   const [isVaultUnlocked, setIsVaultUnlocked] = useState(false);
   const [pinError, setPinError] = useState(false);
+  const [isOathSealed, setIsOathSealed] = useState(false);
 
   // Live Image Rotation State for eyes.jpeg
   const [eyesRotation, setEyesRotation] = useState(0);
@@ -317,6 +330,29 @@ export default function BubuWebsite() {
       text: "My Dearest Srushti,\n\nNo matter how far apart we are, you are the first thought on my mind when I wake up and the last prayer in my heart before I sleep. You are my first, my last, and my forever. Never doubt how cherished and irreplaceable you are to me!"
     }
   ];
+
+  const handleHeroTap = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const newHeart = { id: Date.now(), x, y };
+    setHeroHearts((prev) => [...prev, newHeart]);
+    confetti({ particleCount: 25, spread: 40, origin: { x: e.clientX / window.innerWidth, y: e.clientY / window.innerHeight } });
+
+    setTimeout(() => {
+      setHeroHearts((prev) => prev.filter((h) => h.id !== newHeart.id));
+    }, 1500);
+  };
+
+  const handleSealOath = () => {
+    setIsOathSealed(true);
+    confetti({
+      particleCount: 160,
+      spread: 100,
+      origin: { y: 0.7 },
+      colors: ['#f59e0b', '#ec4899', '#8b5cf6', '#06b6d4', '#10b981']
+    });
+  };
 
   const handlePullLetterFromJar = () => {
     if (isExtractingLetter) return;
@@ -582,7 +618,7 @@ export default function BubuWebsite() {
         >
           <div className="max-w-xl sm:max-w-3xl w-full my-auto flex flex-col items-center justify-center h-full max-h-[90dvh]">
             
-            {/* SECTION 0: HERO (elegent.jpeg) WITH BATTERY CHARGING WIDGET */}
+            {/* SECTION 0: HERO WITH TAP HEART EXPLOSION */}
             {activeSection === 0 && (
               <div className="flex flex-col items-center text-center h-full justify-evenly py-2">
                 
@@ -592,9 +628,13 @@ export default function BubuWebsite() {
                   <span>BATTERY: 100% 🔋 | STATUS: Loving Babu Non-Stop</span>
                 </div>
 
-                <div className="relative my-1">
+                {/* Hero Photo Container with Tap Heart Explosion */}
+                <div 
+                  onClick={handleHeroTap}
+                  className="relative my-1 cursor-pointer group select-none"
+                >
                   <div className="absolute -inset-4 rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-400 opacity-50 blur-lg animate-tilt" />
-                  <div className="relative w-36 h-36 sm:w-52 sm:h-52 rounded-full p-1 bg-gradient-to-tr from-pink-500 via-purple-500 to-cyan-400 shadow-[0_0_50px_rgba(236,72,153,0.4)]">
+                  <div className="relative w-36 h-36 sm:w-52 sm:h-52 rounded-full p-1 bg-gradient-to-tr from-pink-500 via-purple-500 to-cyan-400 shadow-[0_0_50px_rgba(236,72,153,0.4)] transition-transform duration-300 group-hover:scale-105">
                     <img 
                       src="/elegent.jpeg" 
                       alt="Srushti" 
@@ -602,10 +642,27 @@ export default function BubuWebsite() {
                       onError={(e) => { (e.currentTarget as HTMLImageElement).src = fallbacks[2]; }}
                     />
                   </div>
+
                   <div className="absolute -bottom-2.5 left-1/2 -translate-x-1/2 bg-[#0d0714]/90 backdrop-blur-md border border-pink-500/50 px-3 py-0.5 rounded-full shadow-[0_0_15px_rgba(236,72,153,0.3)] flex items-center gap-1.5 whitespace-nowrap">
                     <span className="w-2 h-2 rounded-full bg-pink-400 animate-ping" />
-                    <span className="text-[9px] sm:text-[10px] font-mono tracking-widest text-pink-200">MY WHOLE UNIVERSE</span>
+                    <span className="text-[9px] sm:text-[10px] font-mono tracking-widest text-pink-200">TAP PICTURE FOR LOVE ❤️</span>
                   </div>
+
+                  {/* Spawn Floating Hearts on Tap */}
+                  <AnimatePresence>
+                    {heroHearts.map((h) => (
+                      <motion.div
+                        key={h.id}
+                        initial={{ opacity: 1, scale: 0.5, x: h.x - 50, y: h.y - 50 }}
+                        animate={{ opacity: 0, scale: 1.5, y: h.y - 120 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 1.2, ease: "easeOut" }}
+                        className="absolute pointer-events-none text-xs sm:text-sm font-serif italic text-pink-300 font-bold bg-[#0d0714]/90 px-2.5 py-1 rounded-full border border-pink-400/50 shadow-[0_0_15px_rgba(236,72,153,0.8)] whitespace-nowrap z-30"
+                      >
+                        I Love You Bubu! 💖
+                      </motion.div>
+                    ))}
+                  </AnimatePresence>
                 </div>
 
                 <div className="flex flex-col items-center gap-1.5">
@@ -681,17 +738,37 @@ export default function BubuWebsite() {
               </div>
             )}
 
-            {/* SECTION 2: PHOTO GALLERY (bache.jpeg etc) */}
+            {/* SECTION 2: PHOTO GALLERY WITH MOOD FILTER BUTTONS */}
             {activeSection === 2 && (
-              <div className="w-full space-y-3 sm:space-y-6 h-full flex flex-col justify-evenly py-2">
-                <div className="text-center shrink-0">
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-pink-500/30 bg-pink-950/30 backdrop-blur-md mb-1.5">
+              <div className="w-full space-y-2 sm:space-y-4 h-full flex flex-col justify-evenly py-2">
+                <div className="text-center shrink-0 space-y-1">
+                  <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full border border-pink-500/30 bg-pink-950/30 backdrop-blur-md">
                     <Camera size={12} className="text-pink-400" />
                     <span className="text-[9px] font-mono text-pink-300 tracking-widest uppercase">VISUAL MATRIX</span>
                   </div>
                   <h2 className="text-2xl sm:text-4xl font-bold text-white tracking-wide">
                     Every Version of You 📸
                   </h2>
+
+                  {/* Mood Filter Pill Buttons */}
+                  <div className="flex items-center justify-center gap-1 sm:gap-1.5 flex-wrap pt-0.5">
+                    {galleryFilters.map((filter) => {
+                      const isActive = currentSlide === filter.index;
+                      return (
+                        <button
+                          key={filter.index}
+                          onClick={() => setCurrentSlide(filter.index)}
+                          className={`px-2.5 py-1 rounded-full text-[9px] sm:text-[10px] font-mono transition-all cursor-pointer ${
+                            isActive 
+                              ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold shadow-[0_0_12px_rgba(236,72,153,0.6)] border border-pink-300/50 scale-105' 
+                              : 'bg-white/5 text-purple-200/70 border border-white/10 hover:border-pink-500/40'
+                          }`}
+                        >
+                          {filter.label}
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
 
                 <div className="relative max-w-md mx-auto w-full flex items-center justify-center">
@@ -710,7 +787,7 @@ export default function BubuWebsite() {
                   </button>
 
                   <div className="w-full bg-[#0f081d]/90 backdrop-blur-2xl border border-pink-500/40 rounded-3xl overflow-hidden shadow-[0_10px_30px_rgba(236,72,153,0.3)] flex flex-col">
-                    <div className="h-[250px] sm:h-[320px] w-full overflow-hidden relative bg-[#090412] flex items-center justify-center p-2">
+                    <div className="h-[240px] sm:h-[300px] w-full overflow-hidden relative bg-[#090412] flex items-center justify-center p-2">
                       <img 
                         src={moodGallery[currentSlide].src} 
                         alt="" 
@@ -726,8 +803,8 @@ export default function BubuWebsite() {
                         onError={(e) => { (e.currentTarget as HTMLImageElement).src = moodGallery[currentSlide].fallback; }}
                       />
                     </div>
-                    <div className="p-4 sm:p-5 flex-1 bg-[#0d061a]">
-                      <h3 className="text-base sm:text-lg font-bold text-amber-200 mb-1">{moodGallery[currentSlide].title}</h3>
+                    <div className="p-3.5 sm:p-5 flex-1 bg-[#0d061a]">
+                      <h3 className="text-base sm:text-lg font-bold text-amber-200 mb-0.5">{moodGallery[currentSlide].title}</h3>
                       <p className="text-purple-200/80 text-xs sm:text-sm leading-relaxed">{moodGallery[currentSlide].desc}</p>
                     </div>
                   </div>
@@ -747,7 +824,7 @@ export default function BubuWebsite() {
               </div>
             )}
 
-            {/* SECTION 3: FIXED SINGLE-SCREEN FUTURISTIC QUANTUM HUD COMMAND CENTER WITH SOUL SYNC BADGE */}
+            {/* SECTION 3: FIXED SINGLE-SCREEN FUTURISTIC QUANTUM HUD COMMAND CENTER */}
             {activeSection === 3 && (
               <div className="w-full max-w-lg mx-auto space-y-3 sm:space-y-4 h-full flex flex-col justify-evenly py-2">
                 <div className="text-center shrink-0 space-y-1">
@@ -949,7 +1026,7 @@ export default function BubuWebsite() {
               </div>
             )}
 
-            {/* SECTION 5: LONG DISTANCE DEVOTION & COMFORT HUB (UPDATED TO BABU'S HEART TO BUBU'S HEART) 🫂 */}
+            {/* SECTION 5: LONG DISTANCE DEVOTION & COMFORT HUB 🫂 */}
             {activeSection === 5 && (
               <div className="w-full text-center max-w-xl mx-auto space-y-3 sm:space-y-4 h-full flex flex-col justify-evenly py-2">
                 <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full border border-pink-400/40 bg-pink-950/30 backdrop-blur-md shadow-[0_0_15px_rgba(236,72,153,0.25)] shrink-0 self-center">
@@ -1036,7 +1113,7 @@ export default function BubuWebsite() {
               </div>
             )}
 
-            {/* SECTION 6: SECRET SECURITY VAULT */}
+            {/* SECTION 6: SECRET SECURITY VAULT WITH DIGITAL OATH SEAL */}
             {activeSection === 6 && (
               <div className="w-full space-y-3 sm:space-y-6 h-full flex flex-col justify-evenly py-2">
                 <div className="text-center shrink-0">
@@ -1092,7 +1169,7 @@ export default function BubuWebsite() {
                     </div>
                   </div>
                 ) : (
-                  /* UNLOCKED VAULT CARD WITH LOVING LETTER + 4 PASSES */
+                  /* UNLOCKED VAULT CARD WITH DIGITAL OATH SEAL STAMP */
                   <motion.div 
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
@@ -1144,6 +1221,33 @@ export default function BubuWebsite() {
                       <p>
                         You are my first, my last, and my forever. Happy Girlfriend Day, my adorable Bubu!
                       </p>
+                    </div>
+
+                    {/* Digital Oath Stamp Button */}
+                    <div className="mt-4 pt-3 border-t border-pink-500/30 text-center shrink-0">
+                      {!isOathSealed ? (
+                        <button
+                          onClick={handleSealOath}
+                          className="bg-gradient-to-r from-amber-500 via-pink-500 to-purple-600 text-white font-serif italic text-xs px-5 py-2.5 rounded-full shadow-[0_0_20px_rgba(251,191,36,0.5)] border border-amber-300/50 flex items-center justify-center gap-2 mx-auto cursor-pointer hover:scale-105 active:scale-95 transition-all"
+                        >
+                          <Fingerprint size={16} className="text-amber-200 animate-pulse" />
+                          <span>Touch to Stamp Our Digital Fingerprint 🖐️</span>
+                        </button>
+                      ) : (
+                        <motion.div
+                          initial={{ scale: 0.6, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          className="bg-gradient-to-r from-amber-500/20 via-pink-500/20 to-purple-500/20 border-2 border-amber-400 p-3 rounded-2xl shadow-[0_0_30px_rgba(251,191,36,0.6)] backdrop-blur-md"
+                        >
+                          <div className="flex items-center justify-center gap-2 text-amber-300 font-serif font-bold text-xs sm:text-sm">
+                            <Fingerprint size={18} className="text-amber-400" />
+                            <span>SEALED & PROMISED FOR ETERNITY 💍</span>
+                          </div>
+                          <p className="text-[9px] font-mono text-pink-200/80 mt-1 uppercase tracking-wider">
+                            Fingerprint Authenticated // Forever Locked in Hearts
+                          </p>
+                        </motion.div>
+                      )}
                     </div>
 
                     {/* Unlocked Special Passes inside the Vault */}
