@@ -688,12 +688,12 @@ export default function BubuWebsite() {
         >
           <div className="max-w-xl sm:max-w-3xl w-full my-auto flex flex-col items-center justify-center h-full max-h-[90dvh]">
             
-            {/* SECTION 0: HERO WITH TAP HEART EXPLOSION */}
+            {/* SECTION 0: HERO (SPACED OUT VERTICALLY) */}
             {activeSection === 0 && (
-              <div className="flex flex-col items-center text-center h-full justify-center gap-2 sm:gap-3 py-4 px-2 overflow-hidden my-auto w-full">
+              <div className="flex flex-col items-center justify-evenly h-full w-full py-8 sm:py-12 px-2 overflow-hidden my-auto">
                 
                 {/* Battery Status Pill */}
-                <div className="shrink-0 inline-flex items-center gap-1.5 bg-[#0d0714]/90 border border-emerald-500/40 px-3 py-1 rounded-full shadow-[0_0_15px_rgba(16,185,129,0.2)] font-mono text-[9px] sm:text-[10px] text-emerald-300">
+                <div className="shrink-0 inline-flex items-center gap-1.5 bg-[#0d0714]/90 border border-emerald-500/40 px-3.5 py-1.5 rounded-full shadow-[0_0_15px_rgba(16,185,129,0.2)] font-mono text-[9px] sm:text-[10px] text-emerald-300">
                   <BatteryCharging size={12} className="text-emerald-400 animate-pulse" />
                   <span>BATTERY: 100% 🔋 | STATUS: Loving Babu Non-Stop</span>
                 </div>
@@ -701,10 +701,10 @@ export default function BubuWebsite() {
                 {/* Hero Photo Circle */}
                 <div 
                   onClick={handleHeroTap}
-                  className="shrink-0 relative my-1 cursor-pointer group select-none w-32 h-32 sm:w-44 sm:h-44"
+                  className="shrink-0 relative cursor-pointer group select-none w-44 h-44 sm:w-52 sm:h-52 my-2"
                 >
                   <div className="absolute -inset-3 rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-400 opacity-50 blur-md animate-tilt" />
-                  <div className="relative w-full h-full rounded-full p-1 bg-gradient-to-tr from-pink-500 via-purple-500 to-cyan-400 shadow-[0_0_30px_rgba(236,72,153,0.4)] transition-transform duration-300 group-hover:scale-105 aspect-square overflow-hidden">
+                  <div className="relative w-full h-full rounded-full p-1 bg-gradient-to-tr from-pink-500 via-purple-500 to-cyan-400 shadow-[0_0_35px_rgba(236,72,153,0.5)] transition-transform duration-300 group-hover:scale-105 aspect-square overflow-hidden">
                     <img 
                       src="/elegent.jpeg" 
                       alt="Srushti" 
@@ -713,7 +713,7 @@ export default function BubuWebsite() {
                     />
                   </div>
 
-                  <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-[#0d0714]/90 backdrop-blur-md border border-pink-500/50 px-2.5 py-0.5 rounded-full shadow-[0_0_15px_rgba(236,72,153,0.3)] flex items-center gap-1 whitespace-nowrap z-20">
+                  <div className="absolute -bottom-2.5 left-1/2 -translate-x-1/2 bg-[#0d0714]/90 backdrop-blur-md border border-pink-500/50 px-3 py-0.5 rounded-full shadow-[0_0_15px_rgba(236,72,153,0.3)] flex items-center gap-1 whitespace-nowrap z-20">
                     <span className="w-1.5 h-1.5 rounded-full bg-pink-400 animate-ping" />
                     <span className="text-[8px] sm:text-[9px] font-mono tracking-widest text-pink-200">TAP PICTURE FOR LOVE ❤️</span>
                   </div>
@@ -735,13 +735,13 @@ export default function BubuWebsite() {
                 </div>
 
                 {/* Main Heading & Subtitle */}
-                <div className="shrink-0 flex flex-col items-center gap-1 my-0.5">
+                <div className="shrink-0 flex flex-col items-center gap-1.5 my-1">
                   <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full border border-purple-500/30 bg-purple-950/30 backdrop-blur-md">
                     <Zap size={11} className="text-amber-300" />
                     <span className="text-[9px] sm:text-[10px] font-mono tracking-wider text-purple-200">GIRLFRIEND DAY EDITION</span>
                   </div>
 
-                  <h1 className="text-xl sm:text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-pink-200 to-cyan-200">
+                  <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-pink-200 to-cyan-200">
                     Happy Girlfriend Day, Bubu
                   </h1>
 
@@ -1473,7 +1473,7 @@ export default function BubuWebsite() {
             <motion.div 
               initial={{ opacity: 0, scale: 0.7, y: 40 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.7, y: 40 }}
+              exit={{ opacity: 0, scale: 1.05, y: 0 }}
               transition={{ duration: 0.4 }}
               className="relative w-full max-w-lg max-h-[85dvh] overflow-y-auto bg-[#faf4e8] text-[#3d2314] rounded-3xl p-5 sm:p-8 shadow-[0_0_60px_rgba(236,72,153,0.35)] border-4 border-[#e6d2b5] text-left font-serif"
             >
