@@ -218,6 +218,9 @@ export default function BubuWebsite() {
   // Hero Heart Tap Explosion State
   const [heroHearts, setHeroHearts] = useState<{ id: number; x: number; y: number }[]>([]);
 
+  // Section 1 Little Bubu Photo Tap Popup State
+  const [showBabyPop, setShowBabyPop] = useState(false);
+
   // Section 3 HUD Moment Node Selector State
   const [selectedMoment, setSelectedMoment] = useState(0);
 
@@ -306,6 +309,12 @@ export default function BubuWebsite() {
     });
   };
 
+  const handleBabyTap = () => {
+    setShowBabyPop(true);
+    confetti({ particleCount: 35, spread: 50, origin: { y: 0.4 }, colors: ['#fbcfe8', '#f43f5e', '#fef08a'] });
+    setTimeout(() => setShowBabyPop(false), 2500);
+  };
+
   const romanticPaperLetters = [
     {
       title: "Letter I // Safe Haven",
@@ -379,7 +388,14 @@ export default function BubuWebsite() {
   const handlePullLetterFromJar = () => {
     if (isExtractingLetter) return;
     setIsExtractingLetter(true);
-    confetti({ particleCount: 60, spread: 70, origin: { y: 0.6 } });
+    
+    // Golden Dust Confetti Burst
+    confetti({ 
+      particleCount: 60, 
+      spread: 70, 
+      origin: { y: 0.6 },
+      colors: ['#fef08a', '#f59e0b', '#fbbf24', '#ffffff'] 
+    });
 
     setTimeout(() => {
       const randomIdx = Math.floor(Math.random() * romanticPaperLetters.length);
@@ -705,7 +721,7 @@ export default function BubuWebsite() {
               </div>
             )}
 
-            {/* SECTION 1: LITTLE BUBU (bachi.jpeg) WITH CUTENESS METER */}
+            {/* SECTION 1: LITTLE BUBU (bachi.jpeg) WITH TAP POPUP & CUTENESS METER */}
             {activeSection === 1 && (
               <div className="w-full space-y-2 sm:space-y-4 h-full flex flex-col justify-evenly py-2">
                 <div className="text-center shrink-0 space-y-1">
@@ -725,7 +741,11 @@ export default function BubuWebsite() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-6 items-center max-w-3xl mx-auto w-full bg-[#0f081d]/90 border border-pink-500/40 rounded-3xl p-3.5 sm:p-6 backdrop-blur-2xl shadow-[0_0_40px_rgba(236,72,153,0.3)]">
-                  <div className="relative w-full h-44 sm:h-80 rounded-2xl overflow-hidden border border-pink-500/30 shadow-[0_0_15px_rgba(236,72,153,0.2)] bg-black/80 flex items-center justify-center p-2">
+                  {/* Interactive Tap Photo Card */}
+                  <div 
+                    onClick={handleBabyTap}
+                    className="relative w-full h-44 sm:h-80 rounded-2xl overflow-hidden border border-pink-500/30 shadow-[0_0_15px_rgba(236,72,153,0.2)] bg-black/80 flex items-center justify-center p-2 cursor-pointer group select-none transition-transform duration-300 hover:scale-[1.02]"
+                  >
                     <img 
                       src="/bachi.jpeg" 
                       alt="Little Srushti" 
@@ -733,8 +753,21 @@ export default function BubuWebsite() {
                       onError={(e) => { (e.currentTarget as HTMLImageElement).src = fallbacks[0]; }}
                     />
                     <span className="absolute bottom-2.5 left-2.5 bg-black/80 backdrop-blur-md border border-pink-500/30 text-[8px] font-mono px-2.5 py-1 rounded-full text-pink-300 tracking-widest uppercase">
-                      SRUSHTI // AGE 3 ✨
+                      SRUSHTI // AGE 3 ✨ (TAP ME)
                     </span>
+
+                    <AnimatePresence>
+                      {showBabyPop && (
+                        <motion.div
+                          initial={{ opacity: 0, scale: 0.5, y: 10 }}
+                          animate={{ opacity: 1, scale: 1, y: 0 }}
+                          exit={{ opacity: 0, scale: 0.8, y: -10 }}
+                          className="absolute top-3 bg-gradient-to-r from-amber-400 via-pink-500 to-purple-600 text-white font-serif italic text-[10px] sm:text-xs font-bold px-3 py-1 rounded-full shadow-[0_0_20px_rgba(251,191,36,0.8)] border border-amber-200 z-30"
+                        >
+                          Born to be Babu&apos;s favorite girl! 👧✨
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
 
                   <div className="relative h-44 sm:h-80 rounded-2xl overflow-hidden border border-pink-500/30 bg-[#090412]/90 p-3 sm:p-4 flex flex-col justify-center">
@@ -952,7 +985,7 @@ export default function BubuWebsite() {
               </div>
             )}
 
-            {/* SECTION 4: COZY LOVE JAR WITH DAILY AFFIRMATION WIDGET 🏺 */}
+            {/* SECTION 4: COZY LOVE JAR WITH ANIMATED SHAKE & GOLDEN DUST 🏺 */}
             {activeSection === 4 && (
               <div className="w-full text-center max-w-xl mx-auto space-y-2 sm:space-y-4 h-full flex flex-col justify-evenly py-2">
                 <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full border border-amber-400/40 bg-amber-950/30 backdrop-blur-md shadow-[0_0_15px_rgba(251,191,36,0.25)] shrink-0 self-center">
@@ -986,7 +1019,12 @@ export default function BubuWebsite() {
                     onClick={handlePullLetterFromJar}
                     className="relative w-48 h-52 sm:w-64 sm:h-72 my-0.5 cursor-pointer group flex items-center justify-center transition-transform duration-300 hover:scale-105"
                   >
-                    <svg viewBox="0 0 120 150" className="w-full h-full drop-shadow-[0_0_30px_rgba(251,191,36,0.3)]">
+                    <motion.svg 
+                      viewBox="0 0 120 150" 
+                      animate={isExtractingLetter ? { rotate: [-6, 6, -5, 5, -2, 2, 0], scale: [1, 1.06, 1] } : {}}
+                      transition={{ duration: 0.65 }}
+                      className="w-full h-full drop-shadow-[0_0_30px_rgba(251,191,36,0.3)]"
+                    >
                       <defs>
                         <linearGradient id="fancyJarGlass" x1="0" y1="0" x2="1" y2="1">
                           <stop offset="0%" stopColor="#ffffff" stopOpacity="0.3" />
@@ -1022,7 +1060,7 @@ export default function BubuWebsite() {
                         animate={isExtractingLetter ? { y: -18, rotate: -8 } : { y: 0, rotate: 0 }}
                         transition={{ duration: 0.35, ease: "easeOut" }}
                       />
-                    </svg>
+                    </motion.svg>
 
                     <AnimatePresence>
                       {isExtractingLetter && (
@@ -1143,7 +1181,7 @@ export default function BubuWebsite() {
               </div>
             )}
 
-            {/* SECTION 6: SECRET SECURITY VAULT WITH DIGITAL OATH SEAL */}
+            {/* SECTION 6: SECRET SECURITY VAULT WITH CONFIDENTIAL WATERMARK STAMP */}
             {activeSection === 6 && (
               <div className="w-full space-y-3 sm:space-y-6 h-full flex flex-col justify-evenly py-2">
                 <div className="text-center shrink-0">
@@ -1199,12 +1237,22 @@ export default function BubuWebsite() {
                     </div>
                   </div>
                 ) : (
-                  /* UNLOCKED VAULT CARD WITH DIGITAL OATH SEAL STAMP */
+                  /* UNLOCKED VAULT CARD WITH CONFIDENTIAL STAMP & DIGITAL OATH */
                   <motion.div 
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className="max-w-md mx-auto bg-[#0d061a]/95 border border-pink-400/60 rounded-3xl p-5 sm:p-7 backdrop-blur-2xl shadow-[0_0_50px_rgba(236,72,153,0.4)] text-left flex flex-col max-h-[75dvh] overflow-y-auto"
+                    className="relative max-w-md mx-auto bg-[#0d061a]/95 border border-pink-400/60 rounded-3xl p-5 sm:p-7 backdrop-blur-2xl shadow-[0_0_50px_rgba(236,72,153,0.4)] text-left flex flex-col max-h-[75dvh] overflow-y-auto"
                   >
+                    {/* Top Secret Watermark Stamp */}
+                    <motion.div
+                      initial={{ scale: 2.2, opacity: 0, rotate: -15 }}
+                      animate={{ scale: 1, opacity: 0.85, rotate: -6 }}
+                      transition={{ duration: 0.45, ease: "easeOut" }}
+                      className="absolute top-4 right-4 z-30 pointer-events-none border-2 border-rose-500 text-rose-500 font-mono font-black text-[9px] sm:text-[11px] px-2.5 py-1 rounded-md tracking-widest uppercase shadow-[0_0_20px_rgba(244,63,94,0.5)] bg-rose-950/40 backdrop-blur-sm select-none"
+                    >
+                      TOP SECRET // BUBU&apos;S EYES ONLY 💋
+                    </motion.div>
+
                     <div className="shrink-0 mb-2 flex items-center justify-between">
                       <div className="inline-flex items-center gap-1.5 text-emerald-400 text-xs font-mono bg-[#180a2c] py-1 px-3 rounded-xl border border-emerald-500/30">
                         <Unlock size={14} />
