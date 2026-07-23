@@ -30,7 +30,7 @@ const randomAnimations: any[] = [
   },
   {
     initial: { rotateY: 90, opacity: 0, filter: 'brightness(2)' },
-    animate: { rotateY: 0, opacity: 1, filter: 'brightness(1)', transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } },
+    animate: { rotateY: 0, opacity: 1, rotateY: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } },
     exit: { rotateY: -90, opacity: 0, filter: 'brightness(2)', transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
   },
   {
@@ -80,13 +80,13 @@ const galleryFilters = [
   { label: "👑 Queen", index: 4 }
 ];
 
-// Helper to safely trigger device haptic vibration
+// Helper to trigger device haptic vibration safely
 const triggerVibration = (pattern: number | number[]) => {
   if (typeof window !== 'undefined' && 'vibrate' in navigator) {
     try {
       navigator.vibrate(pattern);
     } catch (e) {
-      // Ignore if browser restricts vibration
+      // Ignore if unsupported or blocked
     }
   }
 };
@@ -391,7 +391,7 @@ export default function BubuWebsite() {
 
   const handleSealOath = () => {
     setIsOathSealed(true);
-    triggerVibration([200, 100, 300]); // Deep, satisfying promise seal pulse
+    triggerVibration([200, 100, 300]);
     confetti({
       particleCount: 160,
       spread: 100,
@@ -403,11 +403,8 @@ export default function BubuWebsite() {
   const handlePullLetterFromJar = () => {
     if (isExtractingLetter) return;
     setIsExtractingLetter(true);
-    
-    // Heartbeat Vibration Pulse on Jar Pull
     triggerVibration([100, 50, 150]);
 
-    // Golden Dust Confetti Burst
     confetti({ 
       particleCount: 60, 
       spread: 70, 
@@ -424,7 +421,7 @@ export default function BubuWebsite() {
   };
 
   const handleSendVirtualHug = () => {
-    triggerVibration([100, 50, 100, 50, 150]); // Hug Transmission Vibration
+    triggerVibration([100, 50, 100, 50, 150]);
     confetti({ particleCount: 120, spread: 90, origin: { y: 0.6 } });
 
     const symbols = ['💋', '🫂', '💖', '💋', '🥰', '✨'];
@@ -447,18 +444,18 @@ export default function BubuWebsite() {
 
   const handlePinClick = (digit: string) => {
     if (pin.length < 4) {
-      triggerVibration(25); // Subtle key tap vibration
+      triggerVibration(25);
       const newPin = pin + digit;
       setPin(newPin);
       if (newPin.length === 4) {
         if (newPin === '0327') {
           setIsVaultUnlocked(true);
           setPinError(false);
-          triggerVibration([150, 80, 150, 80, 250]); // Triumphant Vault Unlock Vibration!
+          triggerVibration([150, 80, 150, 80, 250]);
           confetti({ particleCount: 150, spread: 100 });
         } else {
           setPinError(true);
-          triggerVibration([50, 50, 50, 50, 100]); // Error double-buzz
+          triggerVibration([50, 50, 50, 50, 100]);
           setTimeout(() => {
             setPin('');
             setPinError(false);
@@ -550,7 +547,7 @@ export default function BubuWebsite() {
     <main 
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
-      className="h-[100dvh] w-screen bg-[#05020a] text-[#f3e9f8] relative overflow-hidden font-sans selection:bg-pink-500 selection:text-white flex flex-col justify-between"
+      className="h-[100dvh] w-screen bg-[#05020a] text-[#f3e9f8] relative overflow-hidden font-sans selection:bg-pink-500 selection:text-white flex flex-col justify-between overscroll-none touch-none"
     >
       <ParticleTrail />
 
