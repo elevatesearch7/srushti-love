@@ -8,7 +8,8 @@ import {
   Play, Pause, Heart, Sparkles, Car, ShoppingBag, 
   Home as HomeIcon, Gem, Crown, Shield, Camera, Zap, Radio,
   ChevronLeft, ChevronRight, X, Coffee, Moon, Flame, ChevronDown,
-  Lock, Unlock, Terminal, Clock, RefreshCw, Key, RotateCw, HelpCircle, CheckCircle, Award, Cpu, RadioTower, Bookmark, Send
+  Lock, Unlock, Clock, RefreshCw, Key, RotateCw, HelpCircle, CheckCircle, Award, Cpu, RadioTower,
+  Feather, MessageCircleHeart
 } from 'lucide-react';
 
 const randomAnimations: any[] = [
@@ -64,7 +65,7 @@ function ParticleTrail() {
 
   useEffect(() => {
     let idCounter = 0;
-    const symbols = ['✨', '💖', '⚡', '🌸', '💋'];
+    const symbols = ['✨', '💖', '🌹', '🌸', '💋'];
 
     const handleMove = (x: number, y: number) => {
       const newParticle = {
@@ -197,11 +198,8 @@ export default function BubuWebsite() {
   // Interactive HUD Moment Node Selector State for Section 3
   const [selectedMoment, setSelectedMoment] = useState(0);
 
-  // Section 4 Reasons Hub State
-  const [activeCategory, setActiveCategory] = useState<'ALL' | 'CUTENESS' | 'SOULMATE' | 'TANTRUMS' | 'SMILE'>('ALL');
-  const [reasonIndex, setReasonIndex] = useState(0);
-  const [savedFavorites, setSavedFavorites] = useState<number[]>([]);
-  const [showKissToast, setShowKissToast] = useState(false);
+  // Section 4: Sealed Love Jar State
+  const [openedNote, setOpenedNote] = useState<number | null>(null);
 
   // Quiz State
   const [showQuizModal, setShowQuizModal] = useState(false);
@@ -253,52 +251,24 @@ export default function BubuWebsite() {
     }
   ];
 
-  const categorizedReasons = [
-    { text: "You understand me even more than I understand myself.", category: "SOULMATE" },
-    { text: "Your childish giggle instantly melts all my stress away.", category: "CUTENESS" },
-    { text: "The way your eyes light up whenever you are happy.", category: "SMILE" },
-    { text: "You are my safe space and my home in human form.", category: "SOULMATE" },
-    { text: "You love me with zero conditions and absolute pure heart.", category: "SOULMATE" },
-    { text: "Your adorable tantrums that I secretly love so much.", category: "TANTRUMS" },
-    { text: "How effortlessly you make every regular day feel special.", category: "CUTENESS" },
-    { text: "The way you hold my hand like you never want to let go.", category: "SOULMATE" },
-    { text: "Your warmth, kindness, and incredible soul.", category: "SOULMATE" },
-    { text: "You read my thoughts even before I express them in words.", category: "SOULMATE" },
-    { text: "You make me want to be the absolute best version of myself.", category: "SOULMATE" },
-    { text: "Your beautiful smile is my favorite view in the universe.", category: "SMILE" },
-    { text: "How cute you look when you get mad at me over small things.", category: "TANTRUMS" },
-    { text: "Because you are my first, my last, and my forever love.", category: "SOULMATE" },
-    { text: "Simply because you are Bubu... and no one else could ever compare!", category: "CUTENESS" }
+  // Deeply Romantic Confessions for Option A: The Sealed Love Jar
+  const romanticJarNotes = [
+    { title: "Home In Your Smile", note: "My heart found its permanent home the exact second you walked into my life. Every single day with you feels like a quiet, effortless miracle." },
+    { title: "One In Eight Billion", note: "Out of eight billion souls wandering this world, you are the only one my heart craves to hold close for the rest of my days." },
+    { title: "The Quiet Future", note: "In your gentlest laughter and warmest hugs, I see my entire future unfolding in pure peace and endless comfort." },
+    { title: "Vital As Breathing", note: "Loving you isn't something I choose or try to do—it is as natural, vital, and effortless to me as taking my very next breath." },
+    { title: "Gentle Warmth", note: "You brought soft, glowing warmth into my coldest days and turned my quiet world into a symphony of pure happiness." },
+    { title: "My Favorite View", note: "I love who I am whenever I am by your side, but more than that, I am endlessly in love with every little detail of your pure soul." },
+    { title: "Forever Hand In Hand", note: "Every dream I carry for tomorrow starts and ends with your soft hand resting peacefully inside mine." }
   ];
 
-  const filteredReasons = activeCategory === 'ALL' 
-    ? categorizedReasons 
-    : categorizedReasons.filter(r => r.category === activeCategory);
-
-  const handleNextReason = () => {
-    let nextIdx = Math.floor(Math.random() * filteredReasons.length);
-    if (nextIdx === reasonIndex && filteredReasons.length > 1) {
-      nextIdx = (nextIdx + 1) % filteredReasons.length;
+  const handleOpenJarNote = () => {
+    let nextIdx = Math.floor(Math.random() * romanticJarNotes.length);
+    if (nextIdx === openedNote && romanticJarNotes.length > 1) {
+      nextIdx = (nextIdx + 1) % romanticJarNotes.length;
     }
-    setReasonIndex(nextIdx);
-  };
-
-  const handleToggleFavorite = () => {
-    const currentText = filteredReasons[reasonIndex]?.text;
-    const globalIdx = categorizedReasons.findIndex(r => r.text === currentText);
-    
-    if (savedFavorites.includes(globalIdx)) {
-      setSavedFavorites(prev => prev.filter(id => id !== globalIdx));
-    } else {
-      setSavedFavorites(prev => [...prev, globalIdx]);
-      confetti({ particleCount: 70, spread: 60, origin: { y: 0.6 } });
-    }
-  };
-
-  const handleSendKiss = () => {
-    confetti({ particleCount: 120, spread: 90, origin: { y: 0.7 } });
-    setShowKissToast(true);
-    setTimeout(() => setShowKissToast(false), 2500);
+    setOpenedNote(nextIdx);
+    confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
   };
 
   const quizQuestions = [
@@ -458,7 +428,7 @@ export default function BubuWebsite() {
     { src: '/saree.jpeg', fallback: fallbacks[4], tag: 'MODE // PERFECTION', title: 'Unmatched Beauty 💋', desc: 'Absolute perfection in every single way imaginable.' },
   ];
 
-  const sectionLabels = ["HERO", "LITTLE BUBU", "GALLERY", "SACRED HUD", "LOVE MATRIX", "CARE PROTOCOL", "SECRET VAULT"];
+  const sectionLabels = ["HERO", "LITTLE BUBU", "GALLERY", "SACRED HUD", "LOVE JAR", "CARE PROTOCOL", "SECRET VAULT"];
 
   return (
     <main 
@@ -792,119 +762,131 @@ export default function BubuWebsite() {
               </div>
             )}
 
-            {/* SECTION 4: WHY BUBU IS MY WORLD // INTERACTIVE DEVOTION HUB */}
+            {/* SECTION 4: OPTION 1 - THE SEALED LOVE JAR 🏺 */}
             {activeSection === 4 && (
-              <div className="w-full text-center max-w-xl mx-auto space-y-3">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-pink-500/30 bg-pink-950/30 backdrop-blur-md mb-1">
-                  <Sparkles size={13} className="text-pink-400" />
-                  <span className="text-[10px] font-mono text-pink-300 tracking-widest uppercase">INFINITE DEVOTION MATRIX</span>
+              <div className="w-full text-center max-w-lg mx-auto space-y-3">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-rose-400/30 bg-rose-950/30 backdrop-blur-md mb-0.5 shadow-[0_0_15px_rgba(244,63,94,0.2)]">
+                  <Heart size={12} className="text-rose-400 fill-rose-400 animate-pulse" />
+                  <span className="text-[10px] font-serif tracking-widest text-pink-200 uppercase">Intimate Devotion Jar</span>
                 </div>
-                
-                <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-wide">
-                  Why Bubu Is My World 💖
+
+                <h2 className="text-2xl sm:text-3xl font-serif italic text-white tracking-wide">
+                  Why Bubu Is My World 🌹
                 </h2>
 
-                {/* Cyberpunk Mood Filter Pills */}
-                <div className="flex items-center justify-center gap-1.5 flex-wrap py-1">
-                  {[
-                    { id: 'ALL', label: 'ALL 💖' },
-                    { id: 'CUTENESS', label: 'CUTENESS 🌸' },
-                    { id: 'SOULMATE', label: 'SOULMATE ✨' },
-                    { id: 'TANTRUMS', label: 'TANTRUMS 👑' },
-                    { id: 'SMILE', label: 'SMILE 😊' },
-                  ].map((cat) => (
-                    <button
-                      key={cat.id}
-                      onClick={() => {
-                        setActiveCategory(cat.id as any);
-                        setReasonIndex(0);
-                      }}
-                      className={`text-[9px] font-mono px-3 py-1 rounded-full border transition-all cursor-pointer ${
-                        activeCategory === cat.id
-                          ? 'bg-pink-500 text-white border-pink-400 shadow-[0_0_12px_rgba(236,72,153,0.6)] font-bold scale-105'
-                          : 'bg-white/5 border-white/15 text-purple-200/70 hover:bg-white/10 hover:text-white'
-                      }`}
-                    >
-                      {cat.label}
-                    </button>
-                  ))}
-                </div>
-
-                {/* Reason Display Card */}
-                <div className="bg-[#0f081d]/90 border border-pink-500/40 rounded-3xl p-6 sm:p-7 backdrop-blur-2xl shadow-[0_0_50px_rgba(236,72,153,0.25)] relative min-h-[200px] flex flex-col justify-between items-center">
+                <div className="bg-gradient-to-b from-[#180a28]/90 via-[#0d0519]/95 to-[#06020c]/98 border border-rose-500/30 rounded-3xl p-6 backdrop-blur-2xl shadow-[0_0_50px_rgba(244,63,94,0.2)] relative min-h-[290px] flex flex-col items-center justify-between overflow-hidden">
                   
-                  {/* Top Bar inside Card */}
-                  <div className="w-full flex items-center justify-between text-[10px] font-mono text-pink-400/80 mb-2">
-                    <span className="uppercase tracking-widest bg-pink-950/50 px-2.5 py-0.5 rounded-full border border-pink-500/30">
-                      {filteredReasons[reasonIndex]?.category || 'LOVE'} // #{reasonIndex + 1}
-                    </span>
+                  {/* Soft Radial Ambient Glow */}
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-rose-500/10 via-transparent to-transparent pointer-events-none" />
 
-                    {/* Bookmark Heart Button */}
-                    <button 
-                      onClick={handleToggleFavorite}
-                      className="flex items-center gap-1 bg-white/5 hover:bg-pink-500/20 px-2.5 py-1 rounded-full border border-white/10 hover:border-pink-400 transition-all cursor-pointer text-pink-300"
+                  {openedNote === null ? (
+                    /* SEALED GLASS JAR STATE */
+                    <motion.div 
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      className="w-full flex flex-col items-center my-auto space-y-4"
                     >
-                      <Heart 
-                        size={13} 
-                        className={savedFavorites.includes(categorizedReasons.findIndex(r => r.text === filteredReasons[reasonIndex]?.text)) ? 'fill-pink-500 text-pink-500' : ''} 
-                      />
-                      <span className="text-[9px]">{savedFavorites.length} Saved</span>
-                    </button>
-                  </div>
-                  
-                  {/* Dynamic Reason Text */}
-                  <AnimatePresence mode="wait">
-                    <motion.p 
-                      key={reasonIndex + activeCategory}
-                      initial={{ opacity: 0, rotateY: 90, scale: 0.9 }}
-                      animate={{ opacity: 1, rotateY: 0, scale: 1 }}
-                      exit={{ opacity: 0, rotateY: -90, scale: 0.9 }}
-                      transition={{ duration: 0.35 }}
-                      className="text-base sm:text-lg font-bold text-amber-200 my-auto leading-relaxed text-center px-2"
-                    >
-                      "{filteredReasons[reasonIndex]?.text}"
-                    </motion.p>
-                  </AnimatePresence>
+                      {/* Glass Jar Visual */}
+                      <motion.div 
+                        whileHover={{ scale: 1.05, rotate: [0, -2, 2, 0] }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={handleOpenJarNote}
+                        className="w-28 h-36 border-2 border-pink-300/40 rounded-b-3xl rounded-t-xl bg-gradient-to-b from-white/10 via-pink-500/10 to-rose-500/20 backdrop-blur-md shadow-[0_0_30px_rgba(244,63,94,0.3)] relative flex flex-col items-center justify-center cursor-pointer group border-t-4 border-t-amber-200/60"
+                      >
+                        {/* Wooden Cork Lid Accent */}
+                        <div className="absolute -top-3 w-16 h-3.5 bg-amber-800/80 border border-amber-500/50 rounded-t-md shadow-md" />
+                        
+                        {/* Floating hearts inside Jar */}
+                        <div className="flex flex-col items-center gap-1.5 opacity-90 group-hover:scale-110 transition-transform">
+                          <motion.span 
+                            animate={{ y: [0, -4, 0] }} 
+                            transition={{ repeat: Infinity, duration: 2 }}
+                            className="text-xl select-none"
+                          >
+                            💌
+                          </motion.span>
+                          <motion.span 
+                            animate={{ y: [0, 4, 0] }} 
+                            transition={{ repeat: Infinity, duration: 2.5 }}
+                            className="text-sm select-none"
+                          >
+                            💖 ✨ 🌹
+                          </motion.span>
+                        </div>
 
-                  {/* Card Controls */}
-                  <div className="flex flex-col sm:flex-row items-center gap-2.5 mt-5 w-full justify-center">
-                    <button 
-                      onClick={handleNextReason}
-                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-400 text-white font-bold text-xs px-4 py-2.5 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all cursor-pointer uppercase tracking-wider"
-                    >
-                      <RefreshCw size={13} /> Next Reason
-                    </button>
+                        <span className="absolute bottom-2 text-[8px] font-mono text-pink-200/70 tracking-widest uppercase">
+                          SEALED Jar
+                        </span>
+                      </motion.div>
 
-                    <button 
-                      onClick={handleSendKiss}
-                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-rose-500 to-pink-600 text-white font-bold text-xs px-4 py-2.5 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all cursor-pointer uppercase tracking-wider border border-pink-400/40"
-                    >
-                      <Send size={13} /> Send Kiss Back 💋
-                    </button>
+                      <p className="text-xs sm:text-sm font-serif italic text-pink-200/80 max-w-xs">
+                        "Tap the glass love jar to unseal a handwritten confession from Babu's heart."
+                      </p>
 
-                    <button 
-                      onClick={() => setShowQuizModal(true)}
-                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 to-cyan-500 text-white font-bold text-xs px-4 py-2.5 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all cursor-pointer uppercase tracking-wider border border-cyan-400/30"
+                      <div className="flex gap-2 w-full max-w-xs pt-1">
+                        <button 
+                          onClick={handleOpenJarNote}
+                          className="flex-1 inline-flex items-center justify-center gap-2 bg-gradient-to-r from-rose-500 via-pink-500 to-purple-600 text-white font-serif italic text-xs py-2.5 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all cursor-pointer"
+                        >
+                          <Feather size={13} /> Unseal Love Note 💌
+                        </button>
+                      </div>
+                    </motion.div>
+                  ) : (
+                    /* UNFOLDED ROMANTIC LOVE PARCHMENT NOTE */
+                    <motion.div 
+                      initial={{ opacity: 0, scale: 0.7, y: 30, rotateX: 45 }}
+                      animate={{ opacity: 1, scale: 1, y: 0, rotateX: 0 }}
+                      exit={{ opacity: 0, scale: 0.7, y: -30 }}
+                      transition={{ duration: 0.45, ease: "easeOut" }}
+                      className="w-full bg-[#150a21] border border-amber-300/40 rounded-2xl p-5 shadow-[0_0_30px_rgba(251,191,36,0.15)] flex flex-col justify-between my-auto relative text-left"
                     >
-                      <HelpCircle size={13} /> Bubu Quiz 🧩
-                    </button>
-                  </div>
-                </div>
+                      <div className="flex items-center justify-between border-b border-amber-300/20 pb-2 mb-3">
+                        <div className="flex items-center gap-1.5 text-amber-200 font-serif italic text-xs">
+                          <MessageCircleHeart size={14} className="text-rose-400" />
+                          <span>Confession #{openedNote + 1} — {romanticJarNotes[openedNote].title}</span>
+                        </div>
+                        <button 
+                          onClick={() => setOpenedNote(null)}
+                          className="text-pink-300/60 hover:text-white text-xs font-mono"
+                        >
+                          [ Close ]
+                        </button>
+                      </div>
 
-                {/* Kiss Notification Toast */}
-                <AnimatePresence>
-                  {showKissToast && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 15, scale: 0.9 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: -10, scale: 0.9 }}
-                      className="bg-gradient-to-r from-pink-500 via-rose-500 to-purple-600 text-white px-4 py-2 rounded-full font-mono text-xs shadow-[0_0_25px_rgba(236,72,153,0.8)] border border-pink-300 flex items-center justify-center gap-2 mx-auto max-w-xs"
-                    >
-                      <Sparkles size={14} className="text-amber-300 animate-spin" />
-                      <span>Kiss Received by Babu! ❤️💋</span>
+                      <p className="text-sm sm:text-base font-serif italic text-amber-100/90 leading-relaxed my-2 text-center">
+                        "{romanticJarNotes[openedNote].note}"
+                      </p>
+
+                      <div className="flex items-center justify-between pt-3 border-t border-amber-300/20 mt-3">
+                        <button 
+                          onClick={handleOpenJarNote}
+                          className="inline-flex items-center gap-1.5 text-xs font-serif text-pink-300 hover:text-white transition-colors"
+                        >
+                          <RefreshCw size={12} /> Pull Another Note
+                        </button>
+
+                        <button 
+                          onClick={() => setOpenedNote(null)}
+                          className="inline-flex items-center gap-1.5 text-xs font-serif text-amber-300 hover:text-amber-100 transition-colors"
+                        >
+                          Seal Back In Jar 🏺
+                        </button>
+                      </div>
                     </motion.div>
                   )}
-                </AnimatePresence>
+
+                  <div className="w-full flex items-center justify-between pt-3 border-t border-white/10 text-[10px] font-mono text-purple-300/50 mt-2">
+                    <span>PURE DEVOTION // SRUSHTI & NARAYAN</span>
+                    <button 
+                      onClick={() => setShowQuizModal(true)}
+                      className="text-pink-300 hover:underline flex items-center gap-1"
+                    >
+                      <HelpCircle size={11} /> Take Bubu Quiz 🧩
+                    </button>
+                  </div>
+
+                </div>
               </div>
             )}
 
