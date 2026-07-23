@@ -158,6 +158,74 @@ function LiveCounter() {
   );
 }
 
+function TypingLog({ logs }: { logs: { text: string; color: string }[] }) {
+  const [visibleLogs, setVisibleLogs] = useState<number[]>([]);
+
+  useEffect(() => {
+    setVisibleLogs([]);
+    const timer = setInterval(() => {
+      setVisibleLogs((prev) => {
+        if (prev.length < logs.length) {
+          return [...prev, prev.length];
+        } else {
+          clearInterval(timer);
+          return prev;
+        }
+      });
+    }, 900);
+
+    return () => clearInterval(timer);
+  }, [logs]);
+
+  return (
+    <>
+      {visibleLogs.map((index) => (
+        <motion.p
+          key={index}
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.3 }}
+          className={logs[index].color}
+        >
+          &gt; {logs[index].text}
+        </motion.p>
+      ))}
+      {visibleLogs.length < logs.length && (
+        <p className="text-purple-200/50 animate-pulse">&gt; _</p>
+      )}
+    </>
+  );
+}
+
+function BirthdayCountdown() {
+  const [timeLeft, setTimeLeft] = useState('');
+
+  useEffect(() => {
+    const calculateTimeLeft = () => {
+      const now = new Date();
+      let currentYear = now.getFullYear();
+      let birthday = new Date(`March 27, ${currentYear}`);
+
+      if (now > birthday) {
+        birthday = new Date(`March 27, ${currentYear + 1}`);
+      }
+
+      const diff = birthday.getTime() - now.getTime();
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+
+      setTimeLeft(`${days}d ${hours}h ${minutes}m until Bubu's Birthday! 🎂`);
+    };
+
+    calculateTimeLeft();
+    const timer = setInterval(calculateTimeLeft, 60000);
+    return () => clearInterval(timer);
+  }, []);
+
+  return <span className="text-amber-200 text-[11px] animate-pulse font-bold tracking-wider">{timeLeft}</span>;
+}
+
 export default function BubuWebsite() {
   const [activeSection, setActiveSection] = useState(0);
   const [currentAnimIndex, setCurrentAnimIndex] = useState(0);
@@ -180,6 +248,7 @@ export default function BubuWebsite() {
 
   // Live Image Rotation State for eyes.jpeg
   const [eyesRotation, setEyesRotation] = useState(0);
+  const [vaultUnlockedTime] = useState(() => new Date().toLocaleTimeString());
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const isScrollLocked = useRef(false);
@@ -369,6 +438,15 @@ export default function BubuWebsite() {
   ];
 
   const sectionLabels = ["HERO", "LITTLE BUBU", "GALLERY", "CLI & TIMELINE", "LOVE MATRIX", "CARE PROTOCOL", "SECRET VAULT"];
+
+  const cliLogs = [
+    { text: "INITIALIZING ENCRYPTION LAYER...", color: "text-cyan-400" },
+    { text: `ACCESS GRANTED // SESSION: ${vaultUnlockedTime}`, color: "text-emerald-400" },
+    { text: "CONNECTED TARGET: [SRUSHTI_BUBU]", color: "text-pink-300" },
+    { text: "HEARTBEAT MONITOR: 100% DEVOTED_TO_BUBU", color: "text-amber-300" },
+    { text: "CORE MEMORY ACCESS: ACTIVE", color: "text-white" },
+    { text: "LOADING SACRED TIMELINE MATRIX...", color: "text-purple-300 animate-pulse" }
+  ];
 
   return (
     <main 
@@ -604,14 +682,22 @@ export default function BubuWebsite() {
               </div>
             )}
 
-            {/* SECTION 3: CLI & TIMELINE */}
+            {/* SECTION 3: DYNAMIC CLI & SACRED MOMENTS TIMELINE */}
             {activeSection === 3 && (
               <div className="w-full space-y-6">
-                <div className="bg-[#090412] border border-cyan-500/40 rounded-2xl overflow-hidden shadow-[0_0_30px_rgba(6,182,212,0.15)] font-mono text-xs">
+                <div className="text-center mb-1">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-pink-500/30 bg-pink-950/30 backdrop-blur-md mb-2">
+                    <Clock size={13} className="text-pink-400" />
+                    <span className="text-[10px] font-mono text-pink-300 tracking-widest uppercase">OUR SACRED NETWORK LOG</span>
+                  </div>
+                </div>
+
+                {/* Animated CLI Terminal */}
+                <div className="bg-[#090412] border border-cyan-500/40 rounded-2xl overflow-hidden shadow-[0_0_30px_rgba(6,182,212,0.15)] font-mono text-xs max-w-lg mx-auto">
                   <div className="bg-[#120824] px-4 py-2 border-b border-cyan-500/30 flex items-center justify-between">
                     <div className="flex items-center gap-2 text-cyan-300">
                       <Terminal size={14} />
-                      <span className="text-[11px]">bubu_core_v2.0.exe</span>
+                      <span className="text-[11px]">bubu_network_access.log</span>
                     </div>
                     <div className="flex gap-1.5">
                       <span className="w-2.5 h-2.5 rounded-full bg-red-500/80 inline-block" />
@@ -619,32 +705,49 @@ export default function BubuWebsite() {
                       <span className="w-2.5 h-2.5 rounded-full bg-green-500/80 inline-block" />
                     </div>
                   </div>
-                  <div className="p-4 space-y-1.5 text-purple-200/80">
-                    <p className="text-cyan-400">&gt; Initializing encryption layer...</p>
-                    <p className="text-emerald-400">&gt; Connection established with target: [SRUSHTI_BUBU]</p>
-                    <p className="text-pink-300">&gt; Heartbeat Status: 100% Devoted to Srushti</p>
-                    <p className="text-amber-300">&gt; Memory Log: "You are the best thing that ever happened to Narayan."</p>
-                    <p className="text-cyan-400 animate-pulse">&gt; System output: Infinite Love Matrix Active_</p>
+                  <div className="p-5 space-y-2 text-purple-200/80 min-h-[160px]">
+                    <TypingLog logs={cliLogs} />
                   </div>
                 </div>
 
-                <div className="bg-[#0f081d]/80 backdrop-blur-xl border border-pink-500/20 rounded-3xl p-5 sm:p-7 space-y-5 shadow-[0_0_50px_rgba(0,0,0,0.6)]">
-                  <h3 className="text-xl font-bold text-white text-center">Our Sacred Moments ✨</h3>
-                  {[
-                    { date: 'March 27', title: 'Bubu\'s Birthday 🎂', desc: 'The best day of the year—the birth of my favorite human.', color: 'text-amber-200' },
-                    { date: 'October 23, 2025', title: 'Our First Kiss 💋', desc: 'A magic moment where everything else completely faded away.', color: 'text-pink-300' },
-                    { date: 'January 24, 2026', title: '"Pyaar Kartii Hoon" ❤️', desc: 'The day you confessed your love and made me the happiest guy alive.', color: 'text-cyan-300' },
-                  ].map((event, idx) => (
-                    <div key={idx} className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6 pb-4 border-b border-white/10 last:border-0 last:pb-0">
-                      <span className="text-pink-400 font-mono text-xs uppercase tracking-widest sm:w-36 px-3 py-1 bg-pink-500/10 rounded-lg border border-pink-500/20 text-center">
-                        {event.date}
-                      </span>
-                      <div>
-                        <h4 className={`${event.color} font-bold text-sm sm:text-base mb-0.5`}>{event.title}</h4>
-                        <p className="text-purple-200/70 text-xs">{event.desc}</p>
-                      </div>
+                {/* Graphical Timeline with Live Countdown */}
+                <div className="bg-[#0f081d]/80 backdrop-blur-xl border border-pink-500/20 rounded-3xl p-6 sm:p-8 space-y-6 shadow-[0_0_50px_rgba(0,0,0,0.6)] max-w-lg mx-auto relative overflow-hidden">
+                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-400 opacity-60" />
+                  
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-4">
+                    <h3 className="text-xl font-bold text-white flex items-center gap-2.5">
+                      <Heart size={20} className="text-pink-400 shrink-0 fill-pink-500/40" /> Our Sacred Moments ✨
+                    </h3>
+                    <div className="bg-amber-950/40 px-3.5 py-1.5 rounded-full border border-amber-500/30 flex items-center gap-1.5 self-start sm:self-auto">
+                      <Sparkles size={12} className="text-amber-400" />
+                      <BirthdayCountdown />
                     </div>
-                  ))}
+                  </div>
+                  
+                  {/* Vertical Illuminated Timeline */}
+                  <div className="relative pl-6 space-y-6">
+                    <div className="absolute left-[9px] top-2 bottom-2 w-0.5 bg-gradient-to-b from-amber-400 via-pink-400 to-cyan-400 rounded-full opacity-70" />
+                    
+                    {[
+                      { icon: <Award size={12} />, date: 'March 27', title: 'Bubu\'s Birthday 🎂', desc: 'The most sacred day—the birth of my whole heart.', color: 'border-amber-400 text-amber-200 bg-amber-500/30 shadow-[0_0_15px_rgba(251,191,36,0.5)]' },
+                      { icon: <CheckCircle size={12} />, date: 'October 23, 2025', title: 'Our First Kiss 💋', desc: 'The magical second everything else ceased to exist.', color: 'border-pink-400 text-pink-300 bg-pink-500/30 shadow-[0_0_15px_rgba(236,72,153,0.5)]' },
+                      { icon: <Lock size={12} />, date: 'January 24, 2026', title: 'The Sacred Confession ❤️', desc: 'When you confessed your love and sealed my devotion forever.', color: 'border-cyan-400 text-cyan-300 bg-cyan-500/30 shadow-[0_0_15px_rgba(6,182,212,0.5)]' },
+                    ].map((event, idx) => (
+                      <div key={idx} className="relative flex items-center gap-4">
+                        <div className={`absolute -left-[27px] w-6 h-6 rounded-full border p-1 z-10 flex items-center justify-center ${event.color}`}>
+                          {event.icon}
+                        </div>
+                        
+                        <div className="flex-1 bg-white/5 p-4 rounded-xl border border-white/10 hover:border-white/20 transition-all">
+                          <span className="block text-pink-400 font-mono text-[11px] uppercase tracking-widest mb-1">
+                            {event.date}
+                          </span>
+                          <h4 className="font-bold text-white text-sm sm:text-base mb-0.5">{event.title}</h4>
+                          <p className="text-purple-100/70 text-xs leading-relaxed">{event.desc}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             )}
@@ -891,7 +994,7 @@ export default function BubuWebsite() {
 
               <div className="space-y-3 mb-6">
                 <div className="flex items-start gap-3 p-3.5 rounded-2xl bg-pink-950/30 border border-pink-500/20">
-                  <Flame className="text-pink-400 shrink-0 mt-0.5" size={18} />
+                  <Flame size={18} className="text-pink-400 shrink-0 mt-0.5" />
                   <div>
                     <h4 className="text-white font-bold text-xs sm:text-sm">Heating Pad & Snack Module</h4>
                     <p className="text-purple-200/70 text-[11px] mt-0.5">Warm comfort pad prepared & unlimited favorite treats deployed on command.</p>
@@ -899,7 +1002,7 @@ export default function BubuWebsite() {
                 </div>
 
                 <div className="flex items-start gap-3 p-3.5 rounded-2xl bg-purple-950/30 border border-purple-500/20">
-                  <Moon className="text-purple-300 shrink-0 mt-0.5" size={18} />
+                  <Moon size={18} className="text-purple-300 shrink-0 mt-0.5" />
                   <div>
                     <h4 className="text-white font-bold text-sm">Zero Argument Shield</h4>
                     <p className="text-purple-200/70 text-[11px] mt-0.5">Babu is in 100% agreement mode. Zero debates, endless hugs guaranteed.</p>
@@ -907,7 +1010,7 @@ export default function BubuWebsite() {
                 </div>
 
                 <div className="flex items-start gap-3 p-3.5 rounded-2xl bg-cyan-950/30 border border-cyan-500/20">
-                  <Coffee className="text-cyan-300 shrink-0 mt-0.5" size={18} />
+                  <Coffee size={18} className="text-cyan-300 shrink-0 mt-0.5" />
                   <div>
                     <h4 className="text-white font-bold text-sm">Unlimited Pamper Matrix</h4>
                     <p className="text-purple-200/70 text-[11px] mt-0.5">Priority massages, head scratches, and extra love active for today!</p>
@@ -946,7 +1049,7 @@ export default function BubuWebsite() {
               {!quizCompleted ? (
                 <div>
                   <div className="flex items-center gap-2 mb-2">
-                    <Sparkles className="text-cyan-400 animate-spin" size={14} />
+                    <Sparkles size={14} className="text-cyan-400 animate-spin" />
                     <span className="text-[10px] font-mono tracking-widest text-cyan-300 uppercase">
                       BUBU TRIVIA // QUESTION {quizStep + 1} OF {quizQuestions.length}
                     </span>
