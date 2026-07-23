@@ -361,7 +361,7 @@ export default function BubuWebsite() {
   ];
 
   const moodGallery = [
-    { src: '/bache.jpeg', fallback: fallbacks[0], tag: 'MODE // PLAYFUL', title: 'My Little Kid 👶', desc: 'When you show your adorable, innocent, childish side that I love so much.' },
+    { src: '/bachi.jpeg', fallback: fallbacks[0], tag: 'MODE // PLAYFUL', title: 'My Little Kid 👶', desc: 'When you show your adorable, innocent, childish side that I love so much.' },
     { src: '/cute.jpeg', fallback: fallbacks[1], tag: 'MODE // ADORABLE', title: 'Adorably Cute 🥰', desc: 'The sweet smile that instantly melts my heart and brightens my day.' },
     { src: '/elegent.jpeg', fallback: fallbacks[2], tag: 'MODE // ELEGANT', title: 'Pure Elegance ✨', desc: 'Graceful, breathtaking, and pure class personified.' },
     { src: '/hot.jpeg', fallback: fallbacks[3], tag: 'MODE // FIERCE', title: 'Smoking Hot 🔥', desc: 'Taking my breath away every single time I look at you.' },
@@ -505,7 +505,7 @@ export default function BubuWebsite() {
                   {/* Left Side: Photo Frame */}
                   <div className="relative w-full h-64 sm:h-80 rounded-2xl overflow-hidden border border-pink-500/30 shadow-[0_0_20px_rgba(236,72,153,0.2)] bg-black/80 flex items-center justify-center p-2">
                     <img 
-                      src="/bache.jpeg" 
+                      src="/bachi.jpeg" 
                       alt="Little Srushti" 
                       className="max-h-full max-w-full object-contain rounded-xl drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)]"
                       onError={(e) => { (e.currentTarget as HTMLImageElement).src = fallbacks[0]; }}
@@ -539,7 +539,7 @@ export default function BubuWebsite() {
               </div>
             )}
 
-            {/* SECTION 2: PHOTO GALLERY (USING bache.jpeg FOR MY LITTLE KID 👶) */}
+            {/* SECTION 2: PHOTO GALLERY (USING bachi.jpeg FOR MY LITTLE KID 👶) */}
             {activeSection === 2 && (
               <div className="w-full">
                 <div className="text-center mb-6">
