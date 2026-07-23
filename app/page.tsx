@@ -8,8 +8,8 @@ import {
   Play, Pause, Heart, Sparkles, Car, ShoppingBag, 
   Home as HomeIcon, Gem, Crown, Shield, Camera, Zap, Radio,
   ChevronLeft, ChevronRight, X, Coffee, Moon, Flame, ChevronDown,
-  Lock, Unlock, Clock, RefreshCw, Key, RotateCw, HelpCircle, CheckCircle, Award, Cpu, RadioTower,
-  Feather, MessageCircleHeart, Send, Bookmark
+  Lock, Unlock, Clock, RefreshCw, Key, RotateCw, Cpu, RadioTower,
+  Feather, MessageCircleHeart
 } from 'lucide-react';
 
 const randomAnimations: any[] = [
@@ -198,16 +198,9 @@ export default function BubuWebsite() {
   // Interactive HUD Moment Node Selector State for Section 3
   const [selectedMoment, setSelectedMoment] = useState(0);
 
-  // Section 4: Animated Love Jar State
+  // Section 4: Enlarged Fancy Animated Love Jar State
   const [isExtractingLetter, setIsExtractingLetter] = useState(false);
   const [openedLetter, setOpenedLetter] = useState<{ title: string; body: string; psu: string } | null>(null);
-
-  // Quiz State
-  const [showQuizModal, setShowQuizModal] = useState(false);
-  const [quizStep, setQuizStep] = useState(0);
-  const [quizScore, setQuizScore] = useState(0);
-  const [quizCompleted, setQuizCompleted] = useState(false);
-  const [selectedOption, setSelectedOption] = useState<number | null>(null);
 
   const [pin, setPin] = useState('');
   const [isVaultUnlocked, setIsVaultUnlocked] = useState(false);
@@ -279,71 +272,14 @@ export default function BubuWebsite() {
   const handlePullLetterFromJar = () => {
     if (isExtractingLetter) return;
     setIsExtractingLetter(true);
-    confetti({ particleCount: 50, spread: 60, origin: { y: 0.6 } });
+    confetti({ particleCount: 60, spread: 70, origin: { y: 0.6 } });
 
     setTimeout(() => {
       const randomIdx = Math.floor(Math.random() * romanticPaperLetters.length);
       setOpenedLetter(romanticPaperLetters[randomIdx]);
       setIsExtractingLetter(false);
-      confetti({ particleCount: 100, spread: 90, origin: { y: 0.5 } });
-    }, 900);
-  };
-
-  const quizQuestions = [
-    {
-      question: "What is Babu's absolute favorite thing in the whole world?",
-      options: [
-        "His laptop & coding",
-        "Srushti's beautiful eyes & smile",
-        "Late night movies",
-        "All of the above, but Srushti is #1 forever ❤️"
-      ],
-      correct: 3
-    },
-    {
-      question: "What official date marks the start of our connected timer?",
-      options: [
-        "March 27",
-        "October 23, 2025",
-        "January 24, 2026",
-        "August 1, 2026"
-      ],
-      correct: 1
-    },
-    {
-      question: "What happens when Bubu gets mad at Babu over small things?",
-      options: [
-        "Babu surrenders immediately",
-        "Babu activates Pamper Protocol 💆‍♀️",
-        "Babu gives endless hugs & kisses",
-        "All 3 happen at once! ✨"
-      ],
-      correct: 3
-    }
-  ];
-
-  const handleAnswerSelect = (index: number) => {
-    setSelectedOption(index);
-    setTimeout(() => {
-      let isCorrect = index === quizQuestions[quizStep].correct;
-      let newScore = isCorrect ? quizScore + 1 : quizScore;
-      if (isCorrect) setQuizScore(newScore);
-
-      if (quizStep + 1 < quizQuestions.length) {
-        setQuizStep(quizStep + 1);
-        setSelectedOption(null);
-      } else {
-        setQuizCompleted(true);
-        confetti({ particleCount: 180, spread: 120, origin: { y: 0.5 } });
-      }
-    }, 600);
-  };
-
-  const resetQuiz = () => {
-    setQuizStep(0);
-    setQuizScore(0);
-    setQuizCompleted(false);
-    setSelectedOption(null);
+      confetti({ particleCount: 120, spread: 100, origin: { y: 0.5 } });
+    }, 850);
   };
 
   const handlePinClick = (digit: string) => {
@@ -383,21 +319,21 @@ export default function BubuWebsite() {
 
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
-      if (showPamperModal || showQuizModal || openedLetter) return;
+      if (showPamperModal || openedLetter) return;
       if (e.deltaY > 30) changeSection(activeSection + 1);
       else if (e.deltaY < -30) changeSection(activeSection - 1);
     };
 
     window.addEventListener('wheel', handleWheel, { passive: true });
     return () => window.removeEventListener('wheel', handleWheel);
-  }, [activeSection, changeSection, showPamperModal, showQuizModal, openedLetter]);
+  }, [activeSection, changeSection, showPamperModal, openedLetter]);
 
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartY.current = e.touches[0].clientY;
   };
 
   const handleTouchEnd = (e: React.TouchEvent) => {
-    if (showPamperModal || showQuizModal || openedLetter) return;
+    if (showPamperModal || openedLetter) return;
     const touchEndY = e.changedTouches[0].clientY;
     const diff = touchStartY.current - touchEndY;
 
@@ -780,74 +716,81 @@ export default function BubuWebsite() {
               </div>
             )}
 
-            {/* SECTION 4: ANIMATED GLASS JAR WITH EXTRACTABLE LETTERS 🏺 */}
+            {/* SECTION 4: COZY & FANCY ENLARGED LOVE JAR 🏺 */}
             {activeSection === 4 && (
-              <div className="w-full text-center max-w-lg mx-auto space-y-3">
-                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-pink-400/30 bg-pink-950/30 backdrop-blur-md mb-0.5 shadow-[0_0_15px_rgba(236,72,153,0.2)]">
-                  <Heart size={12} className="text-pink-400 fill-pink-400 animate-pulse" />
-                  <span className="text-[10px] font-serif tracking-widest text-pink-200 uppercase">Intimate Love Jar</span>
+              <div className="w-full text-center max-w-2xl mx-auto space-y-4">
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-amber-400/40 bg-amber-950/30 backdrop-blur-md mb-0.5 shadow-[0_0_20px_rgba(251,191,36,0.25)]">
+                  <Sparkles size={13} className="text-amber-300 animate-spin" />
+                  <span className="text-[11px] font-serif tracking-widest text-amber-200 uppercase">Cozy Memory Keepsake</span>
                 </div>
 
-                <h2 className="text-2xl sm:text-3xl font-serif italic text-white tracking-wide">
+                <h2 className="text-3xl sm:text-4xl font-serif italic text-white tracking-wide drop-shadow-[0_2px_10px_rgba(236,72,153,0.3)]">
                   Why Bubu Is My World 🌹
                 </h2>
 
-                <div className="bg-gradient-to-b from-[#180a28]/90 via-[#0d0519]/95 to-[#06020c]/98 border border-pink-500/30 rounded-3xl p-6 backdrop-blur-2xl shadow-[0_0_50px_rgba(236,72,153,0.2)] relative min-h-[310px] flex flex-col items-center justify-between overflow-hidden">
+                <div className="bg-gradient-to-b from-[#1d0b2e]/90 via-[#130622]/95 to-[#090212]/98 border border-amber-400/30 rounded-3xl p-6 sm:p-8 backdrop-blur-2xl shadow-[0_0_60px_rgba(251,191,36,0.15)] relative min-h-[360px] sm:min-h-[400px] flex flex-col items-center justify-between overflow-hidden">
                   
+                  {/* Ambient Candlelight Warmth Glows */}
+                  <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-72 h-72 bg-amber-500/15 rounded-full blur-[90px] pointer-events-none" />
+                  <div className="absolute -bottom-10 right-10 w-60 h-60 bg-pink-500/15 rounded-full blur-[80px] pointer-events-none" />
+
                   {/* Floating Instruction Tooltip */}
                   <motion.div 
-                    animate={{ y: [0, -6, 0] }}
-                    transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-                    className="bg-gradient-to-r from-pink-500 via-rose-500 to-purple-600 text-white text-xs font-serif italic px-4 py-1.5 rounded-full shadow-[0_0_20px_rgba(236,72,153,0.5)] border border-pink-300 flex items-center gap-2 cursor-pointer z-20"
+                    animate={{ y: [0, -8, 0] }}
+                    transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
+                    className="bg-gradient-to-r from-amber-500 via-rose-500 to-pink-600 text-white text-xs sm:text-sm font-serif italic px-5 py-2 rounded-full shadow-[0_0_25px_rgba(251,191,36,0.4)] border border-amber-200 flex items-center gap-2 cursor-pointer z-20"
                     onClick={handlePullLetterFromJar}
                   >
-                    <Sparkles size={13} className="text-amber-300 animate-spin" />
-                    <span>Pull one letter 💌</span>
+                    <Feather size={15} className="text-amber-200" />
+                    <span>Tap the Glass Jar to Pull a Letter 💌</span>
                   </motion.div>
 
-                  {/* Interactive Visual Glass Jar Container */}
+                  {/* Enlarged Interactive Visual Glass Jar Container */}
                   <div 
                     onClick={handlePullLetterFromJar}
-                    className="relative w-40 h-48 my-3 cursor-pointer group flex items-center justify-center"
+                    className="relative w-56 h-64 sm:w-64 sm:h-72 my-2 cursor-pointer group flex items-center justify-center transition-transform duration-300 hover:scale-105"
                   >
-                    {/* SVG Realistic Glass Jar Visual */}
-                    <svg viewBox="0 0 100 130" className="w-full h-full drop-shadow-[0_0_25px_rgba(236,72,153,0.4)]">
+                    {/* SVG Grand Glass Jar Visual */}
+                    <svg viewBox="0 0 120 150" className="w-full h-full drop-shadow-[0_0_35px_rgba(251,191,36,0.3)]">
                       <defs>
-                        <linearGradient id="jarGlass" x1="0" y1="0" x2="1" y2="1">
-                          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.2" />
-                          <stop offset="50%" stopColor="#ec4899" stopOpacity="0.08" />
-                          <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0.25" />
+                        <linearGradient id="fancyJarGlass" x1="0" y1="0" x2="1" y2="1">
+                          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.3" />
+                          <stop offset="30%" stopColor="#fef08a" stopOpacity="0.1" />
+                          <stop offset="70%" stopColor="#ec4899" stopOpacity="0.12" />
+                          <stop offset="100%" stopColor="#a855f7" stopOpacity="0.3" />
                         </linearGradient>
-                        <linearGradient id="corkLid" x1="0" y1="0" x2="1" y2="0">
-                          <stop offset="0%" stopColor="#d97706" />
+                        <linearGradient id="corkLidFancy" x1="0" y1="0" x2="1" y2="0">
+                          <stop offset="0%" stopColor="#f59e0b" />
                           <stop offset="50%" stopColor="#b45309" />
                           <stop offset="100%" stopColor="#78350f" />
                         </linearGradient>
                       </defs>
 
-                      {/* Jar Body Glass */}
-                      <path d="M 25 25 L 75 25 Q 85 25 85 35 L 85 110 Q 85 125 70 125 L 30 125 Q 15 125 15 110 L 15 35 Q 15 25 25 25 Z" fill="url(#jarGlass)" stroke="rgba(244,114,182,0.5)" strokeWidth="2" />
+                      {/* Glass Jar Body */}
+                      <path d="M 30 30 L 90 30 Q 102 30 102 42 L 102 128 Q 102 145 82 145 L 38 145 Q 18 145 18 128 L 18 42 Q 18 30 30 30 Z" fill="url(#fancyJarGlass)" stroke="rgba(251,191,36,0.6)" strokeWidth="2.5" />
+                      {/* Glass Rim Top */}
+                      <rect x="25" y="24" width="70" height="8" rx="3" fill="rgba(255,255,255,0.25)" stroke="rgba(251,191,36,0.5)" strokeWidth="1.5" />
                       {/* Glass Highlights */}
-                      <path d="M 22 35 L 22 110" stroke="rgba(255,255,255,0.4)" strokeWidth="2.5" strokeLinecap="round" />
-                      <path d="M 78 40 L 78 100" stroke="rgba(255,255,255,0.2)" strokeWidth="1.5" strokeLinecap="round" />
-                      
-                      {/* Little Folded Paper Letters Resting Inside Jar */}
-                      <g className="transition-transform group-hover:scale-105 transform-origin-center">
-                        <rect x="25" y="90" width="22" height="15" rx="3" fill="#fde68a" transform="rotate(-12 36 97)" opacity="0.9" />
-                        <rect x="52" y="88" width="24" height="16" rx="3" fill="#fbcfe8" transform="rotate(15 64 96)" opacity="0.9" />
-                        <rect x="36" y="75" width="25" height="16" rx="3" fill="#f43f5e" transform="rotate(-5 48 83)" opacity="0.8" />
-                        <rect x="28" y="100" width="26" height="14" rx="3" fill="#ffffff" transform="rotate(8 41 107)" opacity="0.95" />
-                        <rect x="48" y="102" width="22" height="13" rx="3" fill="#c084fc" transform="rotate(-18 59 108)" opacity="0.85" />
+                      <path d="M 26 42 L 26 128" stroke="rgba(255,255,255,0.5)" strokeWidth="3" strokeLinecap="round" />
+                      <path d="M 94 48 L 94 118" stroke="rgba(255,255,255,0.25)" strokeWidth="2" strokeLinecap="round" />
+
+                      {/* Inside Floating Envelopes/Letters */}
+                      <g className="transition-transform duration-500 group-hover:scale-110 transform-origin-center">
+                        <rect x="30" y="105" width="28" height="18" rx="3" fill="#fef08a" transform="rotate(-15 44 114)" opacity="0.95" />
+                        <rect x="62" y="102" width="30" height="20" rx="3" fill="#fbcfe8" transform="rotate(18 77 112)" opacity="0.95" />
+                        <rect x="42" y="88" width="32" height="20" rx="3" fill="#f43f5e" transform="rotate(-6 58 98)" opacity="0.9" />
+                        <rect x="32" y="118" width="32" height="18" rx="3" fill="#ffffff" transform="rotate(10 48 127)" opacity="0.98" />
+                        <rect x="58" y="120" width="28" height="16" rx="3" fill="#e9d5ff" transform="rotate(-20 72 128)" opacity="0.9" />
                       </g>
 
-                      {/* Cork Stopper Top Lid */}
+                      {/* Animated Cork Stopper Top Lid */}
                       <motion.path 
-                        d="M 28 25 L 72 25 L 70 12 L 30 12 Z" 
-                        fill="url(#corkLid)" 
+                        d="M 32 24 L 88 24 L 84 8 L 36 8 Z" 
+                        fill="url(#corkLidFancy)" 
                         stroke="#92400e" 
-                        strokeWidth="1" 
-                        animate={isExtractingLetter ? { y: -12 } : { y: 0 }}
-                        transition={{ duration: 0.3 }}
+                        strokeWidth="1.5" 
+                        animate={isExtractingLetter ? { y: -18, rotate: -8 } : { y: 0, rotate: 0 }}
+                        transition={{ duration: 0.35, ease: "easeOut" }}
                       />
                     </svg>
 
@@ -855,36 +798,30 @@ export default function BubuWebsite() {
                     <AnimatePresence>
                       {isExtractingLetter && (
                         <motion.div 
-                          initial={{ y: 20, scale: 0.4, opacity: 0.8 }}
-                          animate={{ y: -110, scale: 1.1, opacity: 1, rotate: [0, -10, 10, 0] }}
+                          initial={{ y: 30, scale: 0.3, opacity: 0 }}
+                          animate={{ y: -130, scale: 1.25, opacity: 1, rotate: [0, -12, 12, 0] }}
                           exit={{ opacity: 0 }}
-                          transition={{ duration: 0.8, ease: "easeOut" }}
-                          className="absolute z-30 bg-[#fef3c7] border border-amber-400 p-3 rounded-xl shadow-[0_0_25px_rgba(251,191,36,0.8)] text-amber-900 flex items-center justify-center gap-1.5"
+                          transition={{ duration: 0.85, ease: "easeOut" }}
+                          className="absolute z-30 bg-[#fef3c7] border-2 border-amber-400 px-4 py-2 rounded-2xl shadow-[0_0_35px_rgba(251,191,36,0.9)] text-amber-950 flex items-center justify-center gap-2 whitespace-nowrap"
                         >
-                          <Feather size={16} className="text-rose-500 animate-bounce" />
-                          <span className="font-serif italic text-xs font-bold">Unfolding Letter...</span>
+                          <Feather size={18} className="text-rose-600 animate-bounce" />
+                          <span className="font-serif italic text-xs font-bold">Unfolding Your Romantic Letter...</span>
                         </motion.div>
                       )}
                     </AnimatePresence>
                   </div>
 
-                  {/* Pull Button */}
+                  {/* Grand Fancy Button */}
                   <button 
                     onClick={handlePullLetterFromJar}
                     disabled={isExtractingLetter}
-                    className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-rose-500 via-pink-500 to-purple-600 text-white font-serif italic text-xs px-6 py-2.5 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all cursor-pointer border border-pink-300/40"
+                    className="inline-flex items-center justify-center gap-2.5 bg-gradient-to-r from-amber-500 via-rose-500 to-pink-600 text-white font-serif italic text-sm px-8 py-3.5 rounded-full shadow-[0_0_30px_rgba(251,191,36,0.4)] hover:scale-105 active:scale-95 transition-all cursor-pointer border border-amber-200/50"
                   >
-                    <Feather size={14} /> {isExtractingLetter ? 'Extracting...' : 'Pull A Letter From Jar 💌'}
+                    <Feather size={16} /> {isExtractingLetter ? 'Unsealing...' : 'Unseal A Romantic Letter 💌'}
                   </button>
 
-                  <div className="w-full flex items-center justify-between pt-3 border-t border-white/10 text-[10px] font-mono text-purple-300/50 mt-2">
-                    <span>PURE DEVOTION // SRUSHTI & NARAYAN</span>
-                    <button 
-                      onClick={() => setShowQuizModal(true)}
-                      className="text-pink-300 hover:underline flex items-center gap-1"
-                    >
-                      <HelpCircle size={11} /> Take Bubu Quiz 🧩
-                    </button>
+                  <div className="w-full flex items-center justify-center pt-3 border-t border-white/10 text-[11px] font-serif italic text-amber-200/70 mt-2">
+                    ✨ Crafted with endless devotion for my adorable Bubu ✨
                   </div>
 
                 </div>
@@ -1065,7 +1002,7 @@ export default function BubuWebsite() {
               animate={{ opacity: 1, scale: 1, y: 0, rotateX: 0 }}
               exit={{ opacity: 0, scale: 0.7, y: 50 }}
               transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-              className="relative w-full max-w-md bg-[#faf4e8] text-[#3d2314] rounded-3xl p-6 sm:p-8 shadow-[0_0_60px_rgba(251,191,36,0.3)] border-4 border-[#e6d2b5] overflow-hidden text-left font-serif"
+              className="relative w-full max-w-lg bg-[#faf4e8] text-[#3d2314] rounded-3xl p-6 sm:p-8 shadow-[0_0_60px_rgba(251,191,36,0.35)] border-4 border-[#e6d2b5] overflow-hidden text-left font-serif"
             >
               {/* Paper Texture Overlay */}
               <div className="absolute inset-0 bg-[radial-gradient(#d97706_0.5px,transparent_0.5px)] [background-size:12px_12px] opacity-10 pointer-events-none" />
@@ -1093,7 +1030,7 @@ export default function BubuWebsite() {
                 </span>
 
                 {/* Wax Seal Stamp Accent */}
-                <div className="w-9 h-9 rounded-full bg-rose-700 border-2 border-rose-900 shadow-md flex items-center justify-center text-white text-xs font-bold font-serif select-none">
+                <div className="w-10 h-10 rounded-full bg-rose-700 border-2 border-rose-900 shadow-md flex items-center justify-center text-white text-sm font-bold font-serif select-none">
                   ❤️
                 </div>
               </div>
@@ -1102,13 +1039,13 @@ export default function BubuWebsite() {
               <div className="flex gap-2 mt-6 pt-2">
                 <button 
                   onClick={handlePullLetterFromJar}
-                  className="flex-1 bg-gradient-to-r from-rose-700 to-amber-800 text-white font-serif italic text-xs py-2.5 rounded-full shadow-md hover:scale-105 active:scale-95 transition-all cursor-pointer text-center"
+                  className="flex-1 bg-gradient-to-r from-rose-700 via-amber-800 to-pink-700 text-white font-serif italic text-xs py-3 rounded-full shadow-md hover:scale-105 active:scale-95 transition-all cursor-pointer text-center"
                 >
                   Pull Another Letter 💌
                 </button>
                 <button 
                   onClick={() => setOpenedLetter(null)}
-                  className="bg-amber-900/10 hover:bg-amber-900/20 text-amber-900 font-serif italic text-xs px-4 py-2.5 rounded-full transition-all cursor-pointer"
+                  className="bg-amber-900/10 hover:bg-amber-900/20 text-amber-900 font-serif italic text-xs px-5 py-3 rounded-full transition-all cursor-pointer"
                 >
                   Put Back In Jar 🏺
                 </button>
@@ -1178,98 +1115,6 @@ export default function BubuWebsite() {
               >
                 Deactivate Protocol ❤️
               </button>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
-
-      {/* BUBU MINI QUIZ MODAL */}
-      <AnimatePresence>
-        {showQuizModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.85, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.85, y: 20 }}
-              className="relative w-full max-w-md bg-[#0d061a]/95 border border-cyan-500/50 rounded-3xl p-6 shadow-[0_0_60px_rgba(6,182,212,0.35)] overflow-hidden"
-            >
-              <button 
-                onClick={() => setShowQuizModal(false)}
-                className="absolute top-4 right-4 p-2 rounded-full bg-white/5 border border-white/10 text-purple-200 hover:text-white transition-all"
-              >
-                <X size={16} />
-              </button>
-
-              {!quizCompleted ? (
-                <div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <Sparkles size={14} className="text-cyan-400 animate-spin" />
-                    <span className="text-[10px] font-mono tracking-widest text-cyan-300 uppercase">
-                      BUBU TRIVIA // QUESTION {quizStep + 1} OF {quizQuestions.length}
-                    </span>
-                  </div>
-
-                  <h3 className="text-lg font-bold text-white mb-5 leading-snug">
-                    {quizQuestions[quizStep].question}
-                  </h3>
-
-                  <div className="space-y-2.5 mb-6">
-                    {quizQuestions[quizStep].options.map((opt, idx) => (
-                      <button
-                        key={idx}
-                        onClick={() => handleAnswerSelect(idx)}
-                        className={`w-full text-left p-3.5 rounded-2xl border text-xs sm:text-sm font-medium transition-all flex items-center justify-between ${
-                          selectedOption === idx
-                            ? idx === quizQuestions[quizStep].correct
-                              ? 'bg-emerald-500/20 border-emerald-400 text-emerald-200 scale-[1.02]'
-                              : 'bg-rose-500/20 border-rose-400 text-rose-200'
-                            : 'bg-white/5 border-white/10 text-purple-100 hover:bg-cyan-500/10 hover:border-cyan-400'
-                        }`}
-                      >
-                        <span>{opt}</span>
-                        {selectedOption === idx && (
-                          <CheckCircle size={16} className={idx === quizQuestions[quizStep].correct ? 'text-emerald-400' : 'text-rose-400'} />
-                        )}
-                      </button>
-                    ))}
-                  </div>
-
-                  <div className="flex justify-between items-center text-[10px] font-mono text-purple-300/60">
-                    <span>Score: {quizScore} Points</span>
-                    <span>Babu & Bubu Quiz ✨</span>
-                  </div>
-                </div>
-              ) : (
-                <div className="text-center py-4">
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-pink-500 via-purple-500 to-cyan-400 p-0.5 mx-auto mb-4 flex items-center justify-center shadow-[0_0_30px_rgba(236,72,153,0.5)]">
-                    <div className="w-full h-full rounded-full bg-[#0d061a] flex items-center justify-center text-amber-300">
-                      <Award size={32} />
-                    </div>
-                  </div>
-
-                  <h3 className="text-2xl font-extrabold text-white mb-2">
-                    100% PERFECT MATCH! 🏆
-                  </h3>
-                  <p className="text-purple-200/80 text-xs sm:text-sm mb-6 leading-relaxed">
-                    You scored <span className="text-amber-300 font-bold">{quizScore}/{quizQuestions.length}</span>! You know Narayan inside out. You are officially his soulmate forever!
-                  </p>
-
-                  <div className="flex gap-3">
-                    <button 
-                      onClick={resetQuiz}
-                      className="flex-1 bg-white/10 hover:bg-white/20 border border-white/15 text-white font-bold text-xs py-3 rounded-full transition-all"
-                    >
-                      Play Again 🔄
-                    </button>
-                    <button 
-                      onClick={() => setShowQuizModal(false)}
-                      className="flex-1 bg-gradient-to-r from-pink-500 to-cyan-400 text-white font-bold text-xs py-3 rounded-full shadow-lg transition-all"
-                    >
-                      Close Quiz ❤️
-                    </button>
-                  </div>
-                </div>
-              )}
             </motion.div>
           </div>
         )}
