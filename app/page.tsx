@@ -9,7 +9,7 @@ import {
   Home as HomeIcon, Gem, Crown, Shield, Camera, Zap, Radio,
   ChevronLeft, ChevronRight, X, Coffee, Moon, Flame, ChevronDown,
   Lock, Unlock, Clock, RefreshCw, Key, RotateCw, Cpu, RadioTower,
-  Feather, MessageCircleHeart, Send, Mail, HeartPulse, Compass, PhoneCall
+  Feather, MessageCircleHeart, Send, Mail, HeartPulse, Compass, PhoneCall, Video
 } from 'lucide-react';
 
 const randomAnimations: any[] = [
@@ -909,13 +909,13 @@ export default function BubuWebsite() {
                     </div>
                   </div>
 
-                  {/* Long Distance Redeemable Passes Grid */}
+                  {/* Long Distance Redeemable Passes Grid (Updated for LDR reality) */}
                   <div className="w-full grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2">
                     {[
-                      { title: "Sleepy Call Pass", desc: "Late night calls till you fall asleep", icon: <PhoneCall size={16} className="text-pink-400" /> },
-                      { title: "Midnight Dessert Pass", desc: "Babu orders treats to your doorstep", icon: <ShoppingBag size={16} className="text-amber-300" /> },
-                      { title: "Movie Date Ticket", desc: "Virtual cinema night together", icon: <Camera size={16} className="text-cyan-300" /> },
-                      { title: "Our Sanctuary Home", desc: "Where distance becomes zero forever", icon: <HomeIcon size={16} className="text-rose-400" /> },
+                      { title: "Sleepy Video Call Pass", desc: "Face-to-face video calls till you fall asleep", icon: <Video size={16} className="text-pink-400" /> },
+                      { title: "Midnight Dessert Pass", desc: "Babu orders treats straight to your doorstep", icon: <ShoppingBag size={16} className="text-amber-300" /> },
+                      { title: "Voice Notes & Music", desc: "Custom audio notes & playlists for your mood", icon: <MessageCircleHeart size={16} className="text-cyan-300" /> },
+                      { title: "Next Meetup Guarantee ✈️", desc: "A locked date the moment our schedules align", icon: <Compass size={16} className="text-rose-400" /> },
                     ].map((item, idx) => (
                       <div key={idx} className="bg-white/5 border border-white/10 rounded-2xl p-3 text-center flex flex-col items-center justify-center">
                         <div className="mb-1 p-1.5 bg-white/5 rounded-full">{item.icon}</div>
