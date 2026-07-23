@@ -39,6 +39,26 @@ const randomAnimations: any[] = [
   }
 ];
 
+const hundredLoveWords = [
+  "My Love", "My Bubu", "My Wifey", "My Life", "My Everything", "My Universe", "My World", "My Soulmate",
+  "My Heartbeat", "My Happiness", "My Safe Place", "My Sunshine", "My Angel", "My Princess", "My Queen",
+  "My Favorite Person", "My Sweetheart", "My Cutie Pie", "My Forever", "My Home", "My Comfort", "My Peace",
+  "My Treasure", "My Better Half", "My Destiny", "My Smile", "My Joy", "My Dream", "My Little Baby",
+  "My Best Friend", "My Precious", "My Goddess", "My Whole Heart", "My Dearest", "My Forever Love",
+  "My Safe Haven", "My Shining Star", "My Only One", "My Heart & Soul", "My Sunshine Girl", "My Angel Face",
+  "My Cute Little Kid", "My Gorgeous", "My Perfect Girl", "My Beautiful Bubu", "My Endless Happiness",
+  "My Daily Inspiration", "My Sweet Girl", "My Greatest Blessing", "My Reason To Smile", "My Paradise",
+  "My Heart Keeper", "My Love Bug", "My Little Princess", "My Life Partner", "My Favorite Laugh",
+  "My Forever Mood", "My Sweet Angel", "My Pure Heart", "My True Love", "My Darling", "My Cozy Place",
+  "My Universe Girl", "My Soul Keeper", "My Bright Light", "My Lucky Charm", "My Heartbeat Owner",
+  "My Adorable Kid", "My Everything Girl", "My Warm Hug", "My Precious Gem", "My World Queen",
+  "My Forever Valentine", "My Dream Girl", "My Endless Joy", "My Peace Of Mind", "My Life Light",
+  "My Cute Tantrum Queen", "My Soul Comfort", "My Favorite Human", "My True Companion", "My Eternal Love",
+  "My Sweetest Blessing", "My Heart & Soulmate", "My Universe Keeper", "My Bright Sunshine", "My Whole Life",
+  "My Special Girl", "My Forever Bubu", "My Cutest Soul", "My Queen Bee", "My Endless Love", "My Precious Angel",
+  "My Pure Joy", "My Favorite Smile", "My Sweet World", "My Forever Home", "My Everything & More"
+];
+
 function ParticleTrail() {
   const [particles, setParticles] = useState<{ id: number; x: number; y: number; symbol: string }[]>([]);
 
@@ -165,7 +185,7 @@ export default function BubuWebsite() {
   const isScrollLocked = useRef(false);
   const touchStartY = useRef(0);
 
-  const totalSections = 6;
+  const totalSections = 7;
 
   const quizQuestions = [
     {
@@ -348,7 +368,7 @@ export default function BubuWebsite() {
     { src: '/saree.jpeg', fallback: fallbacks[4], tag: 'MODE // PERFECTION', title: 'Unmatched Beauty 💋', desc: 'Absolute perfection in every single way imaginable.' },
   ];
 
-  const sectionLabels = ["HERO", "GALLERY", "CLI & TIMELINE", "LOVE MATRIX", "CARE PROTOCOL", "SECRET VAULT"];
+  const sectionLabels = ["HERO", "LITTLE BUBU", "GALLERY", "CLI & TIMELINE", "LOVE MATRIX", "CARE PROTOCOL", "SECRET VAULT"];
 
   return (
     <main 
@@ -432,17 +452,17 @@ export default function BubuWebsite() {
         >
           <div className="max-w-4xl w-full my-auto">
             
-            {/* SECTION 0: HERO */}
+            {/* SECTION 0: HERO (SWAPPED TO bache.jpeg) */}
             {activeSection === 0 && (
               <div className="flex flex-col items-center text-center">
                 <div className="relative mb-4 sm:mb-6">
                   <div className="absolute -inset-4 rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-400 opacity-50 blur-lg animate-tilt" />
                   <div className="relative w-40 h-40 sm:w-48 sm:h-48 rounded-full p-1 bg-gradient-to-tr from-pink-500 via-purple-500 to-cyan-400 shadow-[0_0_60px_rgba(236,72,153,0.4)]">
                     <img 
-                      src="/elegent.jpeg" 
-                      alt="Srushti" 
+                      src="/bache.jpeg" 
+                      alt="Srushti Childhood" 
                       className="w-full h-full object-cover rounded-full border-2 border-white/20"
-                      onError={(e) => { (e.currentTarget as HTMLImageElement).src = fallbacks[2]; }}
+                      onError={(e) => { (e.currentTarget as HTMLImageElement).src = fallbacks[0]; }}
                     />
                   </div>
                   <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-[#0d0714]/90 backdrop-blur-md border border-pink-500/50 px-4 py-1 rounded-full shadow-[0_0_15px_rgba(236,72,153,0.3)] flex items-center gap-1.5 whitespace-nowrap">
@@ -468,8 +488,59 @@ export default function BubuWebsite() {
               </div>
             )}
 
-            {/* SECTION 1: PHOTO GALLERY */}
+            {/* SECTION 1: LITTLE BUBU & 100 NAMES TICKER */}
             {activeSection === 1 && (
+              <div className="w-full space-y-6">
+                <div className="text-center">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-pink-500/30 bg-pink-950/30 backdrop-blur-md mb-2">
+                    <Heart size={13} className="text-pink-400 fill-pink-400" />
+                    <span className="text-[10px] font-mono text-pink-300 tracking-widest uppercase">LITTLE BUBU // 100 NAMES OF LOVE</span>
+                  </div>
+                  <h2 className="text-2xl sm:text-4xl font-bold text-white tracking-wide">
+                    Forever My Cute Little Kid 👶
+                  </h2>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center max-w-3xl mx-auto bg-[#0f081d]/90 border border-pink-500/40 rounded-3xl p-6 backdrop-blur-2xl shadow-[0_0_50px_rgba(236,72,153,0.3)]">
+                  {/* Left Side: Photo Frame */}
+                  <div className="relative w-full h-64 sm:h-80 rounded-2xl overflow-hidden border border-pink-500/30 shadow-[0_0_20px_rgba(236,72,153,0.2)] bg-black/80 flex items-center justify-center p-2">
+                    <img 
+                      src="/bache.jpeg" 
+                      alt="Little Srushti" 
+                      className="max-h-full max-w-full object-contain rounded-xl drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)]"
+                      onError={(e) => { (e.currentTarget as HTMLImageElement).src = fallbacks[0]; }}
+                    />
+                    <span className="absolute bottom-3 left-3 bg-black/80 backdrop-blur-md border border-pink-500/30 text-[9px] font-mono px-2.5 py-1 rounded-full text-pink-300 tracking-widest uppercase">
+                      SRUSHTI // AGE 3 ✨
+                    </span>
+                  </div>
+
+                  {/* Right Side: Infinite Auto-Scrolling 100 Words */}
+                  <div className="relative h-64 sm:h-80 rounded-2xl overflow-hidden border border-pink-500/30 bg-[#090412]/90 p-4 flex flex-col justify-center">
+                    {/* Top & Bottom Mask Fades for slick marquee look */}
+                    <div className="pointer-events-none absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-[#090412] to-transparent z-10" />
+                    <div className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-[#090412] to-transparent z-10" />
+
+                    <motion.div 
+                      animate={{ y: ['0%', '-50%'] }}
+                      transition={{ duration: 35, ease: 'linear', repeat: Infinity }}
+                      className="flex flex-col gap-2.5 text-center"
+                    >
+                      {[...hundredLoveWords, ...hundredLoveWords].map((word, idx) => (
+                        <div key={idx} className="flex items-center justify-center gap-2 text-xs sm:text-sm font-mono font-bold text-pink-200 hover:text-amber-300 transition-colors py-1">
+                          <span className="text-pink-500 text-[10px]">💖</span>
+                          <span>{word}</span>
+                          <span className="text-pink-500 text-[10px]">💖</span>
+                        </div>
+                      ))}
+                    </motion.div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* SECTION 2: PHOTO GALLERY */}
+            {activeSection === 2 && (
               <div className="w-full">
                 <div className="text-center mb-6">
                   <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-pink-500/30 bg-pink-950/30 backdrop-blur-md mb-2">
@@ -534,8 +605,8 @@ export default function BubuWebsite() {
               </div>
             )}
 
-            {/* SECTION 2: CLI & TIMELINE */}
-            {activeSection === 2 && (
+            {/* SECTION 3: CLI & TIMELINE */}
+            {activeSection === 3 && (
               <div className="w-full space-y-6">
                 <div className="bg-[#090412] border border-cyan-500/40 rounded-2xl overflow-hidden shadow-[0_0_30px_rgba(6,182,212,0.15)] font-mono text-xs">
                   <div className="bg-[#120824] px-4 py-2 border-b border-cyan-500/30 flex items-center justify-between">
@@ -579,8 +650,8 @@ export default function BubuWebsite() {
               </div>
             )}
 
-            {/* SECTION 3: REASONS GENERATOR & QUIZ LAUNCHER */}
-            {activeSection === 3 && (
+            {/* SECTION 4: REASONS GENERATOR & QUIZ LAUNCHER */}
+            {activeSection === 4 && (
               <div className="w-full text-center">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-pink-500/30 bg-pink-950/30 backdrop-blur-md mb-3">
                   <Sparkles size={13} className="text-pink-400" />
@@ -626,8 +697,8 @@ export default function BubuWebsite() {
               </div>
             )}
 
-            {/* SECTION 4: CARE PROTOCOL & WISHLIST */}
-            {activeSection === 4 && (
+            {/* SECTION 5: CARE PROTOCOL & WISHLIST */}
+            {activeSection === 5 && (
               <div className="w-full space-y-6">
                 <div className="bg-gradient-to-r from-pink-950/40 via-purple-950/40 to-cyan-950/40 border border-pink-500/40 rounded-3xl p-8 sm:p-10 text-center backdrop-blur-2xl shadow-[0_0_50px_rgba(236,72,153,0.2)]">
                   <div className="w-14 h-14 rounded-full bg-pink-500/20 border border-pink-500/40 flex items-center justify-center mx-auto mb-3 text-pink-300 animate-pulse">
@@ -662,8 +733,8 @@ export default function BubuWebsite() {
               </div>
             )}
 
-            {/* SECTION 5: SECRET SECURITY VAULT WITH NO INNER SCROLLBAR */}
-            {activeSection === 5 && (
+            {/* SECTION 6: SECRET SECURITY VAULT */}
+            {activeSection === 6 && (
               <div className="w-full space-y-6">
                 <div className="text-center">
                   <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-pink-500/30 bg-pink-950/30 backdrop-blur-md mb-2">
