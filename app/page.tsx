@@ -479,24 +479,16 @@ export default function BubuWebsite() {
       else if (e.deltaY < -30) changeSection(activeSectionRef.current - 1);
     };
 
-    window.addEventListener('wheel', handleWheel, { passive: true });
+    window.addEventListener('wheel', handleWheel);
     return () => window.removeEventListener('wheel', handleWheel);
   }, [changeSection, openedLetter, selectedOpenWhen]);
 
-  // Non-passive Touch Listener to prevent Mobile Chrome Refresh
+  // Clean Mobile Touch Handler
   useEffect(() => {
     let touchStartY = 0;
 
     const handleTouchStart = (e: TouchEvent) => {
       touchStartY = e.touches[0].clientY;
-    };
-
-    const handleTouchMove = (e: TouchEvent) => {
-      // Don't override touch behavior when a modal letter is open
-      if (openedLetter || selectedOpenWhen) return;
-      if (e.cancelable) {
-        e.preventDefault();
-      }
     };
 
     const handleTouchEnd = (e: TouchEvent) => {
@@ -513,13 +505,11 @@ export default function BubuWebsite() {
       }
     };
 
-    window.addEventListener('touchstart', handleTouchStart, { passive: true });
-    window.addEventListener('touchmove', handleTouchMove, { passive: false });
-    window.addEventListener('touchend', handleTouchEnd, { passive: true });
+    window.addEventListener('touchstart', handleTouchStart);
+    window.addEventListener('touchend', handleTouchEnd);
 
     return () => {
       window.removeEventListener('touchstart', handleTouchStart);
-      window.removeEventListener('touchmove', handleTouchMove);
       window.removeEventListener('touchend', handleTouchEnd);
     };
   }, [changeSection, openedLetter, selectedOpenWhen]);
@@ -564,7 +554,7 @@ export default function BubuWebsite() {
   const sectionLabels = ["HERO", "LITTLE BUBU", "GALLERY", "SACRED HUD", "LOVE JAR", "LDR COMFORT", "SECRET VAULT"];
 
   return (
-    <main className="h-[100dvh] w-screen bg-[#05020a] text-[#f3e9f8] relative overflow-hidden font-sans selection:bg-pink-500 selection:text-white flex flex-col justify-between overscroll-none touch-none">
+    <main className="h-[100dvh] w-screen bg-[#05020a] text-[#f3e9f8] relative overflow-hidden font-sans flex flex-col justify-between">
       <ParticleTrail />
 
       {/* FLYING KISSES & HUGS ANIMATION PARTICLES */}
@@ -700,7 +690,7 @@ export default function BubuWebsite() {
             
             {/* SECTION 0: HERO WITH TAP HEART EXPLOSION */}
             {activeSection === 0 && (
-              <div className="flex flex-col items-center text-center h-full justify-center gap-2 sm:gap-3 py-4 px-2 overflow-hidden my-auto">
+              <div className="flex flex-col items-center text-center h-full justify-center gap-2 sm:gap-3 py-4 px-2 overflow-hidden my-auto w-full">
                 
                 {/* Battery Status Pill */}
                 <div className="shrink-0 inline-flex items-center gap-1.5 bg-[#0d0714]/90 border border-emerald-500/40 px-3 py-1 rounded-full shadow-[0_0_15px_rgba(16,185,129,0.2)] font-mono text-[9px] sm:text-[10px] text-emerald-300">
@@ -711,19 +701,19 @@ export default function BubuWebsite() {
                 {/* Hero Photo Circle */}
                 <div 
                   onClick={handleHeroTap}
-                  className="shrink-0 relative my-1 cursor-pointer group select-none"
+                  className="shrink-0 relative my-1 cursor-pointer group select-none w-32 h-32 sm:w-44 sm:h-44"
                 >
                   <div className="absolute -inset-3 rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-400 opacity-50 blur-md animate-tilt" />
-                  <div className="relative w-32 h-32 sm:w-44 sm:h-44 rounded-full p-1 bg-gradient-to-tr from-pink-500 via-purple-500 to-cyan-400 shadow-[0_0_30px_rgba(236,72,153,0.4)] transition-transform duration-300 group-hover:scale-105">
+                  <div className="relative w-full h-full rounded-full p-1 bg-gradient-to-tr from-pink-500 via-purple-500 to-cyan-400 shadow-[0_0_30px_rgba(236,72,153,0.4)] transition-transform duration-300 group-hover:scale-105 aspect-square overflow-hidden">
                     <img 
                       src="/elegent.jpeg" 
                       alt="Srushti" 
-                      className="w-full h-full object-cover rounded-full border-2 border-white/20"
+                      className="w-full h-full object-cover object-center rounded-full border-2 border-white/20"
                       onError={(e) => { (e.currentTarget as HTMLImageElement).src = fallbacks[2]; }}
                     />
                   </div>
 
-                  <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-[#0d0714]/90 backdrop-blur-md border border-pink-500/50 px-2.5 py-0.5 rounded-full shadow-[0_0_15px_rgba(236,72,153,0.3)] flex items-center gap-1 whitespace-nowrap">
+                  <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-[#0d0714]/90 backdrop-blur-md border border-pink-500/50 px-2.5 py-0.5 rounded-full shadow-[0_0_15px_rgba(236,72,153,0.3)] flex items-center gap-1 whitespace-nowrap z-20">
                     <span className="w-1.5 h-1.5 rounded-full bg-pink-400 animate-ping" />
                     <span className="text-[8px] sm:text-[9px] font-mono tracking-widest text-pink-200">TAP PICTURE FOR LOVE ❤️</span>
                   </div>
