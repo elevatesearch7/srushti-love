@@ -757,28 +757,31 @@ export default function BubuWebsite() {
               </div>
             )}
 
-            {/* SECTION 1: LITTLE BUBU */}
+            {/* SECTION 1: LITTLE BUBU (EVENLY SPACED & STRETCHED) */}
             {activeSection === 1 && (
-              <div className="w-full space-y-2 sm:space-y-4 h-full flex flex-col justify-evenly py-2">
-                <div className="text-center shrink-0 space-y-1">
+              <div className="w-full h-full flex flex-col justify-evenly items-center py-4 sm:py-6 px-1">
+                {/* Header */}
+                <div className="text-center shrink-0 space-y-1.5">
                   <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full border border-pink-500/30 bg-pink-950/30 backdrop-blur-md">
                     <Heart size={11} className="text-pink-400 fill-pink-400" />
-                    <span className="text-[9px] font-mono text-pink-300 tracking-widest uppercase">LITTLE BUBU // 100 NAMES</span>
+                    <span className="text-[9px] sm:text-[10px] font-mono text-pink-300 tracking-widest uppercase">LITTLE BUBU // 100 NAMES</span>
                   </div>
                   <h2 className="text-2xl sm:text-4xl font-bold text-white tracking-wide">
                     Forever My Cute Little Kid 👶
                   </h2>
 
-                  <div className="inline-flex items-center gap-1.5 bg-[#0d0714]/90 border border-pink-400/40 px-3 py-0.5 rounded-full text-[9px] sm:text-[10px] font-mono text-amber-200 shadow-[0_0_15px_rgba(251,191,36,0.2)]">
+                  <div className="inline-flex items-center gap-1.5 bg-[#0d0714]/90 border border-pink-400/40 px-3 py-1 rounded-full text-[9px] sm:text-[10px] font-mono text-amber-200 shadow-[0_0_15px_rgba(251,191,36,0.2)]">
                     <Gauge size={12} className="text-amber-300 animate-spin" />
                     <span>CUTENESS LEVEL: ♾️ / 100% (OVERFLOW ERROR 🥰)</span>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-6 items-center max-w-3xl mx-auto w-full bg-[#0f081d]/90 border border-pink-500/40 rounded-3xl p-3.5 sm:p-6 backdrop-blur-2xl shadow-[0_0_40px_rgba(236,72,153,0.3)]">
+                {/* Main Glass Card with Stretched Photo & Words */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-6 items-center max-w-3xl mx-auto w-full bg-[#0f081d]/90 border border-pink-500/40 rounded-3xl p-3.5 sm:p-6 backdrop-blur-2xl shadow-[0_0_40px_rgba(236,72,153,0.3)] my-auto">
+                  {/* Stretched Baby Photo Box */}
                   <div 
                     onClick={handleBabyTap}
-                    className="relative w-full h-44 sm:h-80 rounded-2xl overflow-hidden border border-pink-500/30 shadow-[0_0_15px_rgba(236,72,153,0.2)] bg-black/80 flex items-center justify-center p-2 cursor-pointer group select-none transition-transform duration-300 hover:scale-[1.02]"
+                    className="relative w-full h-56 sm:h-80 rounded-2xl overflow-hidden border border-pink-500/30 shadow-[0_0_15px_rgba(236,72,153,0.2)] bg-black/80 flex items-center justify-center p-2 cursor-pointer group select-none transition-transform duration-300 hover:scale-[1.02]"
                   >
                     <img 
                       src="/bachi.jpeg" 
@@ -786,7 +789,7 @@ export default function BubuWebsite() {
                       className="max-h-full max-w-full object-contain rounded-xl drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)]"
                       onError={(e) => { (e.currentTarget as HTMLImageElement).src = fallbacks[0]; }}
                     />
-                    <span className="absolute bottom-2.5 left-2.5 bg-black/80 backdrop-blur-md border border-pink-500/30 text-[8px] font-mono px-2.5 py-1 rounded-full text-pink-300 tracking-widest uppercase">
+                    <span className="absolute bottom-2.5 left-2.5 bg-black/80 backdrop-blur-md border border-pink-500/30 text-[8px] sm:text-[9px] font-mono px-2.5 py-1 rounded-full text-pink-300 tracking-widest uppercase z-10">
                       SRUSHTI // AGE 3 ✨ (TAP ME)
                     </span>
 
@@ -804,7 +807,8 @@ export default function BubuWebsite() {
                     </AnimatePresence>
                   </div>
 
-                  <div className="relative h-44 sm:h-80 rounded-2xl overflow-hidden border border-pink-500/30 bg-[#090412]/90 p-3 sm:p-4 flex flex-col justify-center">
+                  {/* Stretched Continuous Moving Words Box */}
+                  <div className="relative h-48 sm:h-80 rounded-2xl overflow-hidden border border-pink-500/30 bg-[#090412]/90 p-3 sm:p-4 flex flex-col justify-center">
                     <div className="pointer-events-none absolute inset-x-0 top-0 h-10 bg-gradient-to-b from-[#090412] to-transparent z-10" />
                     <div className="pointer-events-none absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-[#090412] to-transparent z-10" />
 
