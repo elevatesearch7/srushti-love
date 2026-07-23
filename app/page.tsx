@@ -550,7 +550,6 @@ export default function BubuWebsite() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 items-center max-w-3xl mx-auto w-full bg-[#0f081d]/90 border border-pink-500/40 rounded-3xl p-4 sm:p-6 backdrop-blur-2xl shadow-[0_0_40px_rgba(236,72,153,0.3)]">
-                  {/* Photo Frame - Increased Height for vertical feel */}
                   <div className="relative w-full h-48 sm:h-80 rounded-2xl overflow-hidden border border-pink-500/30 shadow-[0_0_15px_rgba(236,72,153,0.2)] bg-black/80 flex items-center justify-center p-2">
                     <img 
                       src="/bachi.jpeg" 
@@ -563,7 +562,6 @@ export default function BubuWebsite() {
                     </span>
                   </div>
 
-                  {/* Infinite Auto-Scrolling Names - Increased Height */}
                   <div className="relative h-48 sm:h-80 rounded-2xl overflow-hidden border border-pink-500/30 bg-[#090412]/90 p-3 sm:p-4 flex flex-col justify-center">
                     <div className="pointer-events-none absolute inset-x-0 top-0 h-10 bg-gradient-to-b from-[#090412] to-transparent z-10" />
                     <div className="pointer-events-none absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-[#090412] to-transparent z-10" />
@@ -615,7 +613,6 @@ export default function BubuWebsite() {
                   </button>
 
                   <div className="w-full bg-[#0f081d]/90 backdrop-blur-2xl border border-pink-500/40 rounded-3xl overflow-hidden shadow-[0_10px_30px_rgba(236,72,153,0.3)] flex flex-col">
-                    {/* Increased height for photo slider */}
                     <div className="h-[250px] sm:h-[320px] w-full overflow-hidden relative bg-[#090412] flex items-center justify-center p-2">
                       <img 
                         src={moodGallery[currentSlide].src} 
@@ -702,7 +699,6 @@ export default function BubuWebsite() {
                     })}
                   </div>
 
-                  {/* Expanded vertical screen height */}
                   <div className="relative bg-[#05020c] border border-white/15 rounded-2xl p-4 sm:p-5 min-h-[170px] sm:min-h-[200px] flex flex-col justify-between overflow-hidden shadow-inner">
                     <div className="absolute top-2.5 right-3 text-[8px] font-mono text-purple-300/40 tracking-widest uppercase">
                       HOLOGRAPHIC // 0{selectedMoment + 1}
@@ -770,7 +766,6 @@ export default function BubuWebsite() {
                     <span>Tap Glass Jar to Pull Letter 💌</span>
                   </motion.div>
 
-                  {/* Tall Jar Visual Container */}
                   <div 
                     onClick={handlePullLetterFromJar}
                     className="relative w-52 h-56 sm:w-64 sm:h-72 my-1 cursor-pointer group flex items-center justify-center transition-transform duration-300 hover:scale-105"
@@ -845,72 +840,71 @@ export default function BubuWebsite() {
               </div>
             )}
 
-            {/* SECTION 5: LONG DISTANCE DEVOTION & COMFORT HUB 🫂 */}
+            {/* SECTION 5: LONG DISTANCE DEVOTION & COMFORT HUB (Micro-Compact Mobile Optimized) 🫂 */}
             {activeSection === 5 && (
-              <div className="w-full text-center max-w-xl mx-auto space-y-3 sm:space-y-4 h-full flex flex-col justify-evenly py-2">
-                <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full border border-pink-400/40 bg-pink-950/30 backdrop-blur-md shadow-[0_0_15px_rgba(236,72,153,0.25)] shrink-0 self-center">
-                  <Compass size={12} className="text-pink-300 animate-spin" />
-                  <span className="text-[10px] sm:text-[11px] font-serif tracking-widest text-pink-200 uppercase">LDR Comfort Hub</span>
+              <div className="w-full text-center max-w-xl mx-auto space-y-2 sm:space-y-4 h-full flex flex-col justify-evenly py-1.5">
+                <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full border border-pink-400/40 bg-pink-950/30 backdrop-blur-md shadow-[0_0_15px_rgba(236,72,153,0.25)] shrink-0 self-center">
+                  <Compass size={11} className="text-pink-300 animate-spin" />
+                  <span className="text-[9px] sm:text-[11px] font-serif tracking-widest text-pink-200 uppercase">LDR Comfort Hub</span>
                 </div>
 
-                <h2 className="text-2xl sm:text-4xl font-serif italic text-white tracking-wide shrink-0">
+                <h2 className="text-xl sm:text-3xl font-serif italic text-white tracking-wide shrink-0">
                   Across The Miles, Always Yours 🌐
                 </h2>
 
-                <div className="bg-gradient-to-b from-[#180826]/90 via-[#0e0419]/95 to-[#06020c]/98 border border-pink-500/40 rounded-3xl p-4 sm:p-6 backdrop-blur-2xl shadow-[0_0_50px_rgba(236,72,153,0.2)] relative flex flex-col justify-between items-center gap-4">
+                <div className="bg-gradient-to-b from-[#180826]/90 via-[#0e0419]/95 to-[#06020c]/98 border border-pink-500/40 rounded-3xl p-3 sm:p-5 backdrop-blur-2xl shadow-[0_0_50px_rgba(236,72,153,0.2)] relative flex flex-col justify-between items-center gap-2.5 sm:gap-4">
                   
                   {/* Hug Transmitter */}
-                  <div className="w-full bg-gradient-to-r from-pink-950/40 via-purple-950/40 to-rose-950/40 border border-pink-500/30 rounded-2xl p-4 sm:p-5 text-center flex flex-col items-center">
-                    <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-pink-500/20 border border-pink-400/50 flex items-center justify-center mb-1.5 text-pink-300 shadow-[0_0_15px_rgba(236,72,153,0.4)]">
-                      <HeartPulse size={20} className="animate-pulse text-pink-400" />
+                  <div className="w-full bg-gradient-to-r from-pink-950/40 via-purple-950/40 to-rose-950/40 border border-pink-500/30 rounded-2xl p-2.5 sm:p-4 text-center flex flex-col items-center">
+                    <div className="w-8 h-8 sm:w-11 sm:h-11 rounded-full bg-pink-500/20 border border-pink-400/50 flex items-center justify-center mb-1 text-pink-300 shadow-[0_0_15px_rgba(236,72,153,0.4)]">
+                      <HeartPulse size={16} className="animate-pulse text-pink-400" />
                     </div>
-                    <h3 className="text-base sm:text-lg font-serif italic font-bold text-white mb-1">
+                    <h3 className="text-xs sm:text-base font-serif italic font-bold text-white mb-0.5">
                       Virtual Hug Transmitted 🫂
                     </h3>
-                    <p className="text-xs text-purple-200/80 max-w-md mx-auto mb-3 leading-relaxed">
+                    <p className="text-[10px] sm:text-xs text-purple-200/80 max-w-md mx-auto mb-2 leading-tight">
                       Whenever the distance feels hard, tap below to receive Babu's warm hug straight in your heart.
                     </p>
                     <button 
                       onClick={handleSendVirtualHug}
-                      className="bg-gradient-to-r from-rose-500 via-pink-500 to-purple-600 text-white font-serif italic text-xs sm:text-sm px-7 py-2.5 sm:py-3 rounded-full shadow-[0_0_20px_rgba(236,72,153,0.5)] hover:scale-105 active:scale-95 transition-all cursor-pointer border border-pink-300/40 flex items-center gap-2"
+                      className="bg-gradient-to-r from-rose-500 via-pink-500 to-purple-600 text-white font-serif italic text-[10px] sm:text-xs px-5 py-1.5 sm:py-2.5 rounded-full shadow-[0_0_20px_rgba(236,72,153,0.5)] hover:scale-105 active:scale-95 transition-all cursor-pointer border border-pink-300/40 flex items-center gap-1.5"
                     >
-                      <Sparkles size={13} className="text-amber-300" /> Receive Babu&apos;s Hug Right Now ❤️
+                      <Sparkles size={11} className="text-amber-300" /> Receive Babu&apos;s Hug Right Now ❤️
                     </button>
                   </div>
 
-                  {/* "Open When..." Envelopes - Height stretched */}
+                  {/* "Open When..." Envelopes Grid */}
                   <div className="w-full">
-                    <h4 className="text-[10px] font-mono text-pink-300 uppercase tracking-widest mb-2 text-left flex items-center gap-1.5">
-                      <Mail size={12} /> Open When Envelopes:
+                    <h4 className="text-[9px] sm:text-[10px] font-mono text-pink-300 uppercase tracking-widest mb-1 text-left flex items-center gap-1">
+                      <Mail size={11} /> Open When Envelopes:
                     </h4>
 
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 sm:gap-2">
                       {openWhenLetters.map((env, idx) => (
                         <button
                           key={idx}
                           onClick={() => setSelectedOpenWhen(env)}
-                          className="p-2.5 sm:p-3 rounded-2xl bg-white/5 border border-pink-500/30 hover:border-pink-400 hover:bg-pink-500/10 transition-all text-left flex flex-col justify-between h-20 sm:h-24 group cursor-pointer"
+                          className="p-2 sm:p-2.5 rounded-2xl bg-white/5 border border-pink-500/30 hover:border-pink-400 hover:bg-pink-500/10 transition-all text-left flex flex-col justify-between h-14 sm:h-20 group cursor-pointer"
                         >
-                          <span className="text-[9px] font-mono text-pink-300/80">0{idx + 1}</span>
-                          <span className="text-xs font-serif italic font-bold text-amber-200 group-hover:text-white leading-tight">{env.trigger}</span>
-                          <span className="text-[8px] font-mono text-purple-300/60 hidden sm:flex items-center gap-1">Tap envelope <Feather size={8} /></span>
+                          <span className="text-[8px] sm:text-[9px] font-mono text-pink-300/80">0{idx + 1}</span>
+                          <span className="text-[10px] sm:text-xs font-serif italic font-bold text-amber-200 group-hover:text-white leading-tight truncate">{env.trigger}</span>
                         </button>
                       ))}
                     </div>
                   </div>
 
                   {/* LDR Passes Grid */}
-                  <div className="w-full grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
+                  <div className="w-full grid grid-cols-2 sm:grid-cols-4 gap-1.5 sm:gap-2 pt-0.5">
                     {[
-                      { title: "Sleepy Video Call", desc: "Face-to-face calls till sleep", icon: <Video size={15} className="text-pink-400" /> },
-                      { title: "Midnight Dessert", desc: "Treats to your doorstep", icon: <ShoppingBag size={15} className="text-amber-300" /> },
-                      { title: "Unlimited VC Kisses 💋", desc: "Screen hugs & kisses on demand", icon: <Heart size={15} className="text-cyan-300 fill-cyan-300" /> },
-                      { title: "Next Meetup ✈️", desc: "Locked date when schedules align", icon: <Compass size={15} className="text-rose-400" /> },
+                      { title: "Sleepy Video Call", desc: "Face-to-face calls till sleep", icon: <Video size={13} className="text-pink-400" /> },
+                      { title: "Midnight Dessert", desc: "Treats to your doorstep", icon: <ShoppingBag size={13} className="text-amber-300" /> },
+                      { title: "Unlimited VC Kisses 💋", desc: "Screen hugs & kisses on demand", icon: <Heart size={13} className="text-cyan-300 fill-cyan-300" /> },
+                      { title: "Next Meetup ✈️", desc: "Locked date when schedules align", icon: <Compass size={13} className="text-rose-400" /> },
                     ].map((item, idx) => (
-                      <div key={idx} className="bg-white/5 border border-white/10 rounded-2xl p-2.5 text-center flex flex-col items-center justify-center">
-                        <div className="mb-1 p-1 bg-white/5 rounded-full">{item.icon}</div>
-                        <h5 className="text-[11px] font-bold text-white mb-0.5 truncate w-full">{item.title}</h5>
-                        <p className="text-[9px] text-purple-200/60 leading-tight line-clamp-2">{item.desc}</p>
+                      <div key={idx} className="bg-white/5 border border-white/10 rounded-xl p-1.5 sm:p-2 text-center flex flex-col items-center justify-center">
+                        <div className="mb-0.5 p-1 bg-white/5 rounded-full">{item.icon}</div>
+                        <h5 className="text-[10px] font-bold text-white mb-0.5 truncate w-full">{item.title}</h5>
+                        <p className="text-[8px] text-purple-200/60 leading-tight line-clamp-1">{item.desc}</p>
                       </div>
                     ))}
                   </div>
@@ -922,9 +916,9 @@ export default function BubuWebsite() {
                         initial={{ opacity: 0, y: 15, scale: 0.9 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: -10, scale: 0.9 }}
-                        className="bg-gradient-to-r from-pink-500 via-rose-500 to-purple-600 text-white px-5 py-2 rounded-full font-serif italic text-xs shadow-[0_0_20px_rgba(236,72,153,0.8)] border border-pink-300 flex items-center justify-center gap-1.5 mx-auto"
+                        className="bg-gradient-to-r from-pink-500 via-rose-500 to-purple-600 text-white px-4 py-1.5 rounded-full font-serif italic text-[10px] sm:text-xs shadow-[0_0_20px_rgba(236,72,153,0.8)] border border-pink-300 flex items-center justify-center gap-1.5 mx-auto"
                       >
-                        <Sparkles size={13} className="text-amber-300 animate-spin" />
+                        <Sparkles size={11} className="text-amber-300 animate-spin" />
                         <span>Hug Transmitted from Narayan! You are held close in spirit ❤️</span>
                       </motion.div>
                     )}
