@@ -9,7 +9,7 @@ import {
   Home as HomeIcon, Gem, Crown, Shield, Camera, Zap, Radio,
   ChevronLeft, ChevronRight, X, Coffee, Moon, Flame, ChevronDown,
   Lock, Unlock, Clock, RefreshCw, Key, RotateCw, HelpCircle, CheckCircle, Award, Cpu, RadioTower,
-  Feather, MessageCircleHeart
+  Feather, MessageCircleHeart, Send, Bookmark
 } from 'lucide-react';
 
 const randomAnimations: any[] = [
@@ -198,8 +198,9 @@ export default function BubuWebsite() {
   // Interactive HUD Moment Node Selector State for Section 3
   const [selectedMoment, setSelectedMoment] = useState(0);
 
-  // Section 4: Sealed Love Jar State
-  const [openedNote, setOpenedNote] = useState<number | null>(null);
+  // Section 4: Animated Love Jar State
+  const [isExtractingLetter, setIsExtractingLetter] = useState(false);
+  const [openedLetter, setOpenedLetter] = useState<{ title: string; body: string; psu: string } | null>(null);
 
   // Quiz State
   const [showQuizModal, setShowQuizModal] = useState(false);
@@ -251,24 +252,41 @@ export default function BubuWebsite() {
     }
   ];
 
-  // Deeply Romantic Confessions for Option A: The Sealed Love Jar
-  const romanticJarNotes = [
-    { title: "Home In Your Smile", note: "My heart found its permanent home the exact second you walked into my life. Every single day with you feels like a quiet, effortless miracle." },
-    { title: "One In Eight Billion", note: "Out of eight billion souls wandering this world, you are the only one my heart craves to hold close for the rest of my days." },
-    { title: "The Quiet Future", note: "In your gentlest laughter and warmest hugs, I see my entire future unfolding in pure peace and endless comfort." },
-    { title: "Vital As Breathing", note: "Loving you isn't something I choose or try to do—it is as natural, vital, and effortless to me as taking my very next breath." },
-    { title: "Gentle Warmth", note: "You brought soft, glowing warmth into my coldest days and turned my quiet world into a symphony of pure happiness." },
-    { title: "My Favorite View", note: "I love who I am whenever I am by your side, but more than that, I am endlessly in love with every little detail of your pure soul." },
-    { title: "Forever Hand In Hand", note: "Every dream I carry for tomorrow starts and ends with your soft hand resting peacefully inside mine." }
+  // Deeply Romantic Paper Letters Pool
+  const romanticPaperLetters = [
+    {
+      title: "Letter I // Safe Haven",
+      body: "My Dearest Bubu,\n\nIn a world that constantly moves too fast, being next to you is the only place where my heart finally rests in complete peace. You aren't just my partner; you are my quiet comfort, my warmest hug, and my home in human form.",
+      psu: "Forever & always yours, Babu ❤️"
+    },
+    {
+      title: "Letter II // One In Eight Billion",
+      body: "My Beautiful Bubu,\n\nOut of eight billion souls wandering this universe, my heart chose you without a single second of hesitation. Loving you is the easiest, most natural thing I have ever done, and I will keep choosing you today, tomorrow, and for all my days to come.",
+      psu: "You are my entire world ✨"
+    },
+    {
+      title: "Letter III // The Gentle Miracle",
+      body: "My Cute Little Bubu,\n\nEvery time you smile, every time you laugh, and even when you get adorably mad over small silly things, you illuminate my entire life. Thank you for filling my days with warmth and pure happiness.",
+      psu: "Endlessly devoted, Babu 💖"
+    },
+    {
+      title: "Letter IV // The Unconditional Promise",
+      body: "My Dearest Srushti,\n\nI promise to celebrate every victory with you, hold your hand through every storm, and pamper you every single day. My loyalty, my heart, and my unconditional love belong exclusively to you.",
+      psu: "My first, my last, my forever 🌹"
+    }
   ];
 
-  const handleOpenJarNote = () => {
-    let nextIdx = Math.floor(Math.random() * romanticJarNotes.length);
-    if (nextIdx === openedNote && romanticJarNotes.length > 1) {
-      nextIdx = (nextIdx + 1) % romanticJarNotes.length;
-    }
-    setOpenedNote(nextIdx);
-    confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
+  const handlePullLetterFromJar = () => {
+    if (isExtractingLetter) return;
+    setIsExtractingLetter(true);
+    confetti({ particleCount: 50, spread: 60, origin: { y: 0.6 } });
+
+    setTimeout(() => {
+      const randomIdx = Math.floor(Math.random() * romanticPaperLetters.length);
+      setOpenedLetter(romanticPaperLetters[randomIdx]);
+      setIsExtractingLetter(false);
+      confetti({ particleCount: 100, spread: 90, origin: { y: 0.5 } });
+    }, 900);
   };
 
   const quizQuestions = [
@@ -365,21 +383,21 @@ export default function BubuWebsite() {
 
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
-      if (showPamperModal || showQuizModal) return;
+      if (showPamperModal || showQuizModal || openedLetter) return;
       if (e.deltaY > 30) changeSection(activeSection + 1);
       else if (e.deltaY < -30) changeSection(activeSection - 1);
     };
 
     window.addEventListener('wheel', handleWheel, { passive: true });
     return () => window.removeEventListener('wheel', handleWheel);
-  }, [activeSection, changeSection, showPamperModal, showQuizModal]);
+  }, [activeSection, changeSection, showPamperModal, showQuizModal, openedLetter]);
 
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartY.current = e.touches[0].clientY;
   };
 
   const handleTouchEnd = (e: React.TouchEvent) => {
-    if (showPamperModal || showQuizModal) return;
+    if (showPamperModal || showQuizModal || openedLetter) return;
     const touchEndY = e.changedTouches[0].clientY;
     const diff = touchStartY.current - touchEndY;
 
@@ -762,119 +780,102 @@ export default function BubuWebsite() {
               </div>
             )}
 
-            {/* SECTION 4: OPTION 1 - THE SEALED LOVE JAR 🏺 */}
+            {/* SECTION 4: ANIMATED GLASS JAR WITH EXTRACTABLE LETTERS 🏺 */}
             {activeSection === 4 && (
               <div className="w-full text-center max-w-lg mx-auto space-y-3">
-                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-rose-400/30 bg-rose-950/30 backdrop-blur-md mb-0.5 shadow-[0_0_15px_rgba(244,63,94,0.2)]">
-                  <Heart size={12} className="text-rose-400 fill-rose-400 animate-pulse" />
-                  <span className="text-[10px] font-serif tracking-widest text-pink-200 uppercase">Intimate Devotion Jar</span>
+                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-pink-400/30 bg-pink-950/30 backdrop-blur-md mb-0.5 shadow-[0_0_15px_rgba(236,72,153,0.2)]">
+                  <Heart size={12} className="text-pink-400 fill-pink-400 animate-pulse" />
+                  <span className="text-[10px] font-serif tracking-widest text-pink-200 uppercase">Intimate Love Jar</span>
                 </div>
 
                 <h2 className="text-2xl sm:text-3xl font-serif italic text-white tracking-wide">
                   Why Bubu Is My World 🌹
                 </h2>
 
-                <div className="bg-gradient-to-b from-[#180a28]/90 via-[#0d0519]/95 to-[#06020c]/98 border border-rose-500/30 rounded-3xl p-6 backdrop-blur-2xl shadow-[0_0_50px_rgba(244,63,94,0.2)] relative min-h-[290px] flex flex-col items-center justify-between overflow-hidden">
+                <div className="bg-gradient-to-b from-[#180a28]/90 via-[#0d0519]/95 to-[#06020c]/98 border border-pink-500/30 rounded-3xl p-6 backdrop-blur-2xl shadow-[0_0_50px_rgba(236,72,153,0.2)] relative min-h-[310px] flex flex-col items-center justify-between overflow-hidden">
                   
-                  {/* Soft Radial Ambient Glow */}
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-rose-500/10 via-transparent to-transparent pointer-events-none" />
+                  {/* Floating Instruction Tooltip */}
+                  <motion.div 
+                    animate={{ y: [0, -6, 0] }}
+                    transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+                    className="bg-gradient-to-r from-pink-500 via-rose-500 to-purple-600 text-white text-xs font-serif italic px-4 py-1.5 rounded-full shadow-[0_0_20px_rgba(236,72,153,0.5)] border border-pink-300 flex items-center gap-2 cursor-pointer z-20"
+                    onClick={handlePullLetterFromJar}
+                  >
+                    <Sparkles size={13} className="text-amber-300 animate-spin" />
+                    <span>Pull one letter 💌</span>
+                  </motion.div>
 
-                  {openedNote === null ? (
-                    /* SEALED GLASS JAR STATE */
-                    <motion.div 
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      className="w-full flex flex-col items-center my-auto space-y-4"
-                    >
-                      {/* Glass Jar Visual */}
-                      <motion.div 
-                        whileHover={{ scale: 1.05, rotate: [0, -2, 2, 0] }}
-                        whileTap={{ scale: 0.95 }}
-                        onClick={handleOpenJarNote}
-                        className="w-28 h-36 border-2 border-pink-300/40 rounded-b-3xl rounded-t-xl bg-gradient-to-b from-white/10 via-pink-500/10 to-rose-500/20 backdrop-blur-md shadow-[0_0_30px_rgba(244,63,94,0.3)] relative flex flex-col items-center justify-center cursor-pointer group border-t-4 border-t-amber-200/60"
-                      >
-                        {/* Wooden Cork Lid Accent */}
-                        <div className="absolute -top-3 w-16 h-3.5 bg-amber-800/80 border border-amber-500/50 rounded-t-md shadow-md" />
-                        
-                        {/* Floating hearts inside Jar */}
-                        <div className="flex flex-col items-center gap-1.5 opacity-90 group-hover:scale-110 transition-transform">
-                          <motion.span 
-                            animate={{ y: [0, -4, 0] }} 
-                            transition={{ repeat: Infinity, duration: 2 }}
-                            className="text-xl select-none"
-                          >
-                            💌
-                          </motion.span>
-                          <motion.span 
-                            animate={{ y: [0, 4, 0] }} 
-                            transition={{ repeat: Infinity, duration: 2.5 }}
-                            className="text-sm select-none"
-                          >
-                            💖 ✨ 🌹
-                          </motion.span>
-                        </div>
+                  {/* Interactive Visual Glass Jar Container */}
+                  <div 
+                    onClick={handlePullLetterFromJar}
+                    className="relative w-40 h-48 my-3 cursor-pointer group flex items-center justify-center"
+                  >
+                    {/* SVG Realistic Glass Jar Visual */}
+                    <svg viewBox="0 0 100 130" className="w-full h-full drop-shadow-[0_0_25px_rgba(236,72,153,0.4)]">
+                      <defs>
+                        <linearGradient id="jarGlass" x1="0" y1="0" x2="1" y2="1">
+                          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.2" />
+                          <stop offset="50%" stopColor="#ec4899" stopOpacity="0.08" />
+                          <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0.25" />
+                        </linearGradient>
+                        <linearGradient id="corkLid" x1="0" y1="0" x2="1" y2="0">
+                          <stop offset="0%" stopColor="#d97706" />
+                          <stop offset="50%" stopColor="#b45309" />
+                          <stop offset="100%" stopColor="#78350f" />
+                        </linearGradient>
+                      </defs>
 
-                        <span className="absolute bottom-2 text-[8px] font-mono text-pink-200/70 tracking-widest uppercase">
-                          SEALED Jar
-                        </span>
-                      </motion.div>
+                      {/* Jar Body Glass */}
+                      <path d="M 25 25 L 75 25 Q 85 25 85 35 L 85 110 Q 85 125 70 125 L 30 125 Q 15 125 15 110 L 15 35 Q 15 25 25 25 Z" fill="url(#jarGlass)" stroke="rgba(244,114,182,0.5)" strokeWidth="2" />
+                      {/* Glass Highlights */}
+                      <path d="M 22 35 L 22 110" stroke="rgba(255,255,255,0.4)" strokeWidth="2.5" strokeLinecap="round" />
+                      <path d="M 78 40 L 78 100" stroke="rgba(255,255,255,0.2)" strokeWidth="1.5" strokeLinecap="round" />
+                      
+                      {/* Little Folded Paper Letters Resting Inside Jar */}
+                      <g className="transition-transform group-hover:scale-105 transform-origin-center">
+                        <rect x="25" y="90" width="22" height="15" rx="3" fill="#fde68a" transform="rotate(-12 36 97)" opacity="0.9" />
+                        <rect x="52" y="88" width="24" height="16" rx="3" fill="#fbcfe8" transform="rotate(15 64 96)" opacity="0.9" />
+                        <rect x="36" y="75" width="25" height="16" rx="3" fill="#f43f5e" transform="rotate(-5 48 83)" opacity="0.8" />
+                        <rect x="28" y="100" width="26" height="14" rx="3" fill="#ffffff" transform="rotate(8 41 107)" opacity="0.95" />
+                        <rect x="48" y="102" width="22" height="13" rx="3" fill="#c084fc" transform="rotate(-18 59 108)" opacity="0.85" />
+                      </g>
 
-                      <p className="text-xs sm:text-sm font-serif italic text-pink-200/80 max-w-xs">
-                        "Tap the glass love jar to unseal a handwritten confession from Babu's heart."
-                      </p>
+                      {/* Cork Stopper Top Lid */}
+                      <motion.path 
+                        d="M 28 25 L 72 25 L 70 12 L 30 12 Z" 
+                        fill="url(#corkLid)" 
+                        stroke="#92400e" 
+                        strokeWidth="1" 
+                        animate={isExtractingLetter ? { y: -12 } : { y: 0 }}
+                        transition={{ duration: 0.3 }}
+                      />
+                    </svg>
 
-                      <div className="flex gap-2 w-full max-w-xs pt-1">
-                        <button 
-                          onClick={handleOpenJarNote}
-                          className="flex-1 inline-flex items-center justify-center gap-2 bg-gradient-to-r from-rose-500 via-pink-500 to-purple-600 text-white font-serif italic text-xs py-2.5 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all cursor-pointer"
+                    {/* Animated Letter Flying Out of Jar during Pull */}
+                    <AnimatePresence>
+                      {isExtractingLetter && (
+                        <motion.div 
+                          initial={{ y: 20, scale: 0.4, opacity: 0.8 }}
+                          animate={{ y: -110, scale: 1.1, opacity: 1, rotate: [0, -10, 10, 0] }}
+                          exit={{ opacity: 0 }}
+                          transition={{ duration: 0.8, ease: "easeOut" }}
+                          className="absolute z-30 bg-[#fef3c7] border border-amber-400 p-3 rounded-xl shadow-[0_0_25px_rgba(251,191,36,0.8)] text-amber-900 flex items-center justify-center gap-1.5"
                         >
-                          <Feather size={13} /> Unseal Love Note 💌
-                        </button>
-                      </div>
-                    </motion.div>
-                  ) : (
-                    /* UNFOLDED ROMANTIC LOVE PARCHMENT NOTE */
-                    <motion.div 
-                      initial={{ opacity: 0, scale: 0.7, y: 30, rotateX: 45 }}
-                      animate={{ opacity: 1, scale: 1, y: 0, rotateX: 0 }}
-                      exit={{ opacity: 0, scale: 0.7, y: -30 }}
-                      transition={{ duration: 0.45, ease: "easeOut" }}
-                      className="w-full bg-[#150a21] border border-amber-300/40 rounded-2xl p-5 shadow-[0_0_30px_rgba(251,191,36,0.15)] flex flex-col justify-between my-auto relative text-left"
-                    >
-                      <div className="flex items-center justify-between border-b border-amber-300/20 pb-2 mb-3">
-                        <div className="flex items-center gap-1.5 text-amber-200 font-serif italic text-xs">
-                          <MessageCircleHeart size={14} className="text-rose-400" />
-                          <span>Confession #{openedNote + 1} — {romanticJarNotes[openedNote].title}</span>
-                        </div>
-                        <button 
-                          onClick={() => setOpenedNote(null)}
-                          className="text-pink-300/60 hover:text-white text-xs font-mono"
-                        >
-                          [ Close ]
-                        </button>
-                      </div>
+                          <Feather size={16} className="text-rose-500 animate-bounce" />
+                          <span className="font-serif italic text-xs font-bold">Unfolding Letter...</span>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
 
-                      <p className="text-sm sm:text-base font-serif italic text-amber-100/90 leading-relaxed my-2 text-center">
-                        "{romanticJarNotes[openedNote].note}"
-                      </p>
-
-                      <div className="flex items-center justify-between pt-3 border-t border-amber-300/20 mt-3">
-                        <button 
-                          onClick={handleOpenJarNote}
-                          className="inline-flex items-center gap-1.5 text-xs font-serif text-pink-300 hover:text-white transition-colors"
-                        >
-                          <RefreshCw size={12} /> Pull Another Note
-                        </button>
-
-                        <button 
-                          onClick={() => setOpenedNote(null)}
-                          className="inline-flex items-center gap-1.5 text-xs font-serif text-amber-300 hover:text-amber-100 transition-colors"
-                        >
-                          Seal Back In Jar 🏺
-                        </button>
-                      </div>
-                    </motion.div>
-                  )}
+                  {/* Pull Button */}
+                  <button 
+                    onClick={handlePullLetterFromJar}
+                    disabled={isExtractingLetter}
+                    className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-rose-500 via-pink-500 to-purple-600 text-white font-serif italic text-xs px-6 py-2.5 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all cursor-pointer border border-pink-300/40"
+                  >
+                    <Feather size={14} /> {isExtractingLetter ? 'Extracting...' : 'Pull A Letter From Jar 💌'}
+                  </button>
 
                   <div className="w-full flex items-center justify-between pt-3 border-t border-white/10 text-[10px] font-mono text-purple-300/50 mt-2">
                     <span>PURE DEVOTION // SRUSHTI & NARAYAN</span>
@@ -1053,6 +1054,68 @@ export default function BubuWebsite() {
 
           </div>
         </motion.div>
+      </AnimatePresence>
+
+      {/* FULL-SCREEN REAL PAPER PARCHMENT LETTER MODAL */}
+      <AnimatePresence>
+        {openedLetter && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.7, y: 50, rotateX: 25 }}
+              animate={{ opacity: 1, scale: 1, y: 0, rotateX: 0 }}
+              exit={{ opacity: 0, scale: 0.7, y: 50 }}
+              transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+              className="relative w-full max-w-md bg-[#faf4e8] text-[#3d2314] rounded-3xl p-6 sm:p-8 shadow-[0_0_60px_rgba(251,191,36,0.3)] border-4 border-[#e6d2b5] overflow-hidden text-left font-serif"
+            >
+              {/* Paper Texture Overlay */}
+              <div className="absolute inset-0 bg-[radial-gradient(#d97706_0.5px,transparent_0.5px)] [background-size:12px_12px] opacity-10 pointer-events-none" />
+              
+              <button 
+                onClick={() => setOpenedLetter(null)}
+                className="absolute top-4 right-4 p-2 rounded-full bg-amber-900/10 hover:bg-amber-900/20 text-amber-900 transition-all cursor-pointer"
+              >
+                <X size={18} />
+              </button>
+
+              <div className="flex items-center gap-2 mb-3 text-rose-700 text-xs font-bold uppercase tracking-widest border-b border-amber-900/15 pb-2">
+                <Feather size={14} />
+                <span>{openedLetter.title}</span>
+              </div>
+
+              {/* Letter Content */}
+              <div className="space-y-3 text-sm sm:text-base leading-relaxed italic text-amber-950 font-medium whitespace-pre-line my-4">
+                {openedLetter.body}
+              </div>
+
+              <div className="pt-3 border-t border-amber-900/15 flex items-center justify-between mt-6">
+                <span className="text-xs font-serif font-bold text-rose-800 italic">
+                  {openedLetter.psu}
+                </span>
+
+                {/* Wax Seal Stamp Accent */}
+                <div className="w-9 h-9 rounded-full bg-rose-700 border-2 border-rose-900 shadow-md flex items-center justify-center text-white text-xs font-bold font-serif select-none">
+                  ❤️
+                </div>
+              </div>
+
+              {/* Modal Buttons */}
+              <div className="flex gap-2 mt-6 pt-2">
+                <button 
+                  onClick={handlePullLetterFromJar}
+                  className="flex-1 bg-gradient-to-r from-rose-700 to-amber-800 text-white font-serif italic text-xs py-2.5 rounded-full shadow-md hover:scale-105 active:scale-95 transition-all cursor-pointer text-center"
+                >
+                  Pull Another Letter 💌
+                </button>
+                <button 
+                  onClick={() => setOpenedLetter(null)}
+                  className="bg-amber-900/10 hover:bg-amber-900/20 text-amber-900 font-serif italic text-xs px-4 py-2.5 rounded-full transition-all cursor-pointer"
+                >
+                  Put Back In Jar 🏺
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
       </AnimatePresence>
 
       {/* PAMPER PROTOCOL MODAL */}
