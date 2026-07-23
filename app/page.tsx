@@ -9,7 +9,7 @@ import {
   Home as HomeIcon, Gem, Crown, Shield, Camera, Zap, Radio,
   ChevronLeft, ChevronRight, X, Coffee, Moon, Flame, ChevronDown,
   Lock, Unlock, Clock, RefreshCw, Key, RotateCw, Cpu, RadioTower,
-  Feather, MessageCircleHeart
+  Feather, MessageCircleHeart, Send, Mail, HeartPulse, Compass, PhoneCall
 } from 'lucide-react';
 
 const randomAnimations: any[] = [
@@ -193,14 +193,17 @@ export default function BubuWebsite() {
   const [currentAnimIndex, setCurrentAnimIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [showPamperModal, setShowPamperModal] = useState(false);
-  
-  // Interactive HUD Moment Node Selector State for Section 3
+
+  // Section 3 HUD Moment Node Selector State
   const [selectedMoment, setSelectedMoment] = useState(0);
 
-  // Section 4: Enlarged Fancy Animated Love Jar State
+  // Section 4 Animated Love Jar State
   const [isExtractingLetter, setIsExtractingLetter] = useState(false);
   const [openedLetter, setOpenedLetter] = useState<{ title: string; body: string; psu: string } | null>(null);
+
+  // Section 5 Long Distance Care Protocol State
+  const [selectedOpenWhen, setSelectedOpenWhen] = useState<{ title: string; trigger: string; text: string } | null>(null);
+  const [showHugToast, setShowHugToast] = useState(false);
 
   const [pin, setPin] = useState('');
   const [isVaultUnlocked, setIsVaultUnlocked] = useState(false);
@@ -245,7 +248,6 @@ export default function BubuWebsite() {
     }
   ];
 
-  // Deeply Romantic Paper Letters Pool
   const romanticPaperLetters = [
     {
       title: "Letter I // Safe Haven",
@@ -269,6 +271,30 @@ export default function BubuWebsite() {
     }
   ];
 
+  // Section 5: Long Distance Open When Letters
+  const openWhenLetters = [
+    {
+      trigger: "When You Miss Me 🥺",
+      title: "Open When Distance Feels Heavy...",
+      text: "My Sweetest Bubu,\n\nDistance is just physical space—it has zero power over how deeply I hold you in my heart. Right now, wherever you are sitting, take a deep breath and close your eyes. Imagine me sitting right next to you, pulling you close into a warm, tight hug and kissing your forehead. I am thinking about you at this exact second, and I am counting down every day until I can hold you in my arms again."
+    },
+    {
+      trigger: "When You Can't Sleep 🌙",
+      title: "Open When Midnight Is Too Quiet...",
+      text: "My Darling Bubu,\n\nIf the night is too quiet and your mind is running fast, I want you to remember that under the exact same sky, my heart is beating for you. Wrap yourself tight in your cozy blanket, imagine resting your head on my chest, and listen to the soft rhythm of my breathing. You are safe, you are deeply loved, and tomorrow brings us one day closer."
+    },
+    {
+      trigger: "When You Need A Warm Hug 🫂",
+      title: "Open When You Need Babu Right Now...",
+      text: "My Little Kid,\n\nConsider this digital envelope an official, non-expiring voucher for the warmest, tightest hug in existence. Imagine my arms wrapping around your shoulders, pulling you in close, and holding you until all your tiredness melts away. I am always holding your hand, even across the miles."
+    },
+    {
+      trigger: "When You Need Extra Love 💋",
+      title: "Open When You Need A Gentle Reminder...",
+      text: "My Dearest Srushti,\n\nNo matter how far apart we are, you are the first thought on my mind when I wake up and the last prayer in my heart before I sleep. You are my first, my last, and my forever. Never doubt how cherished and irreplaceable you are to me!"
+    }
+  ];
+
   const handlePullLetterFromJar = () => {
     if (isExtractingLetter) return;
     setIsExtractingLetter(true);
@@ -280,6 +306,12 @@ export default function BubuWebsite() {
       setIsExtractingLetter(false);
       confetti({ particleCount: 120, spread: 100, origin: { y: 0.5 } });
     }, 850);
+  };
+
+  const handleSendVirtualHug = () => {
+    confetti({ particleCount: 140, spread: 100, origin: { y: 0.6 } });
+    setShowHugToast(true);
+    setTimeout(() => setShowHugToast(false), 3000);
   };
 
   const handlePinClick = (digit: string) => {
@@ -319,21 +351,21 @@ export default function BubuWebsite() {
 
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
-      if (showPamperModal || openedLetter) return;
+      if (openedLetter || selectedOpenWhen) return;
       if (e.deltaY > 30) changeSection(activeSection + 1);
       else if (e.deltaY < -30) changeSection(activeSection - 1);
     };
 
     window.addEventListener('wheel', handleWheel, { passive: true });
     return () => window.removeEventListener('wheel', handleWheel);
-  }, [activeSection, changeSection, showPamperModal, openedLetter]);
+  }, [activeSection, changeSection, openedLetter, selectedOpenWhen]);
 
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartY.current = e.touches[0].clientY;
   };
 
   const handleTouchEnd = (e: React.TouchEvent) => {
-    if (showPamperModal || openedLetter) return;
+    if (openedLetter || selectedOpenWhen) return;
     const touchEndY = e.changedTouches[0].clientY;
     const diff = touchStartY.current - touchEndY;
 
@@ -361,11 +393,6 @@ export default function BubuWebsite() {
     }
   };
 
-  const triggerPamper = () => {
-    confetti({ particleCount: 150, spread: 100, origin: { y: 0.6 } });
-    setShowPamperModal(true);
-  };
-
   const fallbacks = [
     "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80",
     "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=600&q=80",
@@ -382,7 +409,7 @@ export default function BubuWebsite() {
     { src: '/saree.jpeg', fallback: fallbacks[4], tag: 'MODE // PERFECTION', title: 'Unmatched Beauty 💋', desc: 'Absolute perfection in every single way imaginable.' },
   ];
 
-  const sectionLabels = ["HERO", "LITTLE BUBU", "GALLERY", "SACRED HUD", "LOVE JAR", "CARE PROTOCOL", "SECRET VAULT"];
+  const sectionLabels = ["HERO", "LITTLE BUBU", "GALLERY", "SACRED HUD", "LOVE JAR", "LDR COMFORT", "SECRET VAULT"];
 
   return (
     <main 
@@ -828,38 +855,91 @@ export default function BubuWebsite() {
               </div>
             )}
 
-            {/* SECTION 5: CARE PROTOCOL & WISHLIST */}
+            {/* SECTION 5: LONG DISTANCE DEVOTION & COMFORT HUB 🫂 */}
             {activeSection === 5 && (
-              <div className="w-full space-y-6">
-                <div className="bg-gradient-to-r from-pink-950/40 via-purple-950/40 to-cyan-950/40 border border-pink-500/40 rounded-3xl p-8 sm:p-10 text-center backdrop-blur-2xl shadow-[0_0_50px_rgba(236,72,153,0.2)]">
-                  <div className="w-14 h-14 rounded-full bg-pink-500/20 border border-pink-500/40 flex items-center justify-center mx-auto mb-3 text-pink-300 animate-pulse">
-                    <Flame size={26} />
-                  </div>
-                  <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">🌷 Bubu&apos;s Care Protocol</h2>
-                  <p className="text-purple-200/80 text-xs sm:text-sm max-w-md mx-auto mb-6 leading-relaxed">
-                    Your health and happiness are priority #1 every single day of the month.
-                  </p>
-                  <button 
-                    onClick={triggerPamper}
-                    className="bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-400 text-white font-bold text-xs sm:text-sm px-8 py-3.5 rounded-full shadow-[0_0_30px_rgba(236,72,153,0.5)] hover:scale-105 active:scale-95 transition-all cursor-pointer uppercase tracking-wider"
-                  >
-                    Activate Pamper Protocol 💆‍♀️
-                  </button>
+              <div className="w-full text-center max-w-2xl mx-auto space-y-4">
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-pink-400/40 bg-pink-950/30 backdrop-blur-md mb-0.5 shadow-[0_0_20px_rgba(236,72,153,0.25)]">
+                  <Compass size={13} className="text-pink-300 animate-spin" />
+                  <span className="text-[11px] font-serif tracking-widest text-pink-200 uppercase">Long Distance Comfort Hub</span>
                 </div>
 
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                  {[
-                    { name: "Cosmetics", desc: "Unlimited shopping", icon: <ShoppingBag className="text-pink-400" /> },
-                    { name: "YSL Heels", desc: "Luxury closet unlocked", icon: <Gem className="text-amber-300" /> },
-                    { name: "BMW Car", desc: "Cruising life together", icon: <Car className="text-cyan-300" /> },
-                    { name: "Our Big Home", desc: "Built on love & peace", icon: <HomeIcon className="text-rose-400" /> },
-                  ].map((item, idx) => (
-                    <div key={idx} className="bg-[#0f081d]/80 border border-white/10 rounded-2xl p-3.5 text-center flex flex-col items-center justify-center">
-                      <div className="mb-1.5 p-2 bg-white/5 rounded-full">{item.icon}</div>
-                      <h3 className="text-xs font-bold text-white mb-0.5">{item.name}</h3>
-                      <p className="text-[10px] text-purple-200/60">{item.desc}</p>
+                <h2 className="text-3xl sm:text-4xl font-serif italic text-white tracking-wide">
+                  Across The Miles, Always Yours 🌐
+                </h2>
+
+                <div className="bg-gradient-to-b from-[#180826]/90 via-[#0e0419]/95 to-[#06020c]/98 border border-pink-500/40 rounded-3xl p-6 sm:p-8 backdrop-blur-2xl shadow-[0_0_60px_rgba(236,72,153,0.2)] relative flex flex-col justify-between items-center gap-5">
+                  
+                  {/* Long Distance Hug Transmitter */}
+                  <div className="w-full bg-gradient-to-r from-pink-950/40 via-purple-950/40 to-rose-950/40 border border-pink-500/30 rounded-2xl p-5 text-center flex flex-col items-center">
+                    <div className="w-12 h-12 rounded-full bg-pink-500/20 border border-pink-400/50 flex items-center justify-center mb-2 text-pink-300 shadow-[0_0_20px_rgba(236,72,153,0.4)]">
+                      <HeartPulse size={24} className="animate-pulse text-pink-400" />
                     </div>
-                  ))}
+                    <h3 className="text-lg font-serif italic font-bold text-white mb-1">
+                      Virtual Hug & Warmth Transmitted 🫂
+                    </h3>
+                    <p className="text-xs text-purple-200/80 max-w-md mx-auto mb-4 leading-relaxed">
+                      Whenever the distance feels hard, tap below to transmit a warm hug and love straight from Babu's heart.
+                    </p>
+                    <button 
+                      onClick={handleSendVirtualHug}
+                      className="bg-gradient-to-r from-rose-500 via-pink-500 to-purple-600 text-white font-serif italic text-xs sm:text-sm px-8 py-3 rounded-full shadow-[0_0_25px_rgba(236,72,153,0.5)] hover:scale-105 active:scale-95 transition-all cursor-pointer border border-pink-300/40 flex items-center gap-2"
+                    >
+                      <Sparkles size={14} className="text-amber-300" /> Receive Babu&apos;s Hug Right Now ❤️
+                    </button>
+                  </div>
+
+                  {/* Interactive "Open When..." Envelope Rack */}
+                  <div className="w-full">
+                    <h4 className="text-xs font-mono text-pink-300 uppercase tracking-widest mb-3 text-left flex items-center gap-2">
+                      <Mail size={13} /> Open When Envelopes (Tap To Read):
+                    </h4>
+
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                      {openWhenLetters.map((env, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => setSelectedOpenWhen(env)}
+                          className="p-3 rounded-2xl bg-white/5 border border-pink-500/30 hover:border-pink-400 hover:bg-pink-500/10 transition-all text-left flex flex-col justify-between h-24 group cursor-pointer"
+                        >
+                          <span className="text-[10px] font-mono text-pink-300/80 group-hover:text-pink-200">LETTER 0{idx + 1}</span>
+                          <span className="text-xs font-serif italic font-bold text-amber-200 group-hover:text-white leading-tight">{env.trigger}</span>
+                          <span className="text-[9px] font-mono text-purple-300/60 flex items-center gap-1">Tap envelope <Feather size={9} /></span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Long Distance Redeemable Passes Grid */}
+                  <div className="w-full grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2">
+                    {[
+                      { title: "Sleepy Call Pass", desc: "Late night calls till you fall asleep", icon: <PhoneCall size={16} className="text-pink-400" /> },
+                      { title: "Midnight Dessert Pass", desc: "Babu orders treats to your doorstep", icon: <ShoppingBag size={16} className="text-amber-300" /> },
+                      { title: "Movie Date Ticket", desc: "Virtual cinema night together", icon: <Camera size={16} className="text-cyan-300" /> },
+                      { title: "Our Sanctuary Home", desc: "Where distance becomes zero forever", icon: <HomeIcon size={16} className="text-rose-400" /> },
+                    ].map((item, idx) => (
+                      <div key={idx} className="bg-white/5 border border-white/10 rounded-2xl p-3 text-center flex flex-col items-center justify-center">
+                        <div className="mb-1 p-1.5 bg-white/5 rounded-full">{item.icon}</div>
+                        <h5 className="text-xs font-bold text-white mb-0.5">{item.title}</h5>
+                        <p className="text-[9px] text-purple-200/60 leading-tight">{item.desc}</p>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Hug Toast Notification */}
+                  <AnimatePresence>
+                    {showHugToast && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 15, scale: 0.9 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: -10, scale: 0.9 }}
+                        className="bg-gradient-to-r from-pink-500 via-rose-500 to-purple-600 text-white px-5 py-2.5 rounded-full font-serif italic text-xs shadow-[0_0_30px_rgba(236,72,153,0.8)] border border-pink-300 flex items-center justify-center gap-2 mx-auto"
+                      >
+                        <Sparkles size={14} className="text-amber-300 animate-spin" />
+                        <span>Hug Transmitted from Narayan! You are held so close in spirit ❤️</span>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
                 </div>
               </div>
             )}
@@ -993,7 +1073,7 @@ export default function BubuWebsite() {
         </motion.div>
       </AnimatePresence>
 
-      {/* FULL-SCREEN REAL PAPER PARCHMENT LETTER MODAL */}
+      {/* FULL-SCREEN REAL PAPER PARCHMENT LETTER MODAL (Section 4) */}
       <AnimatePresence>
         {openedLetter && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
@@ -1004,7 +1084,6 @@ export default function BubuWebsite() {
               transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
               className="relative w-full max-w-lg bg-[#faf4e8] text-[#3d2314] rounded-3xl p-6 sm:p-8 shadow-[0_0_60px_rgba(251,191,36,0.35)] border-4 border-[#e6d2b5] overflow-hidden text-left font-serif"
             >
-              {/* Paper Texture Overlay */}
               <div className="absolute inset-0 bg-[radial-gradient(#d97706_0.5px,transparent_0.5px)] [background-size:12px_12px] opacity-10 pointer-events-none" />
               
               <button 
@@ -1019,7 +1098,6 @@ export default function BubuWebsite() {
                 <span>{openedLetter.title}</span>
               </div>
 
-              {/* Letter Content */}
               <div className="space-y-3 text-sm sm:text-base leading-relaxed italic text-amber-950 font-medium whitespace-pre-line my-4">
                 {openedLetter.body}
               </div>
@@ -1029,13 +1107,11 @@ export default function BubuWebsite() {
                   {openedLetter.psu}
                 </span>
 
-                {/* Wax Seal Stamp Accent */}
                 <div className="w-10 h-10 rounded-full bg-rose-700 border-2 border-rose-900 shadow-md flex items-center justify-center text-white text-sm font-bold font-serif select-none">
                   ❤️
                 </div>
               </div>
 
-              {/* Modal Buttons */}
               <div className="flex gap-2 mt-6 pt-2">
                 <button 
                   onClick={handlePullLetterFromJar}
@@ -1055,70 +1131,54 @@ export default function BubuWebsite() {
         )}
       </AnimatePresence>
 
-      {/* PAMPER PROTOCOL MODAL */}
+      {/* OPEN WHEN LETTER MODAL (Section 5) */}
       <AnimatePresence>
-        {showPamperModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md">
+        {selectedOpenWhen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
             <motion.div 
-              initial={{ opacity: 0, scale: 0.85, y: 20 }}
+              initial={{ opacity: 0, scale: 0.7, y: 40 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.85, y: 20 }}
-              className="relative w-full max-w-md bg-[#0d061a]/95 border border-pink-500/50 rounded-3xl p-6 shadow-[0_0_60px_rgba(236,72,153,0.35)] overflow-hidden"
+              exit={{ opacity: 0, scale: 0.7, y: 40 }}
+              transition={{ duration: 0.4 }}
+              className="relative w-full max-w-lg bg-[#faf4e8] text-[#3d2314] rounded-3xl p-6 sm:p-8 shadow-[0_0_60px_rgba(236,72,153,0.35)] border-4 border-[#e6d2b5] overflow-hidden text-left font-serif"
             >
               <button 
-                onClick={() => setShowPamperModal(false)}
-                className="absolute top-4 right-4 p-2 rounded-full bg-white/5 border border-white/10 text-purple-200 hover:text-white transition-all"
+                onClick={() => setSelectedOpenWhen(null)}
+                className="absolute top-4 right-4 p-2 rounded-full bg-amber-900/10 hover:bg-amber-900/20 text-amber-900 transition-all cursor-pointer"
               >
-                <X size={16} />
+                <X size={18} />
               </button>
 
-              <div className="flex items-center gap-2 mb-2">
-                <span className="w-2 h-2 rounded-full bg-pink-400 animate-ping" />
-                <span className="text-[10px] font-mono tracking-widest text-pink-300 uppercase">
-                  SYSTEM DIAGNOSTIC // ACTIVE
-                </span>
+              <div className="flex items-center gap-2 mb-3 text-pink-700 text-xs font-bold uppercase tracking-widest border-b border-amber-900/15 pb-2">
+                <Mail size={14} />
+                <span>{selectedOpenWhen.title}</span>
               </div>
 
-              <h3 className="text-xl font-bold text-white mb-5">
-                🌸 Bubu Care Protocol Activated
-              </h3>
+              <div className="space-y-3 text-sm sm:text-base leading-relaxed italic text-amber-950 font-medium whitespace-pre-line my-4">
+                {selectedOpenWhen.text}
+              </div>
 
-              <div className="space-y-3 mb-6">
-                <div className="flex items-start gap-3 p-3.5 rounded-2xl bg-pink-950/30 border border-pink-500/20">
-                  <Flame size={18} className="text-pink-400 shrink-0 mt-0.5" />
-                  <div>
-                    <h4 className="text-white font-bold text-xs sm:text-sm">Heating Pad & Snack Module</h4>
-                    <p className="text-purple-200/70 text-[11px] mt-0.5">Warm comfort pad prepared & unlimited favorite treats deployed on command.</p>
-                  </div>
-                </div>
+              <div className="pt-3 border-t border-amber-900/15 flex items-center justify-between mt-6">
+                <span className="text-xs font-serif font-bold text-rose-800 italic">
+                  — Always right here with you, Narayan (Your Babu) ❤️
+                </span>
 
-                <div className="flex items-start gap-3 p-3.5 rounded-2xl bg-purple-950/30 border border-purple-500/20">
-                  <Moon size={18} className="text-purple-300 shrink-0 mt-0.5" />
-                  <div>
-                    <h4 className="text-white font-bold text-sm">Zero Argument Shield</h4>
-                    <p className="text-purple-200/70 text-[11px] mt-0.5">Babu is in 100% agreement mode. Zero debates, endless hugs guaranteed.</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3 p-3.5 rounded-2xl bg-cyan-950/30 border border-cyan-500/20">
-                  <Coffee size={18} className="text-cyan-300 shrink-0 mt-0.5" />
-                  <div>
-                    <h4 className="text-white font-bold text-sm">Unlimited Pamper Matrix</h4>
-                    <p className="text-purple-200/70 text-[11px] mt-0.5">Priority massages, head scratches, and extra love active for today!</p>
-                  </div>
+                <div className="w-10 h-10 rounded-full bg-pink-700 border-2 border-pink-900 shadow-md flex items-center justify-center text-white text-sm font-bold font-serif select-none">
+                  🫂
                 </div>
               </div>
 
               <button 
-                onClick={() => setShowPamperModal(false)}
-                className="w-full bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-400 text-white font-bold text-xs py-3 rounded-full shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer uppercase tracking-wider"
+                onClick={() => setSelectedOpenWhen(null)}
+                className="w-full mt-6 bg-gradient-to-r from-rose-700 via-pink-700 to-purple-800 text-white font-serif italic text-xs py-3 rounded-full shadow-md hover:scale-105 transition-all cursor-pointer text-center"
               >
-                Deactivate Protocol ❤️
+                Close Envelope 💌
               </button>
             </motion.div>
           </div>
         )}
       </AnimatePresence>
+
     </main>
   );
 }
