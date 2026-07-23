@@ -452,7 +452,7 @@ export default function BubuWebsite() {
         >
           <div className="max-w-4xl w-full my-auto">
             
-            {/* SECTION 0: HERO (RESTORED TO elegent.jpeg) */}
+            {/* SECTION 0: HERO (elegent.jpeg) */}
             {activeSection === 0 && (
               <div className="flex flex-col items-center text-center">
                 <div className="relative mb-4 sm:mb-6">
@@ -488,7 +488,7 @@ export default function BubuWebsite() {
               </div>
             )}
 
-            {/* SECTION 1: LITTLE BUBU & 100 NAMES TICKER */}
+            {/* SECTION 1: LITTLE BUBU (bachi.jpeg) */}
             {activeSection === 1 && (
               <div className="w-full space-y-6">
                 <div className="text-center">
@@ -502,10 +502,10 @@ export default function BubuWebsite() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center max-w-3xl mx-auto bg-[#0f081d]/90 border border-pink-500/40 rounded-3xl p-6 backdrop-blur-2xl shadow-[0_0_50px_rgba(236,72,153,0.3)]">
-                  {/* Left Side: Photo Frame */}
+                  {/* Left Side: Photo Frame using bachi.jpeg */}
                   <div className="relative w-full h-64 sm:h-80 rounded-2xl overflow-hidden border border-pink-500/30 shadow-[0_0_20px_rgba(236,72,153,0.2)] bg-black/80 flex items-center justify-center p-2">
                     <img 
-                      src="/bache.jpeg" 
+                      src="/bachi.jpeg" 
                       alt="Little Srushti" 
                       className="max-h-full max-w-full object-contain rounded-xl drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)]"
                       onError={(e) => { (e.currentTarget as HTMLImageElement).src = fallbacks[0]; }}
@@ -517,7 +517,6 @@ export default function BubuWebsite() {
 
                   {/* Right Side: Infinite Auto-Scrolling 100 Words */}
                   <div className="relative h-64 sm:h-80 rounded-2xl overflow-hidden border border-pink-500/30 bg-[#090412]/90 p-4 flex flex-col justify-center">
-                    {/* Top & Bottom Mask Fades for marquee look */}
                     <div className="pointer-events-none absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-[#090412] to-transparent z-10" />
                     <div className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-[#090412] to-transparent z-10" />
 
@@ -539,7 +538,7 @@ export default function BubuWebsite() {
               </div>
             )}
 
-            {/* SECTION 2: PHOTO GALLERY (USING bache.jpeg FOR MY LITTLE KID 👶) */}
+            {/* SECTION 2: PHOTO GALLERY (My Little Kid 👶 uses bache.jpeg) */}
             {activeSection === 2 && (
               <div className="w-full">
                 <div className="text-center mb-6">
@@ -795,7 +794,6 @@ export default function BubuWebsite() {
                     animate={{ opacity: 1, scale: 1 }}
                     className="max-w-md mx-auto bg-[#0d061a]/95 border border-pink-400/60 rounded-3xl p-5 sm:p-7 backdrop-blur-2xl shadow-[0_0_60px_rgba(236,72,153,0.4)] text-left flex flex-col"
                   >
-                    {/* Top Status Badge */}
                     <div className="shrink-0 mb-3 flex items-center justify-between">
                       <div className="inline-flex items-center gap-2 text-emerald-400 text-xs font-mono bg-[#180a2c] py-1.5 px-3 rounded-xl border border-emerald-500/30">
                         <Unlock size={15} />
@@ -803,6 +801,222 @@ export default function BubuWebsite() {
                       </div>
                     </div>
 
-                    {/* DEDICATED EYES CONTAINER */}
                     <div className="shrink-0 relative w-full my-1 flex flex-col items-center">
-                      <div className="relative w-full rounded-2xl overflow-hidden border border-pink-500/40 shadow-[0_0_25px_rgba(236,72,153,0.35)] bg-black/90 p-1 flex items-center justify-center h-44 sm:h-48
+                      <div className="relative w-full rounded-2xl overflow-hidden border border-pink-500/40 shadow-[0_0_25px_rgba(236,72,153,0.35)] bg-black/90 p-1 flex items-center justify-center h-44 sm:h-48">
+                        <img 
+                          src="/eyes.jpeg" 
+                          alt="Bubu's Eyes" 
+                          style={{ transform: `rotate(${eyesRotation}deg) scale(1.38)` }}
+                          className="max-w-full max-h-full object-contain transition-transform duration-300 rounded-xl"
+                          onError={(e) => {
+                            const parent = (e.currentTarget as HTMLImageElement).parentElement;
+                            if (parent) parent.style.display = 'none';
+                          }}
+                        />
+                        <span className="absolute bottom-2.5 left-3 text-[9px] font-mono text-pink-300 tracking-widest uppercase bg-black/80 px-2.5 py-1 rounded-full border border-pink-500/30 backdrop-blur-md">
+                          BUBU&apos;S EYES ✨
+                        </span>
+                        <button
+                          onClick={() => setEyesRotation((prev) => (prev + 90) % 360)}
+                          className="absolute top-2.5 right-3 bg-pink-500/30 hover:bg-pink-500/60 border border-pink-400 text-white text-[10px] font-mono px-2.5 py-1 rounded-full flex items-center gap-1 transition-all cursor-pointer backdrop-blur-md shadow-md z-10"
+                        >
+                          <RotateCw size={11} /> ROTATE
+                        </button>
+                      </div>
+                    </div>
+
+                    <h3 className="shrink-0 text-xl font-bold text-amber-200 mt-3 mb-2">My Dearest Srushti,</h3>
+
+                    <div className="space-y-3.5 text-purple-100 text-xs sm:text-sm leading-relaxed font-medium">
+                      <p>
+                        If you are reading this, it means you cracked the security code and unlocked my secret vault. Every single line of code, animation, glow, and pixel on this entire website was built with my whole heart, exclusively for you.
+                      </p>
+                      <p>
+                        From the moment you walked into my life, everything changed for the better. You became my safest comfort, my favorite laughter, and my greatest blessing. No matter where life takes us, my heart, my loyalty, and my unconditional devotion belong to you and only you.
+                      </p>
+                      <p>
+                        Thank you for loving me, for tolerating my silly moments, and for filling my world with so much light and peace. I promise to stand by your side through every storm, celebrate every victory with you, and pamper you every single day of our lives.
+                      </p>
+                      <p>
+                        You are my first, my last, and my forever. Happy Girlfriend Day, my adorable Bubu!
+                      </p>
+                    </div>
+
+                    <div className="mt-4 pt-3 border-t border-white/10 shrink-0">
+                      <p className="text-pink-300 font-serif italic text-sm text-right">
+                        — Forever & Always Yours, Narayan (Your Babu) ❤️
+                      </p>
+                    </div>
+                  </motion.div>
+                )}
+
+                <footer className="text-center pt-4 text-[11px] text-purple-200/50">
+                  <p>Crafted with endless love by <span className="text-white font-semibold">Narayan (Your Babu)</span> for <span className="text-pink-300 font-semibold">Srushti (My Bubu)</span></p>
+                  <p className="mt-0.5 font-mono text-[10px] text-pink-400/60">August 1, 2026 — Happy Girlfriend Day ❤️</p>
+                </footer>
+              </div>
+            )}
+
+          </div>
+        </motion.div>
+      </AnimatePresence>
+
+      {/* PAMPER PROTOCOL MODAL */}
+      <AnimatePresence>
+        {showPamperModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.85, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.85, y: 20 }}
+              className="relative w-full max-w-md bg-[#0d061a]/95 border border-pink-500/50 rounded-3xl p-6 shadow-[0_0_60px_rgba(236,72,153,0.35)] overflow-hidden"
+            >
+              <button 
+                onClick={() => setShowPamperModal(false)}
+                className="absolute top-4 right-4 p-2 rounded-full bg-white/5 border border-white/10 text-purple-200 hover:text-white transition-all"
+              >
+                <X size={16} />
+              </button>
+
+              <div className="flex items-center gap-2 mb-2">
+                <span className="w-2 h-2 rounded-full bg-pink-400 animate-ping" />
+                <span className="text-[10px] font-mono tracking-widest text-pink-300 uppercase">
+                  SYSTEM DIAGNOSTIC // ACTIVE
+                </span>
+              </div>
+
+              <h3 className="text-xl font-bold text-white mb-5">
+                🌸 Bubu Care Protocol Activated
+              </h3>
+
+              <div className="space-y-3 mb-6">
+                <div className="flex items-start gap-3 p-3.5 rounded-2xl bg-pink-950/30 border border-pink-500/20">
+                  <Flame className="text-pink-400 shrink-0 mt-0.5" size={18} />
+                  <div>
+                    <h4 className="text-white font-bold text-xs sm:text-sm">Heating Pad & Snack Module</h4>
+                    <p className="text-purple-200/70 text-[11px] mt-0.5">Warm comfort pad prepared & unlimited favorite treats deployed on command.</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3 p-3.5 rounded-2xl bg-purple-950/30 border border-purple-500/20">
+                  <Moon className="text-purple-300 shrink-0 mt-0.5" size={18} />
+                  <div>
+                    <h4 className="text-white font-bold text-sm">Zero Argument Shield</h4>
+                    <p className="text-purple-200/70 text-[11px] mt-0.5">Babu is in 100% agreement mode. Zero debates, endless hugs guaranteed.</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3 p-3.5 rounded-2xl bg-cyan-950/30 border border-cyan-500/20">
+                  <Coffee className="text-cyan-300 shrink-0 mt-0.5" size={18} />
+                  <div>
+                    <h4 className="text-white font-bold text-sm">Unlimited Pamper Matrix</h4>
+                    <p className="text-purple-200/70 text-[11px] mt-0.5">Priority massages, head scratches, and extra love active for today!</p>
+                  </div>
+                </div>
+              </div>
+
+              <button 
+                onClick={() => setShowPamperModal(false)}
+                className="w-full bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-400 text-white font-bold text-xs py-3 rounded-full shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer uppercase tracking-wider"
+              >
+                Deactivate Protocol ❤️
+              </button>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* BUBU MINI QUIZ MODAL */}
+      <AnimatePresence>
+        {showQuizModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.85, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.85, y: 20 }}
+              className="relative w-full max-w-md bg-[#0d061a]/95 border border-cyan-500/50 rounded-3xl p-6 shadow-[0_0_60px_rgba(6,182,212,0.35)] overflow-hidden"
+            >
+              <button 
+                onClick={() => setShowQuizModal(false)}
+                className="absolute top-4 right-4 p-2 rounded-full bg-white/5 border border-white/10 text-purple-200 hover:text-white transition-all"
+              >
+                <X size={16} />
+              </button>
+
+              {!quizCompleted ? (
+                <div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <Sparkles className="text-cyan-400 animate-spin" size={14} />
+                    <span className="text-[10px] font-mono tracking-widest text-cyan-300 uppercase">
+                      BUBU TRIVIA // QUESTION {quizStep + 1} OF {quizQuestions.length}
+                    </span>
+                  </div>
+
+                  <h3 className="text-lg font-bold text-white mb-5 leading-snug">
+                    {quizQuestions[quizStep].question}
+                  </h3>
+
+                  <div className="space-y-2.5 mb-6">
+                    {quizQuestions[quizStep].options.map((opt, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => handleAnswerSelect(idx)}
+                        className={`w-full text-left p-3.5 rounded-2xl border text-xs sm:text-sm font-medium transition-all flex items-center justify-between ${
+                          selectedOption === idx
+                            ? idx === quizQuestions[quizStep].correct
+                              ? 'bg-emerald-500/20 border-emerald-400 text-emerald-200 scale-[1.02]'
+                              : 'bg-rose-500/20 border-rose-400 text-rose-200'
+                            : 'bg-white/5 border-white/10 text-purple-100 hover:bg-cyan-500/10 hover:border-cyan-400'
+                        }`}
+                      >
+                        <span>{opt}</span>
+                        {selectedOption === idx && (
+                          <CheckCircle size={16} className={idx === quizQuestions[quizStep].correct ? 'text-emerald-400' : 'text-rose-400'} />
+                        )}
+                      </button>
+                    ))}
+                  </div>
+
+                  <div className="flex justify-between items-center text-[10px] font-mono text-purple-300/60">
+                    <span>Score: {quizScore} Points</span>
+                    <span>Babu & Bubu Quiz ✨</span>
+                  </div>
+                </div>
+              ) : (
+                <div className="text-center py-4">
+                  <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-pink-500 via-purple-500 to-cyan-400 p-0.5 mx-auto mb-4 flex items-center justify-center shadow-[0_0_30px_rgba(236,72,153,0.5)]">
+                    <div className="w-full h-full rounded-full bg-[#0d061a] flex items-center justify-center text-amber-300">
+                      <Award size={32} />
+                    </div>
+                  </div>
+
+                  <h3 className="text-2xl font-extrabold text-white mb-2">
+                    100% PERFECT MATCH! 🏆
+                  </h3>
+                  <p className="text-purple-200/80 text-xs sm:text-sm mb-6 leading-relaxed">
+                    You scored <span className="text-amber-300 font-bold">{quizScore}/{quizQuestions.length}</span>! You know Narayan inside out. You are officially his soulmate forever!
+                  </p>
+
+                  <div className="flex gap-3">
+                    <button 
+                      onClick={resetQuiz}
+                      className="flex-1 bg-white/10 hover:bg-white/20 border border-white/15 text-white font-bold text-xs py-3 rounded-full transition-all"
+                    >
+                      Play Again 🔄
+                    </button>
+                    <button 
+                      onClick={() => setShowQuizModal(false)}
+                      className="flex-1 bg-gradient-to-r from-pink-500 to-cyan-400 text-white font-bold text-xs py-3 rounded-full shadow-lg transition-all"
+                    >
+                      Close Quiz ❤️
+                    </button>
+                  </div>
+                </div>
+              )}
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+    </main>
+  );
+}
