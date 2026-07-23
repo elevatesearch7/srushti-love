@@ -30,7 +30,7 @@ const randomAnimations: any[] = [
   },
   {
     initial: { rotateY: 90, opacity: 0, filter: 'brightness(2)' },
-    animate: { rotateY: 0, opacity: 1, rotateY: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } },
+    animate: { rotateY: 0, opacity: 1, filter: 'brightness(1)', transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } },
     exit: { rotateY: -90, opacity: 0, filter: 'brightness(2)', transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
   },
   {
@@ -80,13 +80,12 @@ const galleryFilters = [
   { label: "👑 Queen", index: 4 }
 ];
 
-// Helper to trigger device haptic vibration safely
 const triggerVibration = (pattern: number | number[]) => {
   if (typeof window !== 'undefined' && 'vibrate' in navigator) {
     try {
       navigator.vibrate(pattern);
     } catch (e) {
-      // Ignore if unsupported or blocked
+      // Ignore if unsupported
     }
   }
 };
@@ -226,40 +225,34 @@ export default function BubuWebsite() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [currentLyricIdx, setCurrentLyricIdx] = useState(0);
 
-  // Hero Heart Tap Explosion State
   const [heroHearts, setHeroHearts] = useState<{ id: number; x: number; y: number }[]>([]);
-
-  // Section 1 Little Bubu Photo Tap Popup State
   const [showBabyPop, setShowBabyPop] = useState(false);
-
-  // Section 3 HUD Moment Node Selector State
   const [selectedMoment, setSelectedMoment] = useState(0);
 
-  // Section 4 Animated Love Jar State
   const [isExtractingLetter, setIsExtractingLetter] = useState(false);
   const [openedLetter, setOpenedLetter] = useState<{ title: string; body: string; psu: string } | null>(null);
 
-  // Section 5 Long Distance Care Protocol State & Flying Kiss Particles
   const [selectedOpenWhen, setSelectedOpenWhen] = useState<{ title: string; trigger: string; text: string } | null>(null);
   const [showHugToast, setShowHugToast] = useState(false);
   const [flyingKisses, setFlyingKisses] = useState<{ id: number; x: number; y: number; symbol: string }[]>([]);
 
-  // Section 6 Vault Lock & Digital Oath Seal State
   const [pin, setPin] = useState('');
   const [isVaultUnlocked, setIsVaultUnlocked] = useState(false);
   const [pinError, setPinError] = useState(false);
   const [isOathSealed, setIsOathSealed] = useState(false);
 
-  // Live Image Rotation State for eyes.jpeg
   const [eyesRotation, setEyesRotation] = useState(0);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const isScrollLocked = useRef(false);
-  const touchStartY = useRef(0);
+
+  const activeSectionRef = useRef(activeSection);
+  useEffect(() => {
+    activeSectionRef.current = activeSection;
+  }, [activeSection]);
 
   const totalSections = 7;
 
-  // Auto Cycle Lyrics when playing music
   useEffect(() => {
     if (!isPlaying) return;
     const lyricInterval = setInterval(() => {
@@ -351,7 +344,6 @@ export default function BubuWebsite() {
     }
   ];
 
-  // Section 5: Long Distance Open When Letters
   const openWhenLetters = [
     {
       trigger: "When You Miss Me 🥺",
@@ -483,26 +475,52 @@ export default function BubuWebsite() {
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
       if (openedLetter || selectedOpenWhen) return;
-      if (e.deltaY > 30) changeSection(activeSection + 1);
-      else if (e.deltaY < -30) changeSection(activeSection - 1);
+      if (e.deltaY > 30) changeSection(activeSectionRef.current + 1);
+      else if (e.deltaY < -30) changeSection(activeSectionRef.current - 1);
     };
 
     window.addEventListener('wheel', handleWheel, { passive: true });
     return () => window.removeEventListener('wheel', handleWheel);
-  }, [activeSection, changeSection, openedLetter, selectedOpenWhen]);
+  }, [changeSection, openedLetter, selectedOpenWhen]);
 
-  const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartY.current = e.touches[0].clientY;
-  };
+  // Non-passive Touch Listener to bypass Mobile Chrome Refresh
+  useEffect(() => {
+    let touchStartY = 0;
 
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    if (openedLetter || selectedOpenWhen) return;
-    const touchEndY = e.changedTouches[0].clientY;
-    const diff = touchStartY.current - touchEndY;
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartY = e.touches[0].clientY;
+    };
 
-    if (diff > 50) changeSection(activeSection + 1);
-    else if (diff < -50) changeSection(activeSection - 1);
-  };
+    const handleTouchMove = (e: TouchEvent) => {
+      if (e.cancelable) {
+        e.preventDefault();
+      }
+    };
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      if (openedLetter || selectedOpenWhen) return;
+      const touchEndY = e.changedTouches[0].clientY;
+      const diff = touchStartY - touchEndY;
+
+      if (Math.abs(diff) > 40) {
+        if (diff > 0) {
+          changeSection(activeSectionRef.current + 1);
+        } else {
+          changeSection(activeSectionRef.current - 1);
+        }
+      }
+    };
+
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: false });
+    window.addEventListener('touchend', handleTouchEnd, { passive: true });
+
+    return () => {
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, [changeSection, openedLetter, selectedOpenWhen]);
 
   const toggleMusic = () => {
     triggerVibration(30);
@@ -544,11 +562,7 @@ export default function BubuWebsite() {
   const sectionLabels = ["HERO", "LITTLE BUBU", "GALLERY", "SACRED HUD", "LOVE JAR", "LDR COMFORT", "SECRET VAULT"];
 
   return (
-    <main 
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
-      className="h-[100dvh] w-screen bg-[#05020a] text-[#f3e9f8] relative overflow-hidden font-sans selection:bg-pink-500 selection:text-white flex flex-col justify-between overscroll-none touch-none"
-    >
+    <main className="h-[100dvh] w-screen bg-[#05020a] text-[#f3e9f8] relative overflow-hidden font-sans selection:bg-pink-500 selection:text-white flex flex-col justify-between overscroll-none touch-none">
       <ParticleTrail />
 
       {/* FLYING KISSES & HUGS ANIMATION PARTICLES */}
@@ -685,14 +699,11 @@ export default function BubuWebsite() {
             {/* SECTION 0: HERO WITH TAP HEART EXPLOSION */}
             {activeSection === 0 && (
               <div className="flex flex-col items-center text-center h-full justify-evenly py-2">
-                
-                {/* WIDGET: Bubu's Heart Charging Bar */}
                 <div className="inline-flex items-center gap-2 bg-[#0d0714]/90 border border-emerald-500/40 px-3.5 py-1 rounded-full shadow-[0_0_15px_rgba(16,185,129,0.2)] font-mono text-[9px] sm:text-[10px] text-emerald-300">
                   <BatteryCharging size={13} className="text-emerald-400 animate-pulse" />
                   <span>BATTERY: 100% 🔋 | STATUS: Loving Babu Non-Stop</span>
                 </div>
 
-                {/* Hero Photo Container with Tap Heart Explosion */}
                 <div 
                   onClick={handleHeroTap}
                   className="relative my-1 cursor-pointer group select-none"
@@ -747,7 +758,7 @@ export default function BubuWebsite() {
               </div>
             )}
 
-            {/* SECTION 1: LITTLE BUBU (bachi.jpeg) WITH TAP POPUP & CUTENESS METER */}
+            {/* SECTION 1: LITTLE BUBU */}
             {activeSection === 1 && (
               <div className="w-full space-y-2 sm:space-y-4 h-full flex flex-col justify-evenly py-2">
                 <div className="text-center shrink-0 space-y-1">
@@ -759,7 +770,6 @@ export default function BubuWebsite() {
                     Forever My Cute Little Kid 👶
                   </h2>
 
-                  {/* WIDGET: Cuteness Meter Gauge */}
                   <div className="inline-flex items-center gap-1.5 bg-[#0d0714]/90 border border-pink-400/40 px-3 py-0.5 rounded-full text-[9px] sm:text-[10px] font-mono text-amber-200 shadow-[0_0_15px_rgba(251,191,36,0.2)]">
                     <Gauge size={12} className="text-amber-300 animate-spin" />
                     <span>CUTENESS LEVEL: ♾️ / 100% (OVERFLOW ERROR 🥰)</span>
@@ -767,7 +777,6 @@ export default function BubuWebsite() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-6 items-center max-w-3xl mx-auto w-full bg-[#0f081d]/90 border border-pink-500/40 rounded-3xl p-3.5 sm:p-6 backdrop-blur-2xl shadow-[0_0_40px_rgba(236,72,153,0.3)]">
-                  {/* Interactive Tap Photo Card */}
                   <div 
                     onClick={handleBabyTap}
                     className="relative w-full h-44 sm:h-80 rounded-2xl overflow-hidden border border-pink-500/30 shadow-[0_0_15px_rgba(236,72,153,0.2)] bg-black/80 flex items-center justify-center p-2 cursor-pointer group select-none transition-transform duration-300 hover:scale-[1.02]"
@@ -818,7 +827,7 @@ export default function BubuWebsite() {
               </div>
             )}
 
-            {/* SECTION 2: PHOTO GALLERY WITH MOOD FILTER BUTTONS */}
+            {/* SECTION 2: PHOTO GALLERY */}
             {activeSection === 2 && (
               <div className="w-full space-y-2 sm:space-y-4 h-full flex flex-col justify-evenly py-2">
                 <div className="text-center shrink-0 space-y-1">
@@ -830,7 +839,6 @@ export default function BubuWebsite() {
                     Every Version of You 📸
                   </h2>
 
-                  {/* Mood Filter Pill Buttons */}
                   <div className="flex items-center justify-center gap-1 sm:gap-1.5 flex-wrap pt-0.5">
                     {galleryFilters.map((filter) => {
                       const isActive = currentSlide === filter.index;
@@ -916,7 +924,7 @@ export default function BubuWebsite() {
               </div>
             )}
 
-            {/* SECTION 3: FIXED SINGLE-SCREEN FUTURISTIC QUANTUM HUD WITH DYNAMIC BPM & DESTINY LOCK */}
+            {/* SECTION 3: QUANTUM HUD */}
             {activeSection === 3 && (
               <div className="w-full max-w-lg mx-auto space-y-2.5 sm:space-y-3.5 h-full flex flex-col justify-evenly py-2">
                 <div className="text-center shrink-0 space-y-1">
@@ -928,7 +936,6 @@ export default function BubuWebsite() {
                     Our Sacred Moments ✨
                   </h2>
 
-                  {/* WIDGET: Soul Sync Frequency Badge */}
                   <div className="inline-flex items-center justify-center gap-1.5 text-[8px] sm:text-[9px] font-mono text-cyan-300/90 bg-cyan-950/40 border border-cyan-500/30 px-3 py-0.5 rounded-full mx-auto shadow-[0_0_10px_rgba(6,182,212,0.2)]">
                     <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping" />
                     <span>SOUL SYNC FREQUENCY: 100% IN SYNC // ZERO DISTORTION 📡</span>
@@ -936,7 +943,6 @@ export default function BubuWebsite() {
                 </div>
 
                 <div className="bg-[#0b0517]/95 border border-cyan-500/40 rounded-3xl p-3.5 sm:p-5 backdrop-blur-2xl shadow-[0_0_40px_rgba(6,182,212,0.25)] relative overflow-hidden flex flex-col gap-3">
-                  
                   <div className="flex items-center justify-between border-b border-white/10 pb-2 gap-2">
                     <div className="flex items-center gap-1.5 font-mono text-[9px] text-emerald-400">
                       <Cpu size={13} className="animate-spin text-emerald-400" />
@@ -948,7 +954,6 @@ export default function BubuWebsite() {
                     </div>
                   </div>
 
-                  {/* 4 Sacred Moment Nodes Grid */}
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 sm:gap-2">
                     {sacredMoments.map((moment, idx) => {
                       const isSelected = selectedMoment === idx;
@@ -972,7 +977,6 @@ export default function BubuWebsite() {
                     })}
                   </div>
 
-                  {/* Holographic Viewer Screen with Live Heartbeat BPM */}
                   <div className="relative bg-[#05020c] border border-white/15 rounded-2xl p-3.5 sm:p-5 min-h-[160px] sm:min-h-[190px] flex flex-col justify-between overflow-hidden shadow-inner">
                     <div className="flex items-center justify-between text-[8px] sm:text-[9px] font-mono border-b border-white/10 pb-1.5 mb-1.5">
                       <div className="flex items-center gap-1 text-rose-400 font-bold">
@@ -1012,18 +1016,16 @@ export default function BubuWebsite() {
                       </motion.div>
                     </AnimatePresence>
 
-                    {/* Destiny Lock Coordinates Footer Tag */}
                     <div className="mt-2 pt-2 border-t border-white/10 flex items-center justify-between text-[8px] sm:text-[9px] font-mono text-purple-300/60 truncate">
                       <span className="text-amber-300/90 font-bold truncate">DESTINY_LOCK: PERMANENT 🔒</span>
                       <span className="text-cyan-400 font-bold truncate">COORD: BUBU & BABU&apos;S UNIVERSE</span>
                     </div>
                   </div>
-
                 </div>
               </div>
             )}
 
-            {/* SECTION 4: COZY LOVE JAR WITH ANIMATED SHAKE & GOLDEN DUST 🏺 */}
+            {/* SECTION 4: LOVE JAR */}
             {activeSection === 4 && (
               <div className="w-full text-center max-w-xl mx-auto space-y-2 sm:space-y-4 h-full flex flex-col justify-evenly py-2">
                 <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full border border-amber-400/40 bg-amber-950/30 backdrop-blur-md shadow-[0_0_15px_rgba(251,191,36,0.25)] shrink-0 self-center">
@@ -1035,14 +1037,12 @@ export default function BubuWebsite() {
                   Why Bubu Is My World 🌹
                 </h2>
 
-                {/* WIDGET: Daily Affirmation Pill Banner */}
                 <div className="bg-gradient-to-r from-pink-950/60 via-amber-950/60 to-purple-950/60 border border-amber-400/40 px-3.5 py-1.5 rounded-full text-[10px] sm:text-xs font-serif italic text-amber-200 shadow-[0_0_15px_rgba(251,191,36,0.25)] mx-auto max-w-md flex items-center justify-center gap-1.5 shrink-0">
                   <Heart size={12} className="text-pink-400 fill-pink-400 animate-pulse" />
                   <span>TODAY&apos;S REMINDER: Srushti is the prettiest girl in the universe ✨</span>
                 </div>
 
                 <div className="bg-gradient-to-b from-[#1d0b2e]/90 via-[#130622]/95 to-[#090212]/98 border border-amber-400/30 rounded-3xl p-4 sm:p-6 backdrop-blur-2xl shadow-[0_0_50px_rgba(251,191,36,0.15)] relative flex flex-col items-center justify-between overflow-hidden gap-2 sm:gap-3">
-                  
                   <motion.div 
                     animate={{ y: [0, -6, 0] }}
                     transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
@@ -1127,12 +1127,11 @@ export default function BubuWebsite() {
                   <div className="w-full flex items-center justify-center pt-2 border-t border-white/10 text-[10px] font-serif italic text-amber-200/70">
                     ✨ Crafted with endless devotion for my adorable Bubu ✨
                   </div>
-
                 </div>
               </div>
             )}
 
-            {/* SECTION 5: LONG DISTANCE DEVOTION & COMFORT HUB 🫂 */}
+            {/* SECTION 5: LDR COMFORT */}
             {activeSection === 5 && (
               <div className="w-full text-center max-w-xl mx-auto space-y-3 sm:space-y-4 h-full flex flex-col justify-evenly py-2">
                 <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full border border-pink-400/40 bg-pink-950/30 backdrop-blur-md shadow-[0_0_15px_rgba(236,72,153,0.25)] shrink-0 self-center">
@@ -1145,8 +1144,6 @@ export default function BubuWebsite() {
                 </h2>
 
                 <div className="bg-gradient-to-b from-[#180826]/90 via-[#0e0419]/95 to-[#06020c]/98 border border-pink-500/40 rounded-3xl p-4 sm:p-6 backdrop-blur-2xl shadow-[0_0_50px_rgba(236,72,153,0.2)] relative flex flex-col justify-between items-center gap-3.5">
-                  
-                  {/* LDR Distance Metric Widget */}
                   <div className="w-full bg-white/5 border border-pink-500/30 rounded-2xl p-2.5 sm:p-4 flex items-center justify-between font-mono text-[10px] sm:text-xs shadow-inner">
                     <div className="flex items-center gap-1 text-pink-300 font-bold truncate">
                       <span>💖</span>
@@ -1161,7 +1158,6 @@ export default function BubuWebsite() {
                     </div>
                   </div>
 
-                  {/* Hug & Kisses Transmitter Button */}
                   <div className="w-full bg-gradient-to-r from-pink-950/40 via-purple-950/40 to-rose-950/40 border border-pink-500/30 rounded-2xl p-3 sm:p-4 text-center flex flex-col items-center">
                     <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-pink-500/20 border border-pink-400/50 flex items-center justify-center mb-1 text-pink-300 shadow-[0_0_15px_rgba(236,72,153,0.4)]">
                       <HeartPulse size={18} className="animate-pulse text-pink-400" />
@@ -1180,7 +1176,6 @@ export default function BubuWebsite() {
                     </button>
                   </div>
 
-                  {/* "Open When..." Envelopes Grid */}
                   <div className="w-full">
                     <h4 className="text-[10px] sm:text-[11px] font-mono text-pink-300 uppercase tracking-widest mb-1.5 text-left flex items-center gap-1">
                       <Mail size={12} /> Open When Envelopes:
@@ -1203,7 +1198,6 @@ export default function BubuWebsite() {
                     </div>
                   </div>
 
-                  {/* Toast Notification */}
                   <AnimatePresence>
                     {showHugToast && (
                       <motion.div
@@ -1217,12 +1211,11 @@ export default function BubuWebsite() {
                       </motion.div>
                     )}
                   </AnimatePresence>
-
                 </div>
               </div>
             )}
 
-            {/* SECTION 6: SECRET SECURITY VAULT WITH CONFIDENTIAL WATERMARK STAMP */}
+            {/* SECTION 6: VAULT LOCK */}
             {activeSection === 6 && (
               <div className="w-full space-y-3 sm:space-y-6 h-full flex flex-col justify-evenly py-2">
                 <div className="text-center shrink-0">
@@ -1281,13 +1274,11 @@ export default function BubuWebsite() {
                     </div>
                   </div>
                 ) : (
-                  /* UNLOCKED VAULT CARD WITH CONFIDENTIAL STAMP & DIGITAL OATH */
                   <motion.div 
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     className="relative max-w-md mx-auto bg-[#0d061a]/95 border border-pink-400/60 rounded-3xl p-5 sm:p-7 backdrop-blur-2xl shadow-[0_0_50px_rgba(236,72,153,0.4)] text-left flex flex-col max-h-[75dvh] overflow-y-auto"
                   >
-                    {/* Top Secret Watermark Stamp */}
                     <motion.div
                       initial={{ scale: 2.2, opacity: 0, rotate: -15 }}
                       animate={{ scale: 1, opacity: 0.85, rotate: -6 }}
@@ -1348,7 +1339,6 @@ export default function BubuWebsite() {
                       </p>
                     </div>
 
-                    {/* Digital Oath Stamp Button */}
                     <div className="mt-4 pt-3 border-t border-pink-500/30 text-center shrink-0">
                       {!isOathSealed ? (
                         <button
@@ -1375,7 +1365,6 @@ export default function BubuWebsite() {
                       )}
                     </div>
 
-                    {/* Unlocked Special Passes inside the Vault */}
                     <div className="mt-4 pt-3 border-t border-pink-500/30 shrink-0">
                       <h4 className="text-[10px] font-mono text-pink-300 uppercase tracking-widest mb-2 flex items-center gap-1.5">
                         <Ticket size={13} className="text-amber-300" /> Unlocked Bubu VIP Passes:
@@ -1416,7 +1405,7 @@ export default function BubuWebsite() {
         </motion.div>
       </AnimatePresence>
 
-      {/* FULL-SCREEN REAL PAPER PARCHMENT LETTER MODAL (Section 4) */}
+      {/* FULL-SCREEN REAL PAPER PARCHMENT LETTER MODAL */}
       <AnimatePresence>
         {openedLetter && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md">
@@ -1478,7 +1467,7 @@ export default function BubuWebsite() {
         )}
       </AnimatePresence>
 
-      {/* OPEN WHEN LETTER MODAL (Section 5) */}
+      {/* OPEN WHEN LETTER MODAL */}
       <AnimatePresence>
         {selectedOpenWhen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md">
